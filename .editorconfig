@@ -1,0 +1,14 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most editorconfig file
+root = true
+
+[*]
+
+# unix-style newlines with a newline ending every file
+end_of_line = lf
+insert_final_newline = true
+
+# indentation style set to tab and 2 space indentation
+indent_style = tab
+indent_size = 2
