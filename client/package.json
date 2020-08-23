@@ -30,6 +30,7 @@
       "last 1 safari version"
     ]
 	},
+	"proxy": "https://pbchess.herokuapp.com",
 	"author": "Priyabrata Biswas",
   "license": "MIT"
 }
