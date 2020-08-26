@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
 
   run:
-		name: Coverage
+    name: Coverage
     runs-on: ubuntu-latest
 
     steps:
@@ -13,24 +13,24 @@ jobs:
         uses: actions/checkout@master
 
       - name: Install dependencies
-				run: |
-					cd client
-					npm ci
-					cd ../server
-					npm ci
-					cd ../
+        run: |
+          cd client
+          npm ci
+          cd ../server
+          npm ci
+          cd ../
 
       - name: Run tests and collect coverage
-				run: |
-					cd client
-					npm run test
-					cd ../server
-					npm run test
-					cd ../
+        run: |
+          cd client
+          npm run test
+          cd ../server
+          npm run test
+          cd ../
 
-			- name: Upload coverage to codecov
-  			uses: codecov/codecov-action@v1.0.13
+      - name: Upload coverage to codecov
+        uses: codecov/codecov-action@v1.0.13
 
-				with:
-					files: ./client/coverage/coverage-final.json, ./server/coverage/coverage-final.json
+        with:
+          files: ./client/coverage/coverage-final.json, ./server/coverage/coverage-final.json
           flags: unittest
