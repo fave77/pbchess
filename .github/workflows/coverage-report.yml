@@ -32,5 +32,5 @@ jobs:
         uses: codecov/codecov-action@v1.0.13
 
         with:
-          files: ./server/coverage/coverage-final.json, ./client/coverage/coverage-final.json
+          files: ./server/coverage/coverage-final.json, ../../client/coverage/coverage-final.json
           flags: unittest
