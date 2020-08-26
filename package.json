@@ -12,7 +12,7 @@
   "bugs": {
     "url": "https://github.com/pbiswas101/pbchess/issues"
   },
-	"homepage": "https://github.com/pbiswas101/pbchess#readme",
-	"author": "Priyabrata Biswas",
+  "homepage": "https://github.com/pbiswas101/pbchess#readme",
+  "author": "Priyabrata Biswas",
   "license": "MIT"
 }

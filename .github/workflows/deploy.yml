@@ -2,20 +2,20 @@ name: Deploy
 
 on:
   push:
-    branches: [master]
+    branches: [master, develop]
 
 jobs:
 
   deploy:
-      name: Deploy
-      runs-on: ubuntu-latest
+		name: Deploy
+		runs-on: ubuntu-latest
 
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v1
+		steps:
+			- name: Checkout
+				uses: actions/checkout@master
 
-        - name: Add remote origin
-          run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+			- name: Add remote origin
+				run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
 
-        - name: Deploy backend to heroku
-          run: git push --force heroku `git subtree split --prefix server HEAD`:master
+			- name: Deploy backend to heroku
+				run: git push --force heroku `git subtree split --prefix server HEAD`:master
