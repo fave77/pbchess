@@ -16,21 +16,13 @@ jobs:
         run: |
           cd client
           npm ci
-          cd ../server
-          npm ci
-          cd ../
 
       - name: Run tests and collect coverage
-        run: |
-          cd client
-          npm run test
-          cd ../server
-          npm run test
-          cd ../
+        run: npm run test
 
       - name: Upload coverage to codecov
         uses: codecov/codecov-action@v1.0.13
 
         with:
-          files: ./client/coverage/coverage-final.json, ./server/coverage/lcov.info
+          file: ./client/coverage/coverage-final.json
           flags: unittest
