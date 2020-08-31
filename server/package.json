@@ -5,16 +5,19 @@
   "scripts": {
     "heroku-prebuild": "npm install pm2 -g",
     "start": "pm2-runtime start ecosystem.config.js --env production",
-    "dev": "nodemon -r dotenv/config src/index.js",
+    "dev": "nodemon -r dotenv/config src/app.js",
     "test": "jest --config ./jest.config.json"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-  	"express": "^4.17.1",
+    "express": "^4.17.1",
     "helmet": "^4.1.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0"
   },
   "devDependencies": {
     "jest": "^26.4.2",

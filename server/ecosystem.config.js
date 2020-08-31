@@ -1,7 +1,7 @@
 module.exports = {
 	apps : [{
 		name: "pbchess",
-		script: "./src/index.js",
+		script: "./src/app.js",
 		instances: "max",
 		env: {
 			NODE_ENV: "development",
