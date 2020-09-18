@@ -20,7 +20,9 @@ const login = async (req, res, next) => {
         .json({
           success: true,
           token: tokenObject.token,
-          expiresIn: tokenObject.expires
+          expiresIn: tokenObject.expires,
+          username: user.username,
+          _id: user._id,
         });
     } else
       return res

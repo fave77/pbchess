@@ -3,7 +3,7 @@ const prodMongoURI = process.env.PROD_DATABASE_URI || '';
 const devMongoURI = process.env.DEV_DATABASE_URI || '';
 
 
-const connectDB = _ => {
+const configDB = _ => {
   const mongoURI = (process.env.NODE_ENV === 'production')
     ? prodMongoURI
     : devMongoURI;
@@ -25,4 +25,6 @@ const connectDB = _ => {
 
 };
 
-module.exports = connectDB;
+module.exports = {
+  configDB
+};
