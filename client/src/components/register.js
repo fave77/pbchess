@@ -116,11 +116,6 @@ class Register extends Component {
               this.form = c;
             }}
           >
-            <Input
-              type = 'hidden'
-              name = 'form-name'
-              value = 'login'
-            />
             { !this.state.successful && (
               <div>
                 <div className = 'form-group'>

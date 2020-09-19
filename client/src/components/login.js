@@ -96,11 +96,6 @@ class Login extends Component {
               this.form = c;
             }}
           >
-            <Input
-              type = 'hidden'
-              name = 'form-name'
-              value = 'login'
-            />
             <div className = 'form-group'>
               <label htmlFor = 'username'> Username </label>
 
