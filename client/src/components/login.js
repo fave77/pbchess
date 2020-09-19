@@ -90,13 +90,20 @@ class Login extends Component {
           />
 
           <Form
+            name = 'login'
             onSubmit = { this.handleLogin }
             ref = {c => {
               this.form = c;
             }}
           >
+            <Input
+              type = 'hidden'
+              name = 'form-name'
+              value = 'login'
+            />
             <div className = 'form-group'>
               <label htmlFor = 'username'> Username </label>
+
               <Input
                 type = 'text'
                 className = 'form-control'

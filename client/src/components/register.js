@@ -110,11 +110,17 @@ class Register extends Component {
           />
 
           <Form
+            name = 'register'
             onSubmit = { this.handleRegister }
             ref = {c => {
               this.form = c;
             }}
           >
+            <Input
+              type = 'hidden'
+              name = 'form-name'
+              value = 'login'
+            />
             { !this.state.successful && (
               <div>
                 <div className = 'form-group'>
