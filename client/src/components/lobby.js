@@ -27,7 +27,8 @@ class Lobby extends React.Component {
   }
 
   joinGame() {
-    const socket = io(API_URL.slice(0, API_URL.indexOf('api/')));
+    const socket = io(API_URL.slice(0, API_URL.indexOf('api/')),
+      {transports: ['websocket']});
 
     socket.on('connect', () => {
       socket.emit('join_game', 'player B info');
