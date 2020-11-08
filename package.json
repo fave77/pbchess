@@ -14,5 +14,6 @@
   },
   "homepage": "https://github.com/pbiswas101/pbchess#readme",
   "author": "Priyabrata Biswas",
-  "license": "GPLv3"
+  "license": "GPLv3",
+  "dependencies": {}
 }

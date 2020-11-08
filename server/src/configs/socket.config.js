@@ -1,28 +1,22 @@
 const {
-  create, join, movePiece, makeRoom, selectPiece, setIds
+  create, join, move
 } = require('../controllers/game.controller.js');
 
-const configSocket = (socket, server) => {
-  const io = socket(server);
+const configSocket = io => {
 
   io.on('connection', socket => {
-    console.log('Socket connected');
+    console.log('Socket connected', socket.id);
 
     // here you can start emitting events to the client
-    socket.on('CREATE_GAME', game => {
-      create(io, game);
+    socket.on('create_game', data => {
+      create(io, socket, data);
     });
-    socket.on('JOIN_GAME', join)
-    socket.on('MOVE_PIECE', movePiece);
-    socket.on('ROOM', makeRoom);
-    socket.on('SELECT_PIECE', selectPiece);
-    socket.on('SET_IDS', setIds);
-  });
-
-  const newGame = socket(server, { path: '/game/:id' });
-
-  newGame.on('connection', socket => {
-    console.log('Socket is connected to the game');
+    socket.on('join_game', data => {
+      join(io, socket, data);
+    });
+    socket.on('move_piece', data => {
+      move(io, socket, data);
+    });
   });
 };
 

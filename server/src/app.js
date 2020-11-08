@@ -29,6 +29,6 @@ const server = app.listen(port, () => {
   console.log(`Server is Live!\nListening on port: ${port}`);
 });
 
-configSocket(socket, server);
+configSocket(socket(server));
 
 module.exports = app;

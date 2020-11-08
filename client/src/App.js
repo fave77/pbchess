@@ -14,8 +14,9 @@ import Home from './components/home';
 import Login from './components/login';
 import Register from './components/register';
 import Profile from './components/profile';
-import Game from './components/game';
+import Lobby from './components/lobby';
 import NotFound from './components/pagenotfound';
+import PrivateRoute from './components/private';
 
 class App extends Component {
   constructor(props) {
@@ -40,6 +41,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.currentUser)
     return (
       <div>
         <Navbar
@@ -53,8 +55,9 @@ class App extends Component {
             <Route exact path = '/login' component = { Login } />
             <Route exact path = '/register' component = { Register } />
             <Route path = '/@' component = { Profile } />
-            <Route path = '/live' component = { Game } />
+            <PrivateRoute path = '/live' component = { Lobby } />
             <Route component = { NotFound } />
+
           </Switch>
         </div>
       </div>

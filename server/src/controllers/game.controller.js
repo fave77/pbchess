@@ -1,40 +1,56 @@
 const { Chess } = require('chess.js');
+const lobby = [];
+const liveGames = {};
 
-const game = new Chess();
+// here we can start emitting events to the client
+const create = (io, socket, playerInfo) => {
+  console.log('Creating a game...');
 
-
-// here you can start emitting events to the client
-const create = (io, data) => {
-  console.log('GAME RECEIVED', data);
-  data.id = Math.floor(Math.random() * 100000000);
-  io.emit('RECEIVE_GAME', data);
+  const game = {
+    roomId: socket.id,
+    createdBy: playerInfo
+  };
+  lobby.push(game);
 };
 
-const join = data => {
-  io.emit('START_GAME', data);
+const join = (io, socket, playerInfo) => {
+  console.log('Joining a game...');
+
+  const game = lobby.pop(0);
+
+  socket.join(game.roomId);
+  game['joinedBy'] = playerInfo;
+
+  const chess = new Chess();
+  game['status'] = chess;
+
+  liveGames[game.roomId] = game;
+  io.to(game.roomId).emit('start_game', game);
 };
 
-const movePiece = data => {
-  console.log('RECEIVED MOVE', data);
-  io.emit('PUSH_MOVE', data);
-};
+const move = (io, socket, pendingMove) => {
+  for (let id in socket.rooms) {
+    if (id in liveGames) {
+      const game = liveGames[id];
+      const chess = game.status;
+      const gameState = {
+        fen: undefined,
+        lastMove: undefined,
+        msg: 'game ongoing'
+      };
 
-const makeRoom = data => {
-  const { room, userId } = data;
-  console.log('INCOMING ROOM', room);
-  socket.join(room);
-  socket.emit('RECEIVE_ID', userId);
-  console.log(`USER ${userId} JOINED ROOM #${room}`);
-};
+      if (!chess.game_over())
+        gameState.lastMove = chess.move(pendingMove);
+      if (chess.game_over())
+        gameState.msg = 'game over';
 
-const selectPiece = data => {
-  io.emit('PUSH_SELECT_PIECE', data);
-};
+      gameState.fen = chess.fen();
+      io.to(id).emit('move_piece', gameState);
+    }
+  }
 
-const setIds = ids => {
-  io.emit('RECEIVE_IDS', ids);
 };
 
 module.exports = {
-  create, join, movePiece, makeRoom, selectPiece, setIds
+  create, join, move
 };

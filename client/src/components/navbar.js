@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Navbar(props) {
   const { currentUser, logOut } = props;
+  console.log(currentUser)
   return (
     <nav className = 'navbar navbar-expand navbar-dark bg-dark'>
       <Link to = { '/' } className = 'navbar-brand'>
