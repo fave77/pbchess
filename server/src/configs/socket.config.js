@@ -4,9 +4,6 @@ const {
 
 const configSocket = io => {
 
-  io.set('origins', '*:*');
-  io.set('match origin protocol', true);
-
   io.on('connection', socket => {
     console.log('Socket connected', socket.id);
 
