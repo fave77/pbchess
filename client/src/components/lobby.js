@@ -10,7 +10,6 @@ class Lobby extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameInfo: undefined,
       socket: undefined,
       status: false
     }
@@ -21,7 +20,7 @@ class Lobby extends React.Component {
       {transports: ['websocket']});
 
     socket.on('connect', () => {
-      socket.emit('create_game', 'player A info');
+      socket.emit('create_game', 'player 1 info');
       this.setState({ socket });
     });
   }
@@ -31,7 +30,7 @@ class Lobby extends React.Component {
       {transports: ['websocket']});
 
     socket.on('connect', () => {
-      socket.emit('join_game', 'player B info');
+      socket.emit('join_game', 'player 2 info');
       this.setState({ socket });
     });
   }
@@ -39,9 +38,11 @@ class Lobby extends React.Component {
   startGame = (gameInfo) => {
     console.log(gameInfo);
 
-    const { socket } = this.state;
-    this.setState({ status: true, gameInfo: gameInfo  }, _ => {
-      console.log(socket);
+    this.setState({
+      status: true,
+      roomId: gameInfo.roomId,
+      player1: gameInfo.createdBy,
+      player2: gameInfo.joinedBy
     });
   }
 
@@ -60,7 +61,7 @@ class Lobby extends React.Component {
         {
           this.state.status
             ? <Game
-                gameInfo = { this.state.gameInfo }
+                roomId = { this.state.roomId }
                 socket = { this.state.socket }
               />
             : <h3>Welcome to the Lobby</h3>
