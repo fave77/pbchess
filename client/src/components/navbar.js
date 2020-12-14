@@ -9,6 +9,9 @@ function Navbar(props) {
       <Link to = { '/' } className = 'navbar-brand'>
         pbchess
       </Link>
+      <Link to = { '/live' } className = 'navbar-brand'>
+        play
+      </Link>
       <div className = 'navbar-nav mr-auto'></div>
       {currentUser ? (
         <div className = 'navbar-nav ml-auto'>

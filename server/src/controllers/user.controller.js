@@ -50,7 +50,16 @@ const register = async (req, res) => {
 
   try {
     const user = await newUser.save();
-    return res.json({ success: true, user: user });
+    const tokenObject = utils.issueJWT(user);
+
+    return res.json({
+      success: true,
+      token: tokenObject.token,
+      expiresIn: tokenObject.expires,
+      username: user.username,
+      _id: user._id,
+      msg: 'Registered Successfully!'
+    });
 
   } catch (err) {
     return res.json({ success: false, msg: err });
