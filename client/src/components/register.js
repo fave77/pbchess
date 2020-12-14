@@ -5,6 +5,8 @@ import CheckButton from 'react-validation/build/button';
 
 import AuthService from '../services/auth.service';
 
+import Modal from 'react-bootstrap/Modal';
+
 const required = value => {
   if (!value)
     return (
@@ -78,9 +80,11 @@ class Register extends Component {
       ).then(
         response => {
           this.setState({
-            message: response.data.message,
+            message: response.msg,
             successful: true
           });
+
+
         },
         error => {
           const resMessage =
@@ -99,9 +103,22 @@ class Register extends Component {
     }
   }
 
+  handleClose() {
+    this.props.history.push('/live');
+    window.location.reload();
+  }
+
   render() {
     return (
       <div className = 'col-md-12'>
+        <Modal show = { this.state.successful } onHide = { _ => { this.handleClose() } } s>
+          <Modal.Header closeButton>
+            <Modal.Title>Welcome!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>...to the world of chess fanatics</p>
+          </Modal.Body>
+        </Modal>
         <div className = 'card card-container'>
           <img
             src = '//ssl.gstatic.com/accounts/ui/avatar_2x.png'

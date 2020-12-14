@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Jumbotron from 'react-bootstrap/Jumbotron';
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -9,7 +11,9 @@ class Login extends Component {
 
     return (
       <div>
-        <h1> Let's play chess! </h1>
+        <Jumbotron>
+          <h1 className = 'text-center'> Let's play chess! </h1>
+        </Jumbotron>
       </div>
 
     )

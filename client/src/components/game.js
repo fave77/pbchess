@@ -65,6 +65,10 @@ class Game extends React.Component {
     });
   }
 
+  handleClose() {
+    window.location.reload();
+  }
+
   componentDidMount() {
     this.props.socket.on('move_piece', gameState => {
       const { fen, lastMove, gameOver, turn, dests } = gameState;
@@ -107,35 +111,40 @@ class Game extends React.Component {
         </Col>
         <Col span = { 1 } />
         <Modal show = { this.state.promotion } >
-          <div style = {{ textAlign: 'center', cursor: 'pointer' }}>
-            <span role = 'presentation' onClick = { () => this.promotion('q') }>
-              <img src = { queen } alt = 'queen' style = {{ width: 50 }} />
-            </span>
-            <span role = 'presentation' onClick = { () => this.promotion('r') }>
-              <img src = { rook } alt = 'rook' style = {{ width: 50 }} />
-            </span>
-            <span role = 'presentation' onClick = { () => this.promotion('b') }>
-              <img src = { bishop } alt = 'bishop' style = {{ width: 50 }} />
-            </span>
-            <span role = 'presentation' onClick = { () => this.promotion('n') }>
-              <img src = { knight } alt = 'knight' style = {{ width: 50 }} />
-            </span>
-          </div>
+          <Modal.Body>
+            <div style = {{ textAlign: 'center', cursor: 'pointer' }}>
+              <span role = 'presentation' onClick = { () => this.promotion('q') }>
+                <img src = { queen } alt = 'queen' style = {{ width: 50 }} />
+              </span>
+              <span role = 'presentation' onClick = { () => this.promotion('r') }>
+                <img src = { rook } alt = 'rook' style = {{ width: 50 }} />
+              </span>
+              <span role = 'presentation' onClick = { () => this.promotion('b') }>
+                <img src = { bishop } alt = 'bishop' style = {{ width: 50 }} />
+              </span>
+              <span role = 'presentation' onClick = { () => this.promotion('n') }>
+                <img src = { knight } alt = 'knight' style = {{ width: 50 }} />
+              </span>
+            </div>
+          </Modal.Body>
         </Modal>
-        <Modal show = { this.state.gameOver ? true : false } >
-          <div style = {{ textAlign: 'center', cursor: 'pointer' }}>
-            <span role = 'presentation'>
-              <p>
-                {
-                  this.state.gameOver.result === 'checkmate'
-                    ? this.state.orientation[0] === this.state.turn
-                      ? 'Oops! You lost'
-                      : 'Congrats! You won'
-                    : `Game drawn by ${ this.state.gameOver.result }`
-                }
-              </p>
-            </span>
-          </div>
+        <Modal show = { this.state.gameOver ? true : false } onHide = { _ => this.handleClose() } >
+          <Modal.Header closeButton></Modal.Header>
+          <Modal.Body>
+            <div style = {{ textAlign: 'center', cursor: 'pointer' }}>
+              <span role = 'presentation'>
+                <p>
+                  {
+                    this.state.gameOver.result === 'checkmate'
+                      ? this.state.orientation[0] === this.state.turn
+                        ? 'Oops! You lost'
+                        : 'Congrats! You won'
+                      : `Game drawn by ${ this.state.gameOver.result }`
+                  }
+                </p>
+              </span>
+            </div>
+          </Modal.Body>
         </Modal>
       </div>
     )

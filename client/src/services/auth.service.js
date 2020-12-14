@@ -11,7 +11,7 @@ class AuthService {
         password
       })
       .then(res => {
-        if (res.data.token)
+        if (res.data.success)
           localStorage.setItem('user', JSON.stringify(res.data));
         return res.data;
       });
@@ -25,6 +25,11 @@ class AuthService {
     return axios.post(API_URL + 'register', {
       username,
       password
+    })
+    .then(res => {
+      if (res.data.success)
+        localStorage.setItem('user', JSON.stringify(res.data));
+      return res.data;
     });
   }
 
