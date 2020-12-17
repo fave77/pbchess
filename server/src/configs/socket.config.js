@@ -17,6 +17,12 @@ const configSocket = io => {
     socket.on('move_piece', data => {
       move(io, socket, data);
     });
+
+    socket.on('disconnect', _ => {
+      console.log('Socket disconnected', socket.id);
+      // also delete any associated game
+    });
+
   });
 };
 
