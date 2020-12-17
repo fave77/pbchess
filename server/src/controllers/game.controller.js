@@ -1,31 +1,55 @@
 const { Chess } = require('chess.js');
-const lobby = [];
+
 const liveGames = {};
 
 // here we can start emitting events to the client
-const create = (io, socket, playerInfo) => {
+const create = (io, socket, data) => {
   console.log('Creating a game...');
 
-  const game = {
-    roomId: socket.id,
-    createdBy: playerInfo
+  liveGames[socket.id] = {
+    createdBy: { ...data },
+    joinedBy: undefined,
+    state: new Chess(),
+    ongoing: false
   };
-  lobby.push(game);
+
+
+
+
+
+  // emit an socket event for frontend lobby adnd send back the room id
 };
 
-const join = (io, socket, playerInfo) => {
-  console.log('Joining a game...');
+const join = (io, socket, data) => {
 
-  const game = lobby.pop(0);
-  const chess = new Chess();
+  const game = liveGames[data.roomId];
 
-  socket.join(game.roomId);
-  game['joinedBy'] = playerInfo;
-  game['state'] = chess;
-  liveGames[game.roomId] = game;
+  if (!game)
+    socket.emit('cannot_join_game', 'Cannot join! Room ID is invalid');
 
-  const { state, ...gameInfo } = game;
-  io.to(game.roomId).emit('start_game', gameInfo);
+  else if (game.ongoing)
+    socket.emit('cannot_join_game', 'Cannot join! Game has already started');
+
+  else if (game.createdBy.userId === data.userId)
+    socket.emit('cannot_join_game', 'Cannot join! C\'mon it\'s your own game');
+
+  else {
+    console.log('Joining a game...');
+
+    socket.join(data.roomId);
+    game.joinedBy = {
+      userId: data.userId,
+      username: data.username
+    };
+    game.ongoing = true;
+
+    io.to(data.roomId).emit('start_game', {
+      createdBy: game.createdBy,
+      joinedBy: game.joinedBy,
+      roomId: data.roomId
+    });
+  }
+
 };
 
 const validatePawnPromotion = (socket, chess, pendingMove) => {
