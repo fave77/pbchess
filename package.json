@@ -4,15 +4,15 @@
   "description": "Online Chess Game",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pbiswas101/pbchess.git"
+    "url": "git+https://github.com/fave77/pbchess.git"
   },
   "keywords": [
     "chess"
   ],
   "bugs": {
-    "url": "https://github.com/pbiswas101/pbchess/issues"
+    "url": "https://github.com/fave77/pbchess/issues"
   },
-  "homepage": "https://github.com/pbiswas101/pbchess#readme",
+  "homepage": "https://github.com/fave77/pbchess#readme",
   "author": "Priyabrata Biswas",
   "license": "GPLv3",
   "dependencies": {}

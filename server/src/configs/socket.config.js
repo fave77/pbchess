@@ -1,5 +1,5 @@
 const {
-  create, join, move
+  create, join, move, disconnect
 } = require('../controllers/game.controller.js');
 
 const configSocket = io => {
@@ -19,8 +19,7 @@ const configSocket = io => {
     });
 
     socket.on('disconnect', _ => {
-      console.log('Socket disconnected', socket.id);
-      // also delete any associated game
+      disconnect(socket);
     });
 
   });

@@ -33,8 +33,8 @@ class Game extends React.Component {
         'b1': [ 'a3', 'c3' ],
         'g1': [ 'f3', 'h3' ]
       },
-      promotion: false
-
+      promotion: false,
+      gameAborted: false
     }
   }
 
@@ -91,6 +91,10 @@ class Game extends React.Component {
       });
     });
 
+    this.props.socket.on('abort_game', msg => {
+      this.setState({ gameAborted: msg });
+    });
+
   }
 
   render() {
@@ -128,7 +132,7 @@ class Game extends React.Component {
             </div>
           </Modal.Body>
         </Modal>
-        <Modal show = { this.state.gameOver ? true : false } onHide = { _ => this.handleClose() } >
+        <Modal show = { this.state.gameOver || this.state.gameAborted ? true : false } onHide = { _ => this.handleClose() } >
           <Modal.Header closeButton></Modal.Header>
           <Modal.Body>
             <div style = {{ textAlign: 'center', cursor: 'pointer' }}>
@@ -139,7 +143,9 @@ class Game extends React.Component {
                       ? this.state.orientation[0] === this.state.turn
                         ? 'Oops! You lost'
                         : 'Congrats! You won'
-                      : `Game drawn by ${ this.state.gameOver.result }`
+                      : this.state.gameAborted
+                          ? this.state.gameAborted
+                          : `Game drawn by ${ this.state.gameOver.result }`
                   }
                 </p>
               </span>
