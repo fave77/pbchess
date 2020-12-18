@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Jumbotron from 'react-bootstrap/Jumbotron';
 
-class Login extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
   }
@@ -20,4 +20,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Home;

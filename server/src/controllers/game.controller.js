@@ -14,9 +14,6 @@ const create = (io, socket, data) => {
   };
 
 
-
-
-
   // emit an socket event for frontend lobby adnd send back the room id
 };
 
@@ -117,6 +114,16 @@ const move = (io, socket, data) => {
 
 };
 
+const disconnect = socket => {
+  console.log('Socket disconnected', socket.id);
+  const roomId = Object.keys(socket.adapter.rooms)[0];
+  if (roomId in liveGames) {
+    console.log('Purging the game...')
+    delete liveGames[roomId];
+    socket.broadcast.emit('abort_game', 'Opponent left the game! You won by default');
+  }
+};
+
 module.exports = {
-  create, join, move
+  create, join, move, disconnect
 };

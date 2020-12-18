@@ -4,14 +4,18 @@ import io from 'socket.io-client';
 import Game from './game';
 import configAPI from '../configs/api.config';
 import AuthService from '../services/auth.service';
+import clipboard from '../images/clipboard.svg';
 
-
+import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Spinner from 'react-bootstrap/Spinner';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+import Image from 'react-bootstrap/Image';
 
 const API_URL = configAPI();
 
@@ -23,9 +27,10 @@ class Lobby extends React.Component {
       socket: undefined,
       status: false,
       loading: false,
+      created: false,
       joined: false,
-      roomId: undefined
-
+      roomId: undefined,
+      copied: false
     }
   }
 
@@ -35,7 +40,8 @@ class Lobby extends React.Component {
     const { socket, user } = this.state;
 
     this.setState({
-      loading: true
+      loading: true,
+      created: true
     });
 
     socket.emit('create_game', {
@@ -93,6 +99,14 @@ class Lobby extends React.Component {
       })
     });
 
+
+  }
+
+  copyToClipBoard() {
+    navigator.clipboard.writeText(this.state.socket.id);
+    this.setState({
+      copied: true
+    })
   }
 
   componentWillUnmount() {
@@ -111,9 +125,51 @@ class Lobby extends React.Component {
             : <Jumbotron className = 'text-center'>
                 <h3>Welcome to the Lobby</h3>
                 { this.state.loading
-                    ? <Spinner animation="border" role="status">
-                        <span className="sr-only">Loading...</span>
-                      </Spinner>
+                    ? <div>
+                        <Spinner animation='border' role='status'>
+                          <span className='sr-only'>Loading...</span>
+                        </Spinner>
+                        { this.state.created
+                          ? <Card>
+                              <Card.Header>Share your Game ID for other players to join ...</Card.Header>
+                              <Card.Body>
+                                <blockquote>
+                                  <OverlayTrigger
+                                    placement = 'bottom'
+                                    overlay = {
+                                      <Tooltip id = 'button-tooltip-2'>
+                                        { this.state.copied
+                                            ? 'copied'
+                                            : 'copy'
+                                        }
+                                      </Tooltip>
+                                    }
+                                  >
+                                    {({ ref, ...triggerHandler }) => (
+                                      <Button
+                                        variant = 'light'
+                                        {...triggerHandler}
+                                        className = 'd-inline-flex align-items-center'
+                                        onClick = { _ => this.copyToClipBoard() }
+                                      >
+                                        <span className = 'ml-1'>{ this.state.socket.id }</span>
+
+                                        <Image
+                                          ref = { ref }
+                                          thumbnail
+                                          src = { clipboard }
+                                          margin
+                                        />
+                                      </Button>
+                                    )}
+                                  </OverlayTrigger>,
+                                </blockquote>
+                              </Card.Body>
+                            </Card>
+                          : <div></div>
+                        }
+                      </div>
+
                     : <div>
                         { this.state.joined
                             ? <Form>
