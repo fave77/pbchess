@@ -20,7 +20,7 @@ const configDB = _ => {
   );
 
   connection.on('error', err =>
-    console.error('Connection Error!\n', err)
+    console.error('Database Connection Error!\n', err)
   );
 
 };
