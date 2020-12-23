@@ -6,6 +6,7 @@ import configAPI from '../configs/api.config';
 import AuthService from '../services/auth.service';
 import clipboard from '../images/clipboard.svg';
 
+import Modal from 'react-bootstrap/Modal';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Jumbotron from 'react-bootstrap/Jumbotron';
@@ -30,7 +31,8 @@ class Lobby extends React.Component {
       created: false,
       joined: false,
       roomId: undefined,
-      copied: false
+      copied: false,
+      joiningError: false
     }
   }
 
@@ -77,18 +79,6 @@ class Lobby extends React.Component {
     });
   }
 
-  componentDidUpdate() {
-    const { socket } = this.state;
-
-    if (socket) {
-      socket.on('start_game', gameInfo => {
-        this.startGame(gameInfo);
-      });
-
-      socket.on('cannot_join_game', msg => console.log(msg));
-
-    }
-  }
 
   componentDidMount() {
     const socket = io(API_URL.slice(0, API_URL.indexOf('api/')), {transports: ['websocket']});
@@ -96,7 +86,21 @@ class Lobby extends React.Component {
     socket.on('connect', _ => {
       this.setState({
         socket
-      })
+      }, _ => {
+        const { socket } = this.state;
+        socket.on('start_game', gameInfo => {
+          this.startGame(gameInfo);
+        });
+
+        socket.on('cannot_join_game', msg => {
+          console.log(msg);
+
+          this.setState({
+            joiningError: msg
+          })
+        });
+
+      });
     });
 
 
@@ -107,6 +111,10 @@ class Lobby extends React.Component {
     this.setState({
       copied: true
     })
+  }
+
+  handleClose() {
+    window.location.reload();
   }
 
   componentWillUnmount() {
@@ -122,96 +130,108 @@ class Lobby extends React.Component {
                 roomId = { this.state.roomId }
                 socket = { this.state.socket }
               />
-            : <Jumbotron className = 'text-center'>
-                <h3>Welcome to the Lobby</h3>
-                { this.state.loading
-                    ? <div>
-                        <Spinner animation='border' role='status'>
-                          <span className='sr-only'>Loading...</span>
-                        </Spinner>
-                        { this.state.created
-                          ? <Card>
-                              <Card.Header>Share your Game ID for other players to join ...</Card.Header>
-                              <Card.Body>
-                                <blockquote>
-                                  <OverlayTrigger
-                                    placement = 'bottom'
-                                    overlay = {
-                                      <Tooltip id = 'button-tooltip-2'>
-                                        { this.state.copied
-                                            ? 'copied'
-                                            : 'copy'
-                                        }
-                                      </Tooltip>
-                                    }
-                                  >
-                                    {({ ref, ...triggerHandler }) => (
+            : <div>
+                <Jumbotron className = 'text-center'>
+                  <h3>Welcome to the Lobby</h3>
+                  { this.state.loading
+                      ? <div>
+                          <Spinner animation='border' role='status'>
+                            <span className='sr-only'>Loading...</span>
+                          </Spinner>
+                          { this.state.created
+                            ? <Card>
+                                <Card.Header>Share your Game ID for other players to join ...</Card.Header>
+                                <Card.Body>
+                                  <blockquote>
+                                    <OverlayTrigger
+                                      placement = 'bottom'
+                                      overlay = {
+                                        <Tooltip id = 'button-tooltip-2'>
+                                          { this.state.copied
+                                              ? 'copied'
+                                              : 'copy'
+                                          }
+                                        </Tooltip>
+                                      }
+                                    >
+                                      {({ ref, ...triggerHandler }) => (
+                                        <Button
+                                          variant = 'light'
+                                          {...triggerHandler}
+                                          className = 'd-inline-flex align-items-center'
+                                          onClick = { _ => this.copyToClipBoard() }
+                                        >
+                                          <span className = 'ml-1'>{ this.state.socket.id }</span>
+
+                                          <Image
+                                            ref = { ref }
+                                            thumbnail
+                                            src = { clipboard }
+                                            margin
+                                          />
+                                        </Button>
+                                      )}
+                                    </OverlayTrigger>,
+                                  </blockquote>
+                                </Card.Body>
+                              </Card>
+                            : <div></div>
+                          }
+                        </div>
+
+                      : <div>
+                          { this.state.joined
+                              ? <Form>
+                                  <Row>
+                                    <Col>
+                                      <Form.Control
+                                        placeholder = 'Enter game ID ...'
+                                        onChange = { e => this.setState({ joined: e.target.value }) }
+                                      />
+                                    </Col>
+                                    <Col>
                                       <Button
-                                        variant = 'light'
-                                        {...triggerHandler}
-                                        className = 'd-inline-flex align-items-center'
-                                        onClick = { _ => this.copyToClipBoard() }
+                                        variant = 'primary'
+                                        type = 'submit'
+                                        onClick = { e => this.joinGame(e) }
                                       >
-                                        <span className = 'ml-1'>{ this.state.socket.id }</span>
-
-                                        <Image
-                                          ref = { ref }
-                                          thumbnail
-                                          src = { clipboard }
-                                          margin
-                                        />
+                                        Join
                                       </Button>
-                                    )}
-                                  </OverlayTrigger>,
-                                </blockquote>
-                              </Card.Body>
-                            </Card>
-                          : <div></div>
-                        }
-                      </div>
+                                    </Col>
+                                  </Row>
+                                </Form>
+                              : <div>
+                                  <Button
+                                    variant = 'dark'
+                                    name = 'create'
+                                    onClick = { _ => this.createGame() }
+                                  >
+                                    Create
+                                  </Button>{ ' ' }
+                                  <Button
+                                    variant = 'dark'
+                                    name = 'join'
+                                    onClick = { _ => { this.setState({ joined: true }) } }
+                                  >
+                                    Join
+                                  </Button>
+                                </div>
+                          }
+                        </div>
 
-                    : <div>
-                        { this.state.joined
-                            ? <Form>
-                                <Row>
-                                  <Col>
-                                    <Form.Control
-                                      placeholder = 'Enter game ID ...'
-                                      onChange = { e => this.setState({ joined: e.target.value }) }
-                                    />
-                                  </Col>
-                                  <Col>
-                                    <Button
-                                      variant = 'primary'
-                                      type = 'submit'
-                                      onClick = { e => this.joinGame(e) }
-                                     >
-                                      Join
-                                    </Button>
-                                  </Col>
-                                </Row>
-                              </Form>
-                            : <div>
-                                <Button
-                                  variant = 'dark'
-                                  name = 'create'
-                                  onClick = { _ => this.createGame() }
-                                >
-                                  Create
-                                </Button>{ ' ' }
-                                <Button
-                                  variant = 'dark'
-                                  name = 'join'
-                                  onClick = { _ => { this.setState({ joined: true }) } }
-                                >
-                                  Join
-                                </Button>
-                              </div>
-                        }
-                      </div>
-
-                }
-              </Jumbotron>
+                  }
+                </Jumbotron>
+                <Modal show = { this.state.joiningError } onHide = { _ => this.handleClose() } >
+                  <Modal.Header closeButton></Modal.Header>
+                  <Modal.Body>
+                    <div style = {{ textAlign: 'center', cursor: 'pointer' }}>
+                      <span role = 'presentation'>
+                        <p> { this.state.joiningError } </p>
+                      </span>
+                    </div>
+                  </Modal.Body>
+                </Modal>
+              </div>
         }
 
 

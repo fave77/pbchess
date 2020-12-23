@@ -20,9 +20,7 @@ const create = (io, socket, data, liveGames) => {
 const join = (io, socket, data, liveGames) => {
 
   liveGames.hgetall(data.roomId, (err, res) => {
-    console.log(res);
-    const game = JSON.parse(res['*']);
-    console.log(game);
+    const game = res ? JSON.parse(res['*']): undefined;
     if (!game)
       socket.emit('cannot_join_game', 'Cannot join! Room ID is invalid');
 
@@ -95,9 +93,7 @@ const move = (io, socket, data, liveGames) => {
   const { roomId, ...pendingMove } = data;
 
   liveGames.hgetall(roomId, (err, res) => {
-    console.log(res);
     const game = JSON.parse(res['*']);
-    console.log(game);
     const chess = new Chess()
     chess.load_pgn(game.state);
     const gameState = {
@@ -129,9 +125,9 @@ const move = (io, socket, data, liveGames) => {
 
 const disconnect = (socket, liveGames) => {
   console.log('Socket disconnected', socket.id);
-  const roomId = Object.keys(socket.adapter.rooms)[0];
+  const roomId = Object.keys(socket.adapter.rooms)[0] || socket.id;
 
-  liveGames.get(roomId, (err, res) => {
+  liveGames.hgetall(roomId, (err, res) => {
     if (!(err || res === null)) {
       console.log('Purging the game...')
       liveGames.del(roomId);
