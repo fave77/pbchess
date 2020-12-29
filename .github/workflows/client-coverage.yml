@@ -1,11 +1,11 @@
-name: Coverage Client
+name: Client Coverage
 
 on: [push, pull_request]
 
 jobs:
 
   run:
-    name: Coverage
+    name: Client Coverage
     runs-on: ubuntu-latest
 
     steps:

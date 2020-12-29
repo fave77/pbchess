@@ -1,0 +1,25 @@
+# .github/workflows/netlify.yml
+name: Build and Deploy to Netlify
+on:
+  push:
+  pull_request:
+    types: [opened, synchronize]
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+      - uses: actions/checkout@v2
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.1
+        with:
+          publish-dir: './client/build'
+          production-branch: master
+          netlify-config-path: './.github/netlify.toml'
+          deploy-message: 'Deploy from GitHub Actions'
+          alias: deploy-preview-${{ github.event.number }}
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 1
