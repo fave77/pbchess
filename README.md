@@ -22,12 +22,14 @@ Please check out the guidelines [here](https://github.com/fave77/pbchess/blob/de
 
 The GNU GPLv3 - [Priyabrata Biswas](https://github.com/fave77).
 
-[![forthebadge](https://forthebadge.com/images/badges/powered-by-coffee.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)
-
 <div align="center">
+
   <img src="https://media.giphy.com/media/oMHPlvpTvnXGPS7GhX/giphy.gif">
   <h3>Happy Coding ☘️</h3>
+
+  [![forthebadge](https://forthebadge.com/images/badges/powered-by-coffee.svg)](https://forthebadge.com)
+  [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+  [![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)
+
 </div>
 
