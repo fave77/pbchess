@@ -93,7 +93,23 @@ $ npm test
 
 ## :page_with_curl: Workflow
 
-In this project, we will try to adhere to [Gitflow][2] :recycle:. So, make sure to create a new feature branch from `develop` not from `master`, and also create a pull request to `develop` not to `master`.
+- Always raise or claim an issue before making a pull request.
+
+- While raising an issue, please follow the [ISSUE_TEMPLATE.md][4] guidelines.
+
+- To claim an issue, just leave a comment and you'll be assigned on first come, first serve basis.
+
+- Follow [Airbnb style guide][5] as much as possible.
+
+- Your editor must support the preferences from the `.editorconfig` file.
+
+- Make sure to squash your commits for cleaner commit history.
+
+- While making a pull request, please follow the [PULL_REQUEST_TEMPLATE.md][6] guidelines.
+
+- In your pull request, never forget to mention the issue you are solving, like so - Fixed #2 (issue number).
+
+- In this project, we will try to adhere to [Gitflow][2] :recycle:. So, make sure to create a new feature branch from `develop` not from `master`, and also create a pull request to `develop` not to `master`, like so:
 
 ```bash
 # include the latest changes (as mentioned before)
@@ -128,3 +144,6 @@ $ git push origin <YOUR-GITHUB-USERNAME>/<FEATURE-BRANCH>
 [1]: https://github.com/fave77/pbchess/blob/develop/.github/CODE_OF_CONDUCT/CODE_OF_CONDUCT.md
 [2]: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
 [3]: https://github.com/fave77/pbchess
+[4]: https://github.com/fave77/pbchess/blob/develop/.github/ISSUE_TEMPLATE/ISSUE_TEMPLATE.md
+[5]: https://github.com/airbnb/javascript
+[6]: https://github.com/fave77/pbchess/blob/develop/.github/PULL_REQUEST_TEMPLATE/PULL_REQUEST_TEMPLATE.md
