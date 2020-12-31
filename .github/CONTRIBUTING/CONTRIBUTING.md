@@ -144,6 +144,6 @@ $ git push origin <YOUR-GITHUB-USERNAME>/<FEATURE-BRANCH>
 [1]: https://github.com/fave77/pbchess/blob/develop/.github/CODE_OF_CONDUCT/CODE_OF_CONDUCT.md
 [2]: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
 [3]: https://github.com/fave77/pbchess
-[4]: https://github.com/fave77/pbchess/blob/develop/.github/ISSUE_TEMPLATE/ISSUE_TEMPLATE.md
+[4]: https://github.com/fave77/pbchess/blob/develop/.github/ISSUE_TEMPLATE/
 [5]: https://github.com/airbnb/javascript
 [6]: https://github.com/fave77/pbchess/blob/develop/.github/PULL_REQUEST_TEMPLATE/PULL_REQUEST_TEMPLATE.md
