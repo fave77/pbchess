@@ -3,9 +3,11 @@ import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import CheckButton from 'react-validation/build/button';
 
-import AuthService from '../services/auth.service';
+import AuthService from '../../services/auth.service';
 
 import Modal from 'react-bootstrap/Modal';
+
+import './register.css';
 
 const required = value => {
   if (!value)
