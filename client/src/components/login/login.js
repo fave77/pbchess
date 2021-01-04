@@ -3,7 +3,9 @@ import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import CheckButton from 'react-validation/build/button';
 
-import AuthService from '../services/auth.service';
+import AuthService from '../../services/auth.service';
+
+import './login.css';
 
 const required = value => {
   if (!value)

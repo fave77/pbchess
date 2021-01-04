@@ -1,10 +1,12 @@
 import React from 'react';
 import io from 'socket.io-client';
 
-import Game from './game';
-import configAPI from '../configs/api.config';
-import AuthService from '../services/auth.service';
-import clipboard from '../images/clipboard.svg';
+import './lobby.css';
+
+import Game from '../game/game';
+import configAPI from '../../configs/api.config';
+import AuthService from '../../services/auth.service';
+import clipboard from '../../images/clipboard.svg';
 
 import Modal from 'react-bootstrap/Modal';
 import Card from 'react-bootstrap/Card';
@@ -19,6 +21,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import Image from 'react-bootstrap/Image';
 
 const API_URL = configAPI();
+
 
 class Lobby extends React.Component {
   constructor(props) {

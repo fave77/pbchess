@@ -4,7 +4,7 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import AuthService from '../services/auth.service';
+import AuthService from '../../services/auth.service';
 
 
 class PrivateRoute extends Component {

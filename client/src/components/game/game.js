@@ -5,10 +5,10 @@ import Modal from 'react-bootstrap/Modal';
 import Chessground from 'react-chessground';
 import 'react-chessground/dist/styles/chessground.css';
 
-import queen from '../images/wQ.svg'
-import rook from '../images/wR.svg'
-import bishop from '../images/wB.svg'
-import knight from '../images/wN.svg'
+import queen from '../../images/wQ.svg'
+import rook from '../../images/wR.svg'
+import bishop from '../../images/wB.svg'
+import knight from '../../images/wN.svg'
 
 class Game extends React.Component {
   constructor(props) {
