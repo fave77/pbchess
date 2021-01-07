@@ -1,8 +1,16 @@
 .mynavbar {
-  background-color: #131417;
+  background-color: #1d1e22;
+  box-shadow: 5px 0px 50px rgba(0, 0, 0, 0.5);
+  font-size: 1.2em;
 }
 
 a {
-  color: #f5f5f5;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+a:hover {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.7);
 }
 

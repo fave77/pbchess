@@ -1,51 +1,61 @@
-label {
-  display: block;
-  margin-top: 10px;
-}
-
 #homebg {
   width: 100vw;
   position: absolute;
   z-index: -1;
 }
 
-#homeblob {
-  width: 50%;
-  margin-top: 200px;
+#chessboard {
   position: absolute;
-  z-index: -1;
+  margin-top: 5%;
+  margin-left: 70%;
+  width: 25vw;
+  height: 25vw;
+  transform: perspective(600px) rotateY(-25deg);
+  opacity: 0.8;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  z-index: 2;
 }
 
 h1 {
   color: #8299fd;
+  margin-top: 5%;
+  margin-left: 5%;
 }
 
-.card-container .card {
-  max-width: 350px !important;
-  padding: 40px 40px;
+h3 {
+  margin-left: 5%;
 }
 
-.card {
+.carousel {
+  margin-top: 5%;
+}
+
+.mycard {
   width: 75%;
   max-width: 700px;
-  background-color: #f7f7f7;
-  padding: 20px 25px 30px;
-  margin: 0 auto 25px;
-  margin-top: 50px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  height: 25%;
+  padding: 1em;
+  margin: 0 auto;
+  box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.5);
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.5) 0%, rgba(139, 140, 143, 0.5) 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);
+  background-clip: padding-box;
 }
 
-.profile-img-card {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 10px;
-  display: block;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
+@media only screen and (max-width: 800px) {
+  #chessboard {
+    display: none;
+  }
+
+  .title {
+    text-align: center;
+  }
 }
