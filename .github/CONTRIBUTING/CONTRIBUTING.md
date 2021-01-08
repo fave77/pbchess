@@ -55,8 +55,10 @@ Create `.env` files in both `client` and `server` folder with the following vari
 - Server:
 	- `NODE_ENV=development`
 	- `DEV_DATABASE_URI=mongodb://127.0.0.1:27017/<YOUR-DB-NAME>`
-	-  `DEV_STORAGE_URI=127.0.0.1:6379`
+	- `DEV_STORAGE_URI=127.0.0.1:6379`
 	- `DEV_STORAGE_PSWD=<YOUR-REDIS-INSTANCE-PSWD>`
+  - `PUBLIC_KEY=<YOUR-RSA-PUBLIC-KEY>`
+  - `PRIVATE_KEY=<YOUR-RSA-PRIVATE-KEY>`
 
 **Default Ports:**
 - React (or Client) - 3000
@@ -64,7 +66,7 @@ Create `.env` files in both `client` and `server` folder with the following vari
 - MongoDB (or Database) - 27017
 - Redis (or In-memory DS) - 6379
 
-**Note:** In order to run the client (properly), you need to have the server running at port 8000. Similarly, to run the server (propely), you need both MongoDB and Redis running at default ports 27017 and 6379 respectively.
+**Note:** In order to run the client (properly), you need to have the server running at port 8000. Similarly, to run the server (propely), you need both MongoDB and Redis running at default ports 27017 and 6379 respectively. Also, do not forget to generate your rsa keys by running `keys.config.js` seperately and storing them in environment variables.
 
 ## :cyclone: Run the Project
 

@@ -41,5 +41,8 @@
     ]
   },
   "author": "Priyabrata Biswas",
-  "license": "GPLv3"
+  "license": "GPLv3",
+  "devDependencies": {
+    "jest-canvas-mock": "^2.3.0"
+  }
 }

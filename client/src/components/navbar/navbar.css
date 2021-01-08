@@ -1,7 +1,17 @@
 .mynavbar {
+  padding-top: 0px;
+  padding-bottom: 0px;
   background-color: #1d1e22;
-  box-shadow: 5px 0px 50px rgba(0, 0, 0, 0.5);
+  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.5);
   font-size: 1.2em;
+}
+
+.navbar-brand {
+  margin: 0;
+}
+
+.tooltip {
+  color: #1d1e22;
 }
 
 a {

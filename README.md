@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/fave77/pbchess/develop/.github/logos/pbchess-logo.png">
 
   <h1> pbchess </h1>
-  <p> Online Multiplayer Game of Chess </p>
+  <p> An open-sourced free online chess platform </p>
 
   ![example workflow name](https://github.com/fave77/pbchess/workflows/heroku/badge.svg)
   [![Netlify Status](https://api.netlify.com/api/v1/badges/9dfb4c24-589e-4679-a331-a85a8e1a5382/deploy-status)](https://app.netlify.com/sites/pbchess/deploys)

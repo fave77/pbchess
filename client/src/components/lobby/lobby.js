@@ -41,7 +41,6 @@ class Lobby extends React.Component {
 
   createGame() {
 
-    // on creating the game make the socket.id visible and accessible for copying
     const { socket, user } = this.state;
 
     this.setState({

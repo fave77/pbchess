@@ -20,9 +20,10 @@
 }
 
 h1 {
-  color: #8299fd;
-  margin-top: 5%;
+  margin-top: 3%;
   margin-left: 5%;
+  font-size: 3.5em;
+  color: #8299fd;
 }
 
 h3 {
