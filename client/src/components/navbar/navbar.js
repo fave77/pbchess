@@ -3,10 +3,26 @@ import { Link } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 import pbchessLogo from '../../images/pbchess-logo.svg';
 
 import './navbar.css';
+
+const renderTooltip = props => {
+  let pathname = window.location.href;
+  pathname = pathname.slice(pathname.indexOf('://') + 3)
+  pathname = pathname.slice(pathname.indexOf('/'))
+  return (
+    <Tooltip bsPrefix = 'tooltip' {...props} >
+      { pathname !== '/'
+          ? 'go home!'
+          : 'u\'re home!'
+      }
+    </Tooltip>
+  );
+};
 
 function MyNavbar(props) {
   const { currentUser, logOut } = props;
@@ -15,13 +31,18 @@ function MyNavbar(props) {
     <Navbar expand = 'lg' sticky = 'top' className = 'mynavbar navbar-dark'>
       <Navbar.Brand>
         <Link to = { '/' } className = 'navbar-brand'>
-          <img
-            src = { pbchessLogo }
-            width = '60em'
-            height = '60em'
-            className = 'd-inline-block align-top'
-            alt = 'pbchess logo'
-        />
+          <OverlayTrigger
+            placement = 'right-end'
+            overlay = { renderTooltip }
+          >
+            <img
+              src = { pbchessLogo }
+              width = '60em'
+              height = '60em'
+              className = 'd-inline-block align-top'
+              alt = 'pbchess logo'
+            />
+          </OverlayTrigger>
         </Link>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls = 'basic-navbar-nav' />
