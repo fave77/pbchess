@@ -1,5 +1,5 @@
 const User = require('../models/user.model');
-const utils = require('../configs/auth.config');
+const utils = require('../services/auth.service');
 
 const login = async (req, res, next) => {
   try {
@@ -67,17 +67,7 @@ const register = async (req, res) => {
 
 };
 
-const demo = (req, res) => {
-  return res
-    .status(200)
-    .json({
-      success: true,
-      msg: 'You are successfully authenticated to this route!'
-    });
-};
-
 module.exports = {
 	login,
-  register,
-  demo
+  register
 }

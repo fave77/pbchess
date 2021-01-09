@@ -66,7 +66,7 @@ Create `.env` files in both `client` and `server` folder with the following vari
 - MongoDB (or Database) - 27017
 - Redis (or In-memory DS) - 6379
 
-**Note:** In order to run the client (properly), you need to have the server running at port 8000. Similarly, to run the server (propely), you need both MongoDB and Redis running at default ports 27017 and 6379 respectively. Also, do not forget to generate your rsa keys by running `keys.config.js` seperately and storing them in environment variables.
+**Note:** In order to run the client (properly), you need to have the server running at port 8000. Similarly, to run the server (propely), you need both MongoDB and Redis running at default ports 27017 and 6379 respectively. Also, do not forget to generate your rsa keys by running `keys.service.js` seperately and storing them in environment variables.
 
 ## :cyclone: Run the Project
 

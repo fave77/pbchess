@@ -6,4 +6,4 @@ const userSchema = new Schema({
 	salt: String
 });
 
-module.exports = model('User', userSchema);
+module.exports = model('User', userSchema, 'users');

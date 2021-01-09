@@ -2,10 +2,8 @@ const {
   create, join, move, disconnect
 } = require('../controllers/game.controller.js');
 
-const { configStorage } = require('./storage.config');
 
-const configSocket = io => {
-  const liveGames = configStorage(io);
+const socketRouter = (io, liveGames) => {
 
   io.on('connection', socket => {
     console.log('Socket connected', socket.id);
@@ -28,6 +26,4 @@ const configSocket = io => {
   });
 };
 
-module.exports = {
-  configSocket
-};
+module.exports = socketRouter;
