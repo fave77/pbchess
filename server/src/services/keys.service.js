@@ -1,8 +1,13 @@
 const crypto = require('crypto');
 const fs = require('fs');
 
+/* run this script using
+  > node keys.service.js
+  to generate the key pair
+  for asymmetric encryption
+*/
 (function genKeyPair() {
-  // Generates an object where the keys are stored in properties `privateKey` and `publicKey`
+
   const keyPair = crypto.generateKeyPairSync('rsa', {
     modulusLength: 4096, // Number of bits - standard for RSA keys
     publicKeyEncoding: {
@@ -10,15 +15,15 @@ const fs = require('fs');
       format: 'pem' // Most common formatting choice
     },
     privateKeyEncoding: {
-      type: 'pkcs1', // "Public Key Cryptography Standards 1"
-      format: 'pem' // Most common formatting choice
+      type: 'pkcs1',
+      format: 'pem'
     }
   });
 
-  // Create the public key file
+  // Create the public-key file and convert it into .env variables
   fs.writeFileSync(__dirname + '/id_rsa_pub.pem', keyPair.publicKey);
 
-  // Create the private key file
+  // Create the private-key file and convert it into .env variables
   fs.writeFileSync(__dirname + '/id_rsa_priv.pem', keyPair.privateKey);
 
 })();

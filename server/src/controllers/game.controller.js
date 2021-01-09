@@ -1,9 +1,9 @@
 const { Chess } = require('chess.js');
+const { validatePawnPromotion, evaluateGame } = require('../services/chess.service');
 
-const { configStorage } = require('../configs/storage.config');
-
-// here we can start emitting events to the client
+// called while creating a game
 const create = (io, socket, data, liveGames) => {
+
   console.log('Creating a game...');
 
   liveGames.hmset(socket.id, '*', JSON.stringify({
@@ -14,9 +14,10 @@ const create = (io, socket, data, liveGames) => {
   }));
 
 
-  // emit an socket event for frontend lobby adnd send back the room id
+  // TODO: emit a socket event for the frontend lobby (along with room id)
 };
 
+// called while joining a game
 const join = (io, socket, data, liveGames) => {
 
   liveGames.hgetall(data.roomId, (err, res) => {
@@ -50,45 +51,9 @@ const join = (io, socket, data, liveGames) => {
     }
   });
 
-
 };
 
-const validatePawnPromotion = (socket, chess, pendingMove) => {
-  const moves = chess.moves({ verbose: true })
-    for (let i = 0, len = moves.length; i < len; i++) {
-      if (moves[i].flags.indexOf("p") !== -1 && moves[i].from === pendingMove.from) {
-        socket.emit('promotion', pendingMove);
-        return true;
-      }
-    }
-  return false;
-};
-
-const evaluateGame = chess => {
-  if (chess.in_checkmate()) {
-    return {
-      result: 'checkmate'
-    };
-  } else if (chess.in_stalemate()) {
-    return {
-      result: 'stalemate'
-    };
-  } else if (chess.in_threefold_repetition()) {
-    return {
-      result: 'threefold repetition'
-    };
-  } else if (chess.insufficient_material()) {
-    return {
-      result: 'insufficient material'
-    };
-  } else {
-    return {
-      result: '50 move rule'
-    };
-  }
-
-};
-
+// called while moving pieces
 const move = (io, socket, data, liveGames) => {
   const { roomId, ...pendingMove } = data;
 
@@ -110,6 +75,7 @@ const move = (io, socket, data, liveGames) => {
 
     if (chess.game_over()) {
       gameState.gameOver = evaluateGame(chess);
+      console.log('Purging the game...');
       liveGames.del(roomId);
     }
 
@@ -123,13 +89,15 @@ const move = (io, socket, data, liveGames) => {
   });
 };
 
+// called while leaving the game
 const disconnect = (socket, liveGames) => {
   console.log('Socket disconnected', socket.id);
   const roomId = Object.keys(socket.adapter.rooms)[0] || socket.id;
 
   liveGames.hgetall(roomId, (err, res) => {
-    if (!(err || res === null)) {
-      console.log('Purging the game...')
+
+    if (res !== null) {
+      console.log('Purging the game...');
       liveGames.del(roomId);
       socket.broadcast.emit('abort_game', 'Opponent left the game! You won by default');
     }

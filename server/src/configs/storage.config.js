@@ -8,6 +8,7 @@ const prodRedisPswd = process.env.PROD_STORAGE_PSWD;
 const devRedisPswd = process.env.DEV_STORAGE_PSWD
 
 const configStorage = io => {
+
   const redisURI = (process.env.NODE_ENV === 'production')
     ? prodRedisURI
     : devRedisURI;
