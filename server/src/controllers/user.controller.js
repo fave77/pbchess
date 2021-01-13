@@ -1,4 +1,5 @@
 const User = require('../models/user.model');
+const Profile = require('../models/profile.model');
 const utils = require('../services/auth.service');
 
 const login = async (req, res, next) => {
@@ -40,16 +41,29 @@ const login = async (req, res, next) => {
 
 
 const register = async (req, res) => {
-	const { salt, hash } = utils.createPassword(req.body.password);
-
-  const newUser = new User({
-    username: req.body.username,
-    hash: hash,
-    salt: salt
-  });
 
   try {
+
+    const { salt, hash } = utils.createPassword(req.body.password);
+
+    const newUser = new User({
+      username: req.body.username,
+      hash: hash,
+      salt: salt
+    });
     const user = await newUser.save();
+    console.log(req.body.fullname, req.body.email)
+    const newProfile = new Profile({
+      userId: user._id,
+      fullname: req.body.fullname,
+      email: req.body.email,
+      avatar: 'NA',
+      gender: 'NA',
+      country: 'NA',
+      joined: new Date().toGMTString().slice(0, -13)
+    });
+    const profile = await newProfile.save();
+
     const tokenObject = utils.issueJWT(user);
 
     return res.json({

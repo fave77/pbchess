@@ -18,11 +18,21 @@ const required = value => {
     );
 };
 
+const vemail = value => {
+  if (value.indexOf('@') === -1 || value.indexOf('.com') === -1) {
+    return (
+      <div className = 'alert alert-danger' role = 'alert'>
+        The email must be valid!
+      </div>
+    );
+  }
+};
+
 const vusername = value => {
   if (value.length < 3 || value.length > 20) {
     return (
       <div className = 'alert alert-danger' role = 'alert'>
-        The username must be between 3 and 20 characters.
+        The username must be between 3 and 20 characters!
       </div>
     );
   }
@@ -32,7 +42,7 @@ const vpassword = value => {
   if (value.length < 6 || value.length > 40) {
     return (
       <div className = 'alert alert-danger' role = 'alert'>
-        The password must be between 6 and 40 characters.
+        The password must be between 6 and 40 characters!
       </div>
     );
   }
@@ -42,15 +52,31 @@ class Register extends Component {
   constructor(props) {
     super(props);
     this.handleRegister = this.handleRegister.bind(this);
+    this.onChangeFullname = this.onChangeFullname.bind(this);
+    this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
 
     this.state = {
+      fullname: '',
+      email: '',
       username: '',
       password: '',
       successful: false,
       message: ''
     };
+  }
+
+  onChangeFullname(e) {
+    this.setState({
+      fullname: e.target.value
+    });
+  }
+
+  onChangeEmail(e) {
+    this.setState({
+      email: e.target.value
+    });
   }
 
   onChangeUsername(e) {
@@ -75,8 +101,11 @@ class Register extends Component {
 
     this.form.validateAll();
 
+
     if (this.checkBtn.context._errors.length === 0) {
       AuthService.register(
+        this.state.fullname,
+        this.state.email,
         this.state.username,
         this.state.password
       ).then(
@@ -137,6 +166,30 @@ class Register extends Component {
           >
             { !this.state.successful && (
               <div>
+                <div className = 'form-group'>
+                  <label htmlFor = 'fullname'> Fullname </label>
+                  <Input
+                    type = 'text'
+                    className = 'form-control'
+                    name = 'fullname'
+                    value = { this.state.fullname }
+                    onChange = { this.onChangeFullname }
+                    validations = { [required] }
+                  />
+                </div>
+
+                <div className = 'form-group'>
+                  <label htmlFor = 'email'> Email </label>
+                  <Input
+                    type = 'email'
+                    className = 'form-control'
+                    name = 'email'
+                    value = { this.state.email }
+                    onChange = { this.onChangeEmail }
+                    validations = { [required, vemail] }
+                  />
+                </div>
+
                 <div className = 'form-group'>
                   <label htmlFor = 'username'> Username </label>
                   <Input
