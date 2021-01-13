@@ -6,7 +6,8 @@ const profileSchema = new Schema({
   email: String,
   avatar: String,
   gender: String,
-  country: String
+  country: String,
+  joined: String
 });
 
 module.exports = model('Profile', profileSchema, 'profiles');
