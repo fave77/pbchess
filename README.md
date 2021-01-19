@@ -38,11 +38,11 @@
 
 ## Contribution Guidelines
 
-<div align="center">
-  <img src="https://i.ibb.co/YdF5FFY/jwoc.png">
-  This project has been selected for <b>JGEC Winter of Code</b> :tada:
-  NOTE: Certain issues labeled as `jwoc` are exclusive to participants!
-</div>
+
+<img src="https://i.ibb.co/YdF5FFY/jwoc.png">
+
+This project has been selected for **JGEC Winter of Code** :tada:
+NOTE: Certain issues labeled as `jwoc` are exclusive to participants!
 
 Please check out the [guidelines](https://github.com/fave77/pbchess/blob/develop/.github/CONTRIBUTING/CONTRIBUTING.md) before contributing.
 
