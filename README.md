@@ -5,6 +5,7 @@
   <p> An open-sourced free online chess platform </p>
 
   ![example workflow name](https://github.com/fave77/pbchess/workflows/heroku/badge.svg)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e3ba9e6a3bb84fc7a3c6905c8e1af48c)](https://app.codacy.com/gh/fave77/pbchess?utm_source=github.com&utm_medium=referral&utm_content=fave77/pbchess&utm_campaign=Badge_Grade)
   [![Netlify Status](https://api.netlify.com/api/v1/badges/9dfb4c24-589e-4679-a331-a85a8e1a5382/deploy-status)](https://app.netlify.com/sites/pbchess/deploys)
   [![codecov](https://codecov.io/gh/fave77/pbchess/branch/develop/graph/badge.svg?token=VZJBLBMUH6)](https://codecov.io/gh/fave77/pbchess)
   [![Known Vulnerabilities](https://snyk.io/test/github/fave77/pbchess/badge.svg)](https://snyk.io/test/github/fave77/pbchess)
