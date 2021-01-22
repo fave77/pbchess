@@ -11,7 +11,7 @@ import GarryKaspaov from '../../images/garry-kasparov.jpg';
 
 import './home.css';
 import homebg from '../../images/homebg.svg';
-import chessboard from  '../../images/chessboard.png';
+import chessboard from '../../images/chessboard.png';
 import homecircles from '../../images/homecircles.json';
 import homeblobs from '../../images/homeblobs.json';
 
@@ -26,20 +26,20 @@ class Home extends Component {
     return (
       <div>
         <img
-          src = { homebg }
-          alt = 'Homepage Background Top'
-          id = 'homebg'
+          src={homebg}
+          alt='Homepage Background Top'
+          id='homebg'
         />
         <img
-          src = { chessboard }
-          alt = 'chessboard'
-          id = 'chessboard'
+          src={chessboard}
+          alt='chessboard'
+          id='chessboard'
         />
         <Player
           autoplay
           loop
-          src = { homecircles }
-          style = {{
+          src={homecircles}
+          style={{
             height: '70%',
             width: '70%',
             position: 'absolute',
@@ -51,8 +51,8 @@ class Home extends Component {
         <Player
           autoplay
           loop
-          src = { homeblobs }
-          style = {{
+          src={homeblobs}
+          style={{
             height: '10em',
             width: '10em',
             position: 'absolute',
@@ -62,14 +62,14 @@ class Home extends Component {
           }}
         >
         </Player>
-        <div className = 'p-3 mb-2 text-white title'>
+        <div className='p-3 mb-2 text-white title'>
           <h1> pbchess </h1>
-					<h3> An open-sourced free online chess platform </h3>
+          <h3> An open-sourced free online chess platform </h3>
         </div>
-        <Carousel className = 'text-center'>
+        <Carousel className='text-center'>
           <Carousel.Item>
-            <Card bsPrefix = 'mycard' >
-              <Card.Img variant = 'top' src = { MagnusCarlsen } alt = 'Magnus Carlsen' style = {{ width: '50%', margin: 'auto' }} className = 'rounded-circle' />
+            <Card bsPrefix='mycard' >
+              <Card.Img variant='top' src={MagnusCarlsen} alt='Magnus Carlsen' style={{ width: '50%', margin: 'auto' }} className='rounded-circle' />
               <Card.Body>
                 <Card.Title>
                   Magnus Carlsen
@@ -81,8 +81,8 @@ class Home extends Component {
             </Card>
           </Carousel.Item>
           <Carousel.Item>
-            <Card bsPrefix = 'mycard' >
-              <Card.Img variant = 'top' src = { JuditPolgar } alt = 'Judit Polgar' style = {{ width: '50%', margin: 'auto' }} className = 'rounded-circle' />
+            <Card bsPrefix='mycard' >
+              <Card.Img variant='top' src={JuditPolgar} alt='Judit Polgar' style={{ width: '50%', margin: 'auto' }} className='rounded-circle' />
               <Card.Body>
                 <Card.Title>
                   Judit Polgar
@@ -94,8 +94,8 @@ class Home extends Component {
             </Card>
           </Carousel.Item>
           <Carousel.Item>
-            <Card bsPrefix = 'mycard' >
-              <Card.Img variant = 'top' src = { GarryKaspaov } alt = 'Garry Kasparov' style = {{ width: '50%', margin: 'auto' }} className = 'rounded-circle' />
+            <Card bsPrefix='mycard' >
+              <Card.Img variant='top' src={GarryKaspaov} alt='Garry Kasparov' style={{ width: '50%', margin: 'auto' }} className='rounded-circle' />
               <Card.Body>
                 <Card.Title>
                   Garry Kasparov
@@ -107,7 +107,15 @@ class Home extends Component {
             </Card>
           </Carousel.Item>
         </Carousel>
+
+        <div className="footer">
+          <a className="link" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3 License</a>
+          <a className="link" href="https://github.com/fave77/pbchess">Support us</a>
+          <p>Made with ❤️ for the chess community</p>
+
+        </div>
       </div>
+
     );
   }
 }

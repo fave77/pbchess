@@ -15,8 +15,10 @@ import Login from './components/login/login';
 import Register from './components/register/register';
 import Profile from './components/profile/profile';
 import Lobby from './components/lobby/lobby';
+
 import NotFound from './components/pagenotfound/pagenotfound';
 import PrivateRoute from './components/private/private';
+
 
 class App extends Component {
   constructor(props) {
@@ -60,7 +62,8 @@ class App extends Component {
 
           </Switch>
         </div>
-      </div>
+      </div> 
+  
     );
   }
 }

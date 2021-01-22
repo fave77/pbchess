@@ -60,3 +60,39 @@ h3 {
     text-align: center;
   }
 }
+.footer {
+  width: 100vw;
+  height: 8rem;
+  background-color:#1d1e22 ;
+  margin-top: 20px;
+ 
+
+}
+.footer p{
+  color: #fff;
+  font-size: 1.2rem;
+  text-align: center;
+  text-transform: capitalize;
+  line-height: 5rem;
+}
+.link{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+ text-align: center;
+
+  
+
+}
+a {
+  /* margin-top: 5px; */
+ text-decoration: none;
+ color: rgba(255, 255, 255, 0.5);
+}
+
+a:hover {
+ text-decoration: none;
+ color: rgba(255, 255, 255, 0.7);
+}
+
+
