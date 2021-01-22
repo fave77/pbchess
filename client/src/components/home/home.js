@@ -14,6 +14,7 @@ import homebg from '../../images/homebg.svg';
 import chessboard from  '../../images/chessboard.png';
 import homecircles from '../../images/homecircles.json';
 import homeblobs from '../../images/homeblobs.json';
+import Footer from '../footer/Footer'
 
 
 class Home extends Component {
@@ -107,6 +108,7 @@ class Home extends Component {
             </Card>
           </Carousel.Item>
         </Carousel>
+        <Footer></Footer>
       </div>
     );
   }
