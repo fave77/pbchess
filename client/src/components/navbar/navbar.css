@@ -6,6 +6,19 @@
   font-size: 1.2em;
 }
 
+.dropdown-menu.show {
+  background: #1d1e22;
+}
+
+.dropdown-item:hover {
+  background: #fafbff12;
+}
+
+.dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
 .navbar-brand {
   margin: 0;
 }
