@@ -38,6 +38,9 @@ class App extends Component {
 
   logOut() {
     AuthService.logout();
+    this.setState({
+      currentUser: null
+    });
   }
 
   render() {
