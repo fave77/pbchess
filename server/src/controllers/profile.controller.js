@@ -2,7 +2,7 @@ const Profile = require('../models/profile.model');
 
 const fetchProfile = async (req, res, next) => {
   try {
-    const profile = await Profile.findOne({ userId: req.body.userId });
+    const profile = await Profile.findOne({ username: req.body.username });
     if (!profile)
       return res
         .status(401)
@@ -34,7 +34,7 @@ const updateProfile = async (req, res) => {
   try {
 
     const profile = await Profile.findOneAndUpdate({
-      userId: req.body.userId
+      username: req.body.username
     }, {
       fullname: req.body.fullname,
       email: req.body.email,

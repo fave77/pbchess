@@ -44,6 +44,11 @@ const register = async (req, res) => {
 
   try {
 
+    const currUser = await User.findOne({ username: req.body.username });
+
+    if (currUser)
+      return res.status(409).json({ success: false, msg: 'Username already exists! Try an even better one...' });
+
     const { salt, hash } = utils.createPassword(req.body.password);
 
     const newUser = new User({
@@ -54,7 +59,7 @@ const register = async (req, res) => {
     const user = await newUser.save();
     console.log(req.body.fullname, req.body.email)
     const newProfile = new Profile({
-      userId: user._id,
+      username: user.username,
       fullname: req.body.fullname,
       email: req.body.email,
       avatar: 'NA',
