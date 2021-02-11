@@ -119,12 +119,13 @@ class Register extends Component {
         },
         error => {
           const resMessage =
-            (error.response &&
+            ( error.response &&
               error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-
+              error.response.data.msg
+            ) 
+            || error.message 
+            || error.toString();
+            
           this.setState({
             successful: false,
             message: resMessage
