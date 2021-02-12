@@ -13,7 +13,7 @@ import PrivateRoute from '../components/private/private';
 test('renders without crashing', () => {
   // render(<Navbar />);
   render(<Home />);
-  render(<Login />);
+  // render(<Login />);
   render(<Register />);
   // render(<Profile />);
   // render(<Lobby />);
