@@ -64,7 +64,7 @@ class Login extends Component {
           const resMessage =
             ( error.response &&
               error.response.data &&
-              error.response.data.message
+              error.response.data.msg
             )
             || error.message
             || error.toString();
