@@ -6,6 +6,7 @@ import CheckButton from 'react-validation/build/button';
 import AuthService from '../../services/auth.service';
 
 import './login.css';
+import { Link } from 'react-router-dom';
 
 const required = value => {
   if (!value)
@@ -149,6 +150,15 @@ class Login extends Component {
               }}
             />
           </Form>
+          <div style = {{ textAlign: "center" }}>
+              New User?
+              <Link 
+                style = {{ color: 'blue', margin: '5px'}}
+                to="/register"
+              >
+                Register here
+              </Link>
+          </div>
         </div>
       </div>
     );
