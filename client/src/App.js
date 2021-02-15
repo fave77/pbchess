@@ -10,7 +10,6 @@ import './App.css';
 import AuthService from './services/auth.service';
 
 import Navbar from './components/navbar/navbar';
-import Footer from './components/footer/footer';
 import Home from './components/home/home';
 import Login from './components/login/login';
 import Register from './components/register/register';
@@ -47,7 +46,6 @@ class App extends Component {
   render() {
     console.log(this.state.currentUser)
     return (
-      <>
       <div>
         <Navbar
           currentUser = { this.state.currentUser }
@@ -65,10 +63,7 @@ class App extends Component {
 
           </Switch>
         </div>
-        <br/><br/><br/>
-        <Footer/>
       </div>
-      </>
     );
   }
 }
