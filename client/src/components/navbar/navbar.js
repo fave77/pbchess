@@ -65,7 +65,7 @@ function MyNavbar(props) {
                 id = 'collapsible-nav-dropdown'
               >
                 <NavDropdown.Item>
-                  <Link to = { '/@' }> Profile </Link>
+                  <Link to = { `/@/${currentUser.username}` }> Profile </Link>
                 </NavDropdown.Item>
                 <NavDropdown.Item>
                   <a href = '/login' onClick = { logOut }>
