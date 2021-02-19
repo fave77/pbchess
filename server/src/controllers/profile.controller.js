@@ -11,13 +11,14 @@ const fetchProfile = async (req, res, next) => {
           msg: 'Could not find profile!'
         });
 
-    const { fullname, email, avatar, gender, country } = profile;
+    const { fullname, email, avatar, gender, country, joined } = profile;
 
     return res
       .status(200)
       .json({
         success: true,
         fullname,
+        joined,
         email,
         avatar,
         gender,
