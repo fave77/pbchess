@@ -45,7 +45,7 @@
 This project had been selected for **JGEC Winter of Code** :tada:
 
 
-Please check out the [guidelines](https://github.com/fave77/pbchess/blob/develop/.github/CONTRIBUTING/CONTRIBUTING.md) and [wikis][https://github.com/fave77/pbchess/wiki] before contributing.
+Please check out the [guidelines](https://github.com/fave77/pbchess/blob/develop/.github/CONTRIBUTING/CONTRIBUTING.md) and [wikis](https://github.com/fave77/pbchess/wiki) before contributing.
  
 ## License
 
