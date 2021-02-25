@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { BrowserRouter as Router } from "react-router-dom";
 
 import Navbar from '../components/navbar/navbar';
 import Home from '../components/home/home';
@@ -10,15 +11,19 @@ import Lobby from '../components/lobby/lobby';
 import NotFound from '../components/pagenotfound/pagenotfound';
 import PrivateRoute from '../components/private/private';
 
+const renderWithWrappedRouter = ( ui, options ) => {
+  return render( ui, {wrapper: Router, ...options });
+};
+
 test('renders without crashing', () => {
-  // render(<Navbar />);
+  renderWithWrappedRouter(<Navbar />);
   render(<Home />);
-  // render(<Login />);
+  renderWithWrappedRouter(<Login />);
   render(<Register />);
-  // render(<Profile />);
-  // render(<Lobby />);
+  renderWithWrappedRouter(<Profile />);
+  render(<Lobby />);
   render(<NotFound />);
-  // render(<PrivateRoute />);
+  renderWithWrappedRouter(<PrivateRoute />);
 });
 
 
