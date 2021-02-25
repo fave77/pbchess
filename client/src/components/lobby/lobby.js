@@ -120,8 +120,9 @@ class Lobby extends React.Component {
   }
 
   componentWillUnmount() {
-    if( this.state.socket ) 
+    if( this.state.socket ) {
       this.state.socket.disconnect();
+    }
   }
 
   render() {

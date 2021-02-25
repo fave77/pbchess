@@ -57,7 +57,7 @@ class App extends Component {
             <Route exact path = '/' component = { Home } />
             <Route exact path = '/login' component = { Login } />
             <Route exact path = '/register' component = { Register } />
-            <Route path = '/@' component = { Profile } />
+            <Route path = '/@/:profileId' component = { Profile } />
             <PrivateRoute path = '/live' component = { Lobby } />
             <Route component = { NotFound } />
 

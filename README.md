@@ -38,15 +38,15 @@
 
 ## Contribution Guidelines
 
+<div align="center">
+  <img src="https://i.ibb.co/YdF5FFY/jwoc.png">
+</div>
 
-<img src="https://i.ibb.co/YdF5FFY/jwoc.png">
+This project had been selected for **JGEC Winter of Code** :tada:
 
-This project has been selected for **JGEC Winter of Code** :tada:
 
-NOTE: Certain issues labeled as `jwoc` are exclusive to participants!
-
-Please check out the [guidelines](https://github.com/fave77/pbchess/blob/develop/.github/CONTRIBUTING/CONTRIBUTING.md) before contributing.
-
+Please check out the [guidelines](https://github.com/fave77/pbchess/blob/develop/.github/CONTRIBUTING/CONTRIBUTING.md) and [wikis](https://github.com/fave77/pbchess/wiki) before contributing.
+ 
 ## License
 
 The GNU GPLv3 - [Priyabrata Biswas](https://github.com/fave77).

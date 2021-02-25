@@ -1,0 +1,114 @@
+.profile-not-found {
+  color: #8299fd;
+  font-weight: bold;
+  font-size: 1.75rem;
+}
+.profile-page-container {
+  position: relative;
+}
+.profile-page {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 700px;
+  min-width: 320px;
+  margin: 0 auto 15px;
+  padding: 16px;
+  color: white;
+}
+.profile-page__background-svg {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  z-index: -1;
+  opacity: 1;
+  fill: #343a40;
+  fill-opacity: 1;
+}
+.profile-page__top-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.profile-page__user-img {
+  display: inline-block;
+  width: 120px;
+  height: 120px;
+  box-shadow: 0 2px 4px 0 #16191f;
+  border-radius: 50%;
+}
+.profile-page__bottom-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  padding-top: 60px;
+}
+.profile-page__immutable-fields {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.profile-page__field {
+  margin: 10px 0;
+}
+.profile-page__label {
+  display: block;
+  color: #ffffff;
+  font-weight: bold;
+  margin: 2px 0;
+  overflow-x: auto;
+}
+.profile-page__value {
+  display: block;
+  color: #8299fd;
+  margin: 2px 0;  
+  overflow-x: auto;
+}
+.profile-page__btn-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 5px 0;
+}
+.profile-page__edit-profile-btn {
+  display: inline-block;
+  border: 2px solid #8299fd;
+  border-radius: 8px;
+  background-color: transparent;;
+  color: #8299fd;
+  padding: 15px;
+  margin: 10px;
+  transition: transform .2s;
+  font-weight: bold;
+  min-width: 150px;
+}
+.profile-page__edit-profile-btn:hover {
+  transform: translateY(-2px);
+}
+.profile-page__view-games-btn {
+  display: inline-block;
+  background-color: #8299fd;
+  border-radius: 8px;
+  border: none;
+  padding: 15px;
+  margin: 10px;
+  transition: transform .2s;
+  font-weight: bold;
+  min-width: 150px;
+}
+.profile-page__view-games-btn:hover {
+  transform: translateY(-2px);
+}

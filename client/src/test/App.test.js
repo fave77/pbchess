@@ -13,14 +13,14 @@ import PrivateRoute from '../components/private/private';
 
 const renderWithWrappedRouter = ( ui, options ) => {
   return render( ui, {wrapper: Router, ...options });
-}
+};
 
 test('renders without crashing', () => {
   renderWithWrappedRouter(<Navbar />);
   render(<Home />);
   renderWithWrappedRouter(<Login />);
   render(<Register />);
-  // render(<Profile />);
+  renderWithWrappedRouter(<Profile />);
   render(<Lobby />);
   render(<NotFound />);
   renderWithWrappedRouter(<PrivateRoute />);
