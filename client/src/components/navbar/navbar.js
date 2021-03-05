@@ -49,7 +49,7 @@ function MyNavbar(props) {
       <Navbar.Collapse id = 'basic-navbar-nav'>
         <Nav className = 'ml-auto'>
           <Nav.Link>
-            <Link to = { '/live' }>
+            <Link to = { '/play' }>
               Play
             </Link>
           </Nav.Link>
@@ -64,13 +64,11 @@ function MyNavbar(props) {
                 title = { currentUser.username }
                 id = 'collapsible-nav-dropdown'
               >
-                <NavDropdown.Item>
-                  <Link to = { `/@/${currentUser.username}` }> Profile </Link>
+                <NavDropdown.Item href = { `/@/${currentUser.username}` }>
+                  <p className = "mydropdown">Profile</p>
                 </NavDropdown.Item>
-                <NavDropdown.Item>
-                  <a href = '/login' onClick = { logOut }>
-                    LogOut
-                  </a>
+                <NavDropdown.Item href = { '/login' } onClick = { logOut }>
+                  <p className = "mydropdown">LogOut</p>
                 </NavDropdown.Item>
               </NavDropdown>
             )

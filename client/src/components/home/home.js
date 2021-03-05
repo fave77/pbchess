@@ -12,7 +12,6 @@ import GarryKaspaov from '../../images/garry-kasparov.jpg';
 import './home.css';
 import homebg from '../../images/homebg.svg';
 import chessboard from  '../../images/chessboard.png';
-import homecircles from '../../images/homecircles.json';
 import homeblobs from '../../images/homeblobs.json';
 
 
@@ -38,12 +37,12 @@ class Home extends Component {
         <Player
           autoplay
           loop
-          src = { homecircles }
+          src = { homeblobs }
           style = {{
-            height: '70%',
-            width: '70%',
+            height: '50%',
+            width: '50%',
             position: 'absolute',
-            marginTop: '20%',
+            marginTop: '15%',
             zIndex: -1
           }}
         >
@@ -56,7 +55,7 @@ class Home extends Component {
             height: '10em',
             width: '10em',
             position: 'absolute',
-            marginTop: '40%',
+            marginTop: '550px',
             marginLeft: '55%',
             zIndex: -1
           }}

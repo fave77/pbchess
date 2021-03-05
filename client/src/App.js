@@ -11,6 +11,7 @@ import AuthService from './services/auth.service';
 
 import Navbar from './components/navbar/navbar';
 import Home from './components/home/home';
+import Learn from './components/learn/learn';
 import Login from './components/login/login';
 import Register from './components/register/register';
 import Profile from './components/profile/profile';
@@ -55,10 +56,11 @@ class App extends Component {
         <div>
           <Switch>
             <Route exact path = '/' component = { Home } />
+            <Route exact path = '/learn' component = { Learn } />
             <Route exact path = '/login' component = { Login } />
             <Route exact path = '/register' component = { Register } />
             <Route path = '/@/:profileId' component = { Profile } />
-            <PrivateRoute path = '/live' component = { Lobby } />
+            <PrivateRoute path = '/play' component = { Lobby } />
             <Route component = { NotFound } />
 
           </Switch>

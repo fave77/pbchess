@@ -11,7 +11,6 @@ import clipboard from '../../images/clipboard.svg';
 import Modal from 'react-bootstrap/Modal';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import Jumbotron from 'react-bootstrap/Jumbotron';
 import Spinner from 'react-bootstrap/Spinner';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
@@ -135,7 +134,7 @@ class Lobby extends React.Component {
                 socket = { this.state.socket }
               />
             : <div>
-                <Jumbotron className = 'text-center'>
+                <Card className = 'text-center lobby-card'>
                   <h3>Welcome to the Lobby</h3>
                   { this.state.loading
                       ? <div>
@@ -224,7 +223,7 @@ class Lobby extends React.Component {
                         </div>
 
                   }
-                </Jumbotron>
+                </Card>
                 <Modal show = { this.state.joiningError } onHide = { _ => this.handleClose() } >
                   <Modal.Header closeButton></Modal.Header>
                   <Modal.Body>

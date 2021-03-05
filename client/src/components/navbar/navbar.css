@@ -27,7 +27,7 @@
   color: #1d1e22;
 }
 
-a {
+a{
   text-decoration: none;
   color: rgba(255, 255, 255, 0.5);
 }
@@ -35,5 +35,10 @@ a {
 a:hover {
   text-decoration: none;
   color: rgba(255, 255, 255, 0.7);
+}
+
+.mydropdown {
+  display: inline;
+  color: rgba(255, 255, 255, 0.5);
 }
 

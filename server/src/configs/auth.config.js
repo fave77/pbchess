@@ -1,3 +1,5 @@
+/* Auth configuration */
+
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 const User = require('../models/user.model');
 

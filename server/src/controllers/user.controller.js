@@ -2,6 +2,7 @@ const User = require('../models/user.model');
 const Profile = require('../models/profile.model');
 const utils = require('../services/auth.service');
 
+// Called while login
 const login = async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username });
@@ -39,7 +40,7 @@ const login = async (req, res, next) => {
 
 };
 
-
+// Called while registering
 const register = async (req, res) => {
 
   try {
