@@ -57,7 +57,7 @@ class Login extends Component {
     if (this.checkBtn.context._errors.length === 0) {
       AuthService.login(this.state.username, this.state.password).then(
         () => {
-          this.props.history.push('/live');
+          this.props.history.push('/play');
           window.location.reload();
         },
         error => {
@@ -85,9 +85,9 @@ class Login extends Component {
   render() {
     return (
       <div className = 'col-md-12'>
-        <div className = 'card card-container'>
+        <div className = 'card card-container login-card'>
           <img
-            src = '//ssl.gstatic.com/accounts/ui/avatar_2x.png'
+            src = 'https://avataaars.io/?avatarStyle=Circle&topType=Hat&accessoriesType=Round&hairColor=Black&facialHairType=BeardMagestic&facialHairColor=Auburn&clotheType=BlazerSweater&clotheColor=Black&eyeType=Squint&eyebrowType=UnibrowNatural&mouthType=Concerned&skinColor=Tanned'
             alt = 'profile-img'
             className = 'profile-img-card'
           />
@@ -126,7 +126,7 @@ class Login extends Component {
 
             <div className = 'form-group'>
               <button
-                className = 'btn btn-primary btn-block'
+                className = 'btn btn-block mybtn'
                 disabled = { this.state.loading }
               >
                 {this.state.loading && (
@@ -150,11 +150,13 @@ class Login extends Component {
               }}
             />
           </Form>
-          <div style = {{ textAlign: "center" }}>
-              New User?
+          <div style = {{ textAlign: 'center' }}>
+              <p style = {{ margin: '0px' }}>
+                <strong>Don't have an account?</strong>
+              </p>
               <Link 
-                style = {{ color: 'blue', margin: '5px'}}
-                to="/register"
+                style = {{ color: '#647dfc', fontWeight: 'bold' }}
+                to = '/register'
               >
                 Register here
               </Link>

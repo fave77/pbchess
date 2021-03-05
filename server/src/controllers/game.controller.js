@@ -1,7 +1,7 @@
 const { Chess } = require('chess.js');
 const { validatePawnPromotion, evaluateGame } = require('../services/chess.service');
 
-// called while creating a game
+// Called while creating a game
 const create = (io, socket, data, liveGames) => {
 
   console.log('Creating a game...');
@@ -17,7 +17,7 @@ const create = (io, socket, data, liveGames) => {
   // TODO: emit a socket event for the frontend lobby (along with room id)
 };
 
-// called while joining a game
+// Called while joining a game
 const join = (io, socket, data, liveGames) => {
 
   liveGames.hgetall(data.roomId, (err, res) => {
@@ -53,7 +53,7 @@ const join = (io, socket, data, liveGames) => {
 
 };
 
-// called while moving pieces
+// Called while moving pieces
 const move = (io, socket, data, liveGames) => {
   const { roomId, ...pendingMove } = data;
 
@@ -89,7 +89,7 @@ const move = (io, socket, data, liveGames) => {
   });
 };
 
-// called while leaving the game
+// Called while leaving the game
 const disconnect = (socket, liveGames) => {
   console.log('Socket disconnected', socket.id);
   const roomId = Object.keys(socket.adapter.rooms)[0] || socket.id;

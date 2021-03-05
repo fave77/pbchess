@@ -1,13 +1,12 @@
 const crypto = require('crypto');
 const fs = require('fs');
 
-/* run this script using
+/* Run this script using
   > node keys.service.js
   to generate the key pair
   for asymmetric encryption
 */
-// (
-  function genKeyPair() {
+function genKeyPair() {
 
   const keyPair = crypto.generateKeyPairSync('rsa', {
     modulusLength: 4096, // Number of bits - standard for RSA keys
@@ -28,14 +27,13 @@ const fs = require('fs');
   fs.writeFileSync(__dirname + '/id_rsa_priv.pem', keyPair.privateKey);
 
 }
-// )();
 
 if ( process.argv[2] === 'generate' ) {
-  //If the Command Line arguments contain the "generate" key, call the genKeyPair() function
+  // If the Command Line arguments contain the "generate" key, call the genKeyPair() function
   genKeyPair();
 
 } else {
-  //otherwise export it
+  // Otherwise export it
   module.exports = genKeyPair;
 }
 

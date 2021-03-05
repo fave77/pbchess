@@ -1,4 +1,4 @@
-
+// For validating pawn promotion
 const validatePawnPromotion = (socket, chess, pendingMove) => {
   const moves = chess.moves({ verbose: true })
     for (let i = 0, len = moves.length; i < len; i++) {
@@ -10,6 +10,7 @@ const validatePawnPromotion = (socket, chess, pendingMove) => {
   return false;
 };
 
+// For evaluating games which ended
 const evaluateGame = chess => {
   if (chess.in_checkmate()) {
     return {

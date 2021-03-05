@@ -1,3 +1,5 @@
+/* Storage configuration */
+
 const { createClient } = require('redis');
 const redisAdapter = require('socket.io-redis');
 
@@ -31,6 +33,7 @@ const configStorage = io => {
     console.error('Storage Connection Error!\n', err)
   );
 
+  // Attaching redis-adapter to the socket for scaling the storage across multiple processes and machines
   const pubClient = client;
   const subClient = pubClient.duplicate();
   io.adapter(redisAdapter({ pubClient, subClient }));

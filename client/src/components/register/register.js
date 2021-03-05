@@ -136,7 +136,7 @@ class Register extends Component {
   }
 
   handleClose() {
-    this.props.history.push('/live');
+    this.props.history.push('/play');
     window.location.reload();
   }
 
@@ -151,9 +151,9 @@ class Register extends Component {
             <p>...to the world of chess fanatics</p>
           </Modal.Body>
         </Modal>
-        <div className = 'card card-container'>
+        <div className = 'card card-container register-card'>
           <img
-            src = '//ssl.gstatic.com/accounts/ui/avatar_2x.png'
+            src = 'https://avataaars.io/?avatarStyle=Circle&topType=Hat&accessoriesType=Round&hairColor=Black&facialHairType=BeardMagestic&facialHairColor=Auburn&clotheType=BlazerSweater&clotheColor=Black&eyeType=Squint&eyebrowType=UnibrowNatural&mouthType=Concerned&skinColor=Tanned'
             alt = 'profile-img'
             className = 'profile-img-card'
           />
@@ -216,7 +216,7 @@ class Register extends Component {
                 </div>
 
                 <div className = 'form-group'>
-                  <button className = 'btn btn-primary btn-block'> Register </button>
+                  <button className = 'btn btn-block mybtn'> Register </button>
                 </div>
               </div>
             )}

@@ -1,5 +1,6 @@
 const Profile = require('../models/profile.model');
 
+// Called while viewing the profile
 const fetchProfile = async (req, res, next) => {
   try {
     const profile = await Profile.findOne({ username: req.body.username });
@@ -30,6 +31,7 @@ const fetchProfile = async (req, res, next) => {
   }
 };
 
+// Called while updating the profile
 const updateProfile = async (req, res) => {
 
   try {
