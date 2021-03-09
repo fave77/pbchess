@@ -51,6 +51,15 @@ h3 {
   background-clip: padding-box;
 }
 
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+#content-wrap {
+  padding-bottom: 15em;    
+}
+
 @media only screen and (max-width: 800px) {
   #chessboard {
     display: none;
