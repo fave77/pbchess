@@ -1,13 +1,10 @@
 import React from 'react';
-
+import Videos from "./videos/videosComponent";
 import './learn.css';
 
-function NotFound() {
+const NotFound=()=>{
   return (
-      <div>
-        <h1>To be implemented...</h1>
-        <div id = 'placeholder-img'></div>
-      </div>
+    <Videos />
   )
 }
 
