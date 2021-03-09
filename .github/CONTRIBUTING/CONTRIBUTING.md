@@ -23,6 +23,9 @@ $ git clone https://github.com/<YOUR-GITHUB-USERNAME>/pbchess.git
 # navigate to the project's directory
 $ cd pbchess
 
+Install the dependencies for both client and server
+$ npm run setup
+
 # install client dependencies
 $ cd client && npm install
 
