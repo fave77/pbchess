@@ -1,14 +1,11 @@
 import React from 'react';
-
+import Videos from '../videos/videos';
 import './learn.css';
 
-function NotFound() {
+const Learn=() => {
   return (
-      <div>
-        <h1>To be implemented...</h1>
-        <div id = 'placeholder-img'></div>
-      </div>
+    <Videos />
   )
-}
+};
 
-export default NotFound;
+export default Learn;
