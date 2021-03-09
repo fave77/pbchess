@@ -6,7 +6,7 @@ function Footer() {
   return (
     <div>
       <footer id="footer">
-        <div className="row">
+        <div className="footer-row">
           <div className="col-lg-12 col-md-12 col-sm-12  col-xs-12">
             <div className="item">Made with ❤️ for the chess community</div>
           </div>
