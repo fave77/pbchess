@@ -1,0 +1,28 @@
+.myfooter {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 5px;
+  background-color: #1d1e22;
+  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.5);
+  font-size: 1em;
+  color: white;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.item {
+  text-align: center;
+  padding: 0.8em;
+}
+
+a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+a:hover {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.7);
+}
