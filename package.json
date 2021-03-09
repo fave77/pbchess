@@ -9,6 +9,9 @@
   "keywords": [
     "chess"
   ],
+  "scripts": {
+    "setup": "cd client && npm install && cd .. && cd server && npm install && cd .."
+  },
   "bugs": {
     "url": "https://github.com/fave77/pbchess/issues"
   },
