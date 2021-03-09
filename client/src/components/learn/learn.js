@@ -1,11 +1,11 @@
 import React from 'react';
-import Videos from "./videos/videosComponent";
+import Videos from '../videos/videos';
 import './learn.css';
 
-const NotFound=()=>{
+const Learn=() => {
   return (
     <Videos />
   )
-}
+};
 
-export default NotFound;
+export default Learn;
