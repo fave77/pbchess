@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 
 import Chessground from 'react-chessground';
 import 'react-chessground/dist/styles/chessground.css';
+import User from '../user/user';
 
 import queen from '../../images/wQ.svg'
 import rook from '../../images/wR.svg'
@@ -100,18 +101,24 @@ class Game extends React.Component {
   render() {
     console.log(this.state.fen, this.state.turn);
     return (
-
       <div style = {{ background: '#2b313c', height: '100vh' }}>
         <Col span = { 6 } />
-        <Col span = { 12 } style = {{ top: '10%' }}>
-          <Chessground
-            turnColor = { this.turnColor() }
-            movable = { this.calcMovable() }
-            onMove = { this.onMove }
-            style = {{ margin: 'auto' }}
-            fen = { this.state.fen }
-            orientation = { this.state.orientation }
-          />
+        <Col span = { 12 } style = {{ top: '4%', margin: 'auto', width: 'fit-content' }}>
+            <User
+              player={this.props.opponent}
+              turn={this.state.turn != this.state.orientation.charAt(0)}
+            />
+            <Chessground
+              turnColor = { this.turnColor() }
+              movable = { this.calcMovable() }
+              onMove = { this.onMove }
+              fen = { this.state.fen }
+              orientation = { this.state.orientation }
+            />
+            <User
+              player={this.props.self}
+              turn={this.state.turn == this.state.orientation.charAt(0)}
+            />
         </Col>
         <Col span = { 1 } />
         <Modal show = { this.state.promotion } >

@@ -132,6 +132,8 @@ class Lobby extends React.Component {
             ? <Game
                 roomId = { this.state.roomId }
                 socket = { this.state.socket }
+                self = { this.state.user }
+                opponent = { this.state.player1.username != this.state.user.username ? this.state.player1 : this.state.player2 }
               />
             : <div>
                 <Card className = 'text-center lobby-card'>
