@@ -106,7 +106,7 @@ class Game extends React.Component {
         <Col span = { 12 } style = {{ top: '4%', margin: 'auto', width: 'fit-content' }}>
             <User
               player={this.props.opponent}
-              turn={this.state.turn != this.state.orientation.charAt(0)}
+              turn={this.state.turn !== this.state.orientation.charAt(0)}
             />
             <Chessground
               turnColor = { this.turnColor() }
@@ -117,7 +117,7 @@ class Game extends React.Component {
             />
             <User
               player={this.props.self}
-              turn={this.state.turn == this.state.orientation.charAt(0)}
+              turn={this.state.turn === this.state.orientation.charAt(0)}
             />
         </Col>
         <Col span = { 1 } />

@@ -12,7 +12,7 @@ class User extends Component {
        marginRight: '12px',
        backgroundColor: this.props.turn ? '#8299fd' : 'transparent',
        border: '1px solid white'
-    }
+    };
 
     return (
         <Row className="userContainer">
