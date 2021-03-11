@@ -175,9 +175,16 @@ class Lobby extends React.Component {
                                           />
                                         </Button>
                                       )}
-                                    </OverlayTrigger>,
+                                    </OverlayTrigger>
                                   </blockquote>
                                 </Card.Body>
+                                <Button 
+                                    variant='link'
+                                    className='ml-auto py-0'
+                                    onClick ={ e => this.setState({loading: false, joined: true})}
+                                >
+                                  Join instead?
+                                </Button>
                               </Card>
                             : <div></div>
                           }
@@ -186,7 +193,7 @@ class Lobby extends React.Component {
                       : <div>
                           { this.state.joined
                               ? <Form>
-                                  <Row>
+                                  <Row className="mt-2">
                                     <Col>
                                       <Form.Control
                                         placeholder = 'Enter game ID ...'
@@ -203,6 +210,13 @@ class Lobby extends React.Component {
                                       </Button>
                                     </Col>
                                   </Row>
+                                  <Button 
+                                    variant='link'
+                                    className='ml-auto mt-3 d-block'
+                                    onClick={e => this.createGame(e)} 
+                                  >
+                                    Create a game instead?
+                                  </Button>
                                 </Form>
                               : <div>
                                   <Button
