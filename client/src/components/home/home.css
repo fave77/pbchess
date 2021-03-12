@@ -7,7 +7,7 @@
 #chessboard {
   position: absolute;
   margin-top: 5%;
-  margin-left: 70%;
+  margin-left: 65%;
   width: 25vw;
   height: 25vw;
   transform: perspective(600px) rotateY(-25deg);
@@ -44,20 +44,24 @@ h3 {
   border-radius: 15px;
   color: #ffffff;
   background: rgba(255, 255, 255, 0.5);
-  background: linear-gradient(140deg, rgba(255, 255, 255, 0.5) 0%, rgba(130, 153, 253, 0.5) 100%);
+  background: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(54, 57, 70, 0.5) 100%
+  );
   border-top: 1px solid rgba(255, 255, 255, 0.5);
   border-left: 1px solid rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(5px);
   background-clip: padding-box;
 }
 
- #page-container {
+#page-container {
   position: relative;
   min-height: 100vh;
 }
 
 #content-wrap {
-  padding-bottom: 15em;    
+  padding-bottom: 15em;
 }
 
 @media only screen and (max-width: 800px) {
