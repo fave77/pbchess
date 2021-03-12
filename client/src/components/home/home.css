@@ -47,8 +47,9 @@ h3 {
   background: linear-gradient(
     140deg,
     rgba(255, 255, 255, 0.5) 0%,
-    rgba(54, 57, 70, 0.5) 100%
+    rgba(130, 153, 253, 0.5) 100%
   );
+
   border-top: 1px solid rgba(255, 255, 255, 0.5);
   border-left: 1px solid rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(5px);
