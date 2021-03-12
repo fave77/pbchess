@@ -4,6 +4,7 @@ import "./vocab.css";
 
 class Vocab extends Component {
   render() {
+    console.log(Terms);
     return (
       <div className="content">
         <div className="Container">
