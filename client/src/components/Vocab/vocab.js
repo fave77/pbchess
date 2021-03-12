@@ -1,10 +1,9 @@
-import React, { Component } from "react";
+import React, { Component } from "./../../../node_modules/react";
 import Terms from "./Terms.json";
 import "./vocab.css";
 
-export class Vocab extends Component {
+class Vocab extends Component {
   render() {
-    console.log(Terms);
     return (
       <div className="content">
         <div className="Container">

@@ -1,17 +1,15 @@
 import React, { Component } from "react";
 import Videos from "../videos/videos";
-import Vocab from "../Vocab/vocab";
+import Vocab from "../vocab/vocab";
 import "./learn.css";
 
-export class Learn extends Component {
-  render() {
-    return (
-      <>
-        <Vocab />
-        <Videos />
-      </>
-    );
-  }
-}
+const Learn = () => {
+  return (
+    <>
+      <Vocab />
+      <Videos />
+    </>
+  );
+};
 
 export default Learn;
