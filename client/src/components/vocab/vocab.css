@@ -1,0 +1,57 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.Container {
+  display: block;
+  /* margin: 0 auto; */
+  align-content: center;
+  text-align: center;
+  width: 80%;
+}
+.Terms {
+  margin-top: 30px;
+}
+.block {
+  display: flex;
+  margin-top: 20px;
+  width: 100%;
+  height: auto;
+  min-height: 100px;
+  background-color: grey;
+}
+
+.term-title {
+  width: 30%;
+  text-align: center;
+  padding-top: 4vh;
+  background-color: #8299fd;
+}
+
+.meaning {
+  width: 70%;
+  padding-top: 4vh;
+  background-color: #1d1e22;
+  color: white;
+  padding-left: 20px;
+  padding-top: auto;
+  padding-right: 20px;
+}
+
+.tags {
+  text-align: center;
+  /* height: 150px; */
+}
+
+.heading {
+  font-size: 3.5em;
+  color: #8299fd;
+  font-weight: 500;
+}

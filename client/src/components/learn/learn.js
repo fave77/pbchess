@@ -1,11 +1,15 @@
-import React from 'react';
-import Videos from '../videos/videos';
-import './learn.css';
+import React, { Component } from "react";
+import Videos from "../videos/videos";
+import Vocab from "../vocab/vocab";
+import "./learn.css";
 
-const Learn=() => {
+const Learn = () => {
   return (
-    <Videos />
-  )
+    <div>
+      <Vocab />
+      <Videos />
+    </div>
+  );
 };
 
 export default Learn;
