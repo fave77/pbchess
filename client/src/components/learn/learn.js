@@ -5,10 +5,10 @@ import "./learn.css";
 
 const Learn = () => {
   return (
-    <>
+    <div>
       <Vocab />
       <Videos />
-    </>
+    </div>
   );
 };
 
