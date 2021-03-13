@@ -1,10 +1,10 @@
-const nodemailer = require('nodemailer')
-const {google} = require('googleapis')
-const clientID = process.env.CLIENT_ID
-const clientSecret = process.env.CLIENT_SECRET 
-const refreshToken = process.env.REFRESH_TOKEN
-const redirectURI = 'https://developers.google.com/oauthplayground'
-const user = process.env.EMAIL
+const nodemailer = require('nodemailer');
+const {google} = require('googleapis');
+const clientID = process.env.CLIENT_ID;
+const clientSecret = process.env.CLIENT_SECRET;
+const refreshToken = process.env.REFRESH_TOKEN;
+const redirectURI = 'https://developers.google.com/oauthplayground';
+const user = process.env.EMAIL;
 
 // Creating an oAuth2 Client
 const oAuth2Client = new google.auth.OAuth2(clientID, clientSecret, redirectURI);
@@ -44,10 +44,10 @@ const sendMail = async (email, subject, message) => {
             }else{
                 console.log("Email sent successfully");
             }
-        })
+        });
     }catch(error){
         console.log('error');
     }
 
-}
+};
 module.exports = sendMail;

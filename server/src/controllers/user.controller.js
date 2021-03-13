@@ -3,7 +3,7 @@ const Profile = require('../models/profile.model');
 const utils = require('../services/auth.service');
 const generatePassword = require('generate-password');
 const sendMail = require('../services/email.service');
-const EventEmitter = require('events')
+const EventEmitter = require('events');
 const emitter = new EventEmitter();
 
 emitter.on("register", (req) => {
@@ -11,7 +11,7 @@ emitter.on("register", (req) => {
     const message = `Your username is ${req.username} your password is ${req.password}. Have a great day ahead.`;
     // Sends an email to the client
     sendMail(req.email, 'Thank you for registering at PbChess', message);
-})
+});
 
 // Called while login
 const login = async (req, res, next) => {
