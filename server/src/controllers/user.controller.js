@@ -109,7 +109,7 @@ const signIn = async (req, res) => {
 
     if (currUser){
       // Finds the user based on their user name
-      currUser = await User.findOne({username : req.body.username});
+      currUser = await User.findOne({username : currUser.username});
       const tokenObject = utils.issueJWT(currUser);
       return res
         .status(200)
