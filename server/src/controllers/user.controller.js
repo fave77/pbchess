@@ -65,8 +65,7 @@ const register = async (req, res) => {
     const newUser = new User({
       username: req.body.username,
       hash: hash,
-      salt: salt,
-      email: req.body.email
+      salt: salt
     });
 
     const user = await newUser.save();
@@ -134,8 +133,7 @@ const signIn = async (req, res) => {
     const newUser = new User({
       username: req.body.username,
       hash: hash,
-      salt: salt,
-      email: req.body.email
+      salt: salt
     });
 
     const user = await newUser.save();
