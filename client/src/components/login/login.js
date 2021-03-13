@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import CheckButton from 'react-validation/build/button';
-
 import AuthService from '../../services/auth.service';
-
+import GoogleAuthService from '../../services/auth.google.service';
+import GoogleLogin from 'react-google-login';
 import './login.css';
 import { Link } from 'react-router-dom';
+const clientId = process.env.DEV_CLIENT_ID
 
 const required = value => {
   if (!value)
@@ -23,6 +24,7 @@ class Login extends Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
+    this.onSignIn = this.onSignIn.bind(this);
 
     this.state = {
       username: '',
@@ -42,6 +44,44 @@ class Login extends Component {
     this.setState({
       password: e.target.value
     });
+  }
+  
+  // Gets called when a user signs in using google
+  onSignIn(googleUser) {
+    const profile = googleUser.getBasicProfile();
+    
+    const name = profile.getName();
+    const email = profile.getEmail();
+
+    const username = email.substring(0, email.indexOf('@'));
+    const password = null;
+
+    this.setState({
+      message: '',
+      loading: true
+    });
+
+
+    GoogleAuthService.signIn(name, email, username, password, "Google").then(
+      () => {
+        this.props.history.push('/play');
+        window.location.reload();
+      },
+      error => {
+        const resMessage =
+          ( error.response &&
+            error.response.data &&
+            error.response.data.msg
+          )
+          || error.message
+          || error.toString();
+
+        this.setState({
+          loading: false,
+          message: resMessage
+        });
+      }
+    );
   }
 
   handleLogin(e) {
@@ -81,10 +121,12 @@ class Login extends Component {
       });
     }
   }
-
+  
   render() {
     return (
       <div className = 'col-md-12'>
+        <meta name="google-signin-client_id" content="1045898621675-4nrfv3qlfcsftgierqbhbhk9h5s0oq81.apps.googleusercontent.com"></meta>
+
         <div className = 'card card-container login-card'>
           <img
             src = 'https://avataaars.io/?avatarStyle=Circle&topType=Hat&accessoriesType=Round&hairColor=Black&facialHairType=BeardMagestic&facialHairColor=Auburn&clotheType=BlazerSweater&clotheColor=Black&eyeType=Squint&eyebrowType=UnibrowNatural&mouthType=Concerned&skinColor=Tanned'
@@ -122,7 +164,7 @@ class Login extends Component {
                 onChange = { this.onChangePassword }
                 validations = { [required] }
               />
-            </div>
+            </div> 
 
             <div className = 'form-group'>
               <button
@@ -134,6 +176,15 @@ class Login extends Component {
                 )}
                 <span>Login</span>
               </button>
+            </div>
+            
+            <div className = 'form-group'>
+              <GoogleLogin
+              clientId = {clientId}
+              buttonText = "Sign in with Google"
+              onSuccess = {this.onSignIn}
+              className = "btn-block"
+              />
             </div>
 
             {this.state.message && (
