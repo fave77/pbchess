@@ -24,6 +24,7 @@ class Login extends Component {
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
     this.onSignIn = this.onSignIn.bind(this);
+    this.handleGoogleOAuthError = this.handleGoogleOAuthError.bind(this);
 
     this.state = {
       username: '',
@@ -47,6 +48,7 @@ class Login extends Component {
   
   // Gets called when a user signs in using google
   onSignIn(googleUser) {
+    console.log(googleUser);
     const profile = googleUser.getBasicProfile();
     
     const name = profile.getName();
@@ -81,6 +83,10 @@ class Login extends Component {
         });
       }
     );
+  }
+
+  handleGoogleOAuthError(response) {
+    console.log(response);
   }
 
   handleLogin(e) {
@@ -181,6 +187,7 @@ class Login extends Component {
                 clientId = { process.env.REACT_APP_CLIENT_ID }
                 buttonText = "Sign in with Google"
                 onSuccess = {this.onSignIn}
+                onFailure = {this.handleGoogleOAuthError}
                 className = "btn-block"
               />
             </div>
