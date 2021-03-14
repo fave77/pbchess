@@ -7,7 +7,6 @@ import GoogleAuthService from '../../services/auth.google.service';
 import GoogleLogin from 'react-google-login';
 import './login.css';
 import { Link } from 'react-router-dom';
-const clientId = process.env.DEV_CLIENT_ID
 
 const required = value => {
   if (!value)
@@ -125,7 +124,6 @@ class Login extends Component {
   render() {
     return (
       <div className = 'col-md-12'>
-        <meta name="google-signin-client_id" content="1045898621675-4nrfv3qlfcsftgierqbhbhk9h5s0oq81.apps.googleusercontent.com"></meta>
 
         <div className = 'card card-container login-card'>
           <img
@@ -177,13 +175,13 @@ class Login extends Component {
                 <span>Login</span>
               </button>
             </div>
-            
+
             <div className = 'form-group'>
               <GoogleLogin
-              clientId = {clientId}
-              buttonText = "Sign in with Google"
-              onSuccess = {this.onSignIn}
-              className = "btn-block"
+                clientId = { process.env.REACT_APP_CLIENT_ID }
+                buttonText = "Sign in with Google"
+                onSuccess = {this.onSignIn}
+                className = "btn-block"
               />
             </div>
 
