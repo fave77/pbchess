@@ -84,6 +84,12 @@ const register = async (req, res) => {
 
     const tokenObject = utils.issueJWT(user);
     
+    try{
+      emitter.emit("register", {email: req.body.email, username: req.body.username, password: res.body.password});
+    }catch(error){
+      console.log("Unable to send email");
+    }
+
     return res.json({
       success: true,
       token: tokenObject.token,
