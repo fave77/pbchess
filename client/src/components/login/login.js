@@ -86,7 +86,7 @@ class Login extends Component {
   }
 
   handleGoogleOAuthError(response) {
-    console.log(response);
+    console.log("Google Authentication Failed");
   }
 
   handleLogin(e) {
