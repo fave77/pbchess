@@ -193,7 +193,7 @@
     },
     {
       "title": "Forsyth notation",
-      "meaning": "A method for recording positions. The board is read from a8 to h8, and rank by rank from the black side to the white side. Then the result is written down by hand, putting numbers for blank squares. Upper case letters (capitals) are used for white pieces; lower case letters for black pieces. Example : rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR is the starting position."
+      "meaning": "A method for recording positions. The board is read from a8 to h8, and rank by rank from the black side to the white side. Then the result is written down by hand, putting numbers for blank squares. Upper case letters (capitals) are used for white pieces; lower case letters for black pieces. Example : rnbqkbnr/ pppppppp/ 8/8/8/8/ PPPPPPPP/ RNBQKBNR is the starting position."
     },
     {
       "id": "G",

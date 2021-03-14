@@ -27,7 +27,7 @@ class Vocab extends Component {
             {Terms.terms.map((item, i) => (
               <div className="block" id={`${item.id}`}>
                 <div className="term-title">
-                  <h4>{item.title}</h4>
+                  <div className="title-size">{item.title}</div>
                 </div>
                 <div className="meaning">{item.meaning}</div>
               </div>
