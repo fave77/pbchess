@@ -18,6 +18,7 @@ import Profile from './components/profile/profile';
 import Lobby from './components/lobby/lobby';
 import NotFound from './components/pagenotfound/pagenotfound';
 import PrivateRoute from './components/private/private';
+import Contrib from './components/contrib/Contrib'
 
 class App extends Component {
   constructor(props) {
@@ -49,19 +50,20 @@ class App extends Component {
     return (
       <div>
         <Navbar
-          currentUser = { this.state.currentUser }
-          logOut = { this.logOut }
+          currentUser={this.state.currentUser}
+          logOut={this.logOut}
         />
 
         <div>
           <Switch>
-            <Route exact path = '/' component = { Home } />
-            <Route exact path = '/learn' component = { Learn } />
-            <Route exact path = '/login' component = { Login } />
-            <Route exact path = '/register' component = { Register } />
-            <Route path = '/@/:profileId' component = { Profile } />
-            <PrivateRoute path = '/play' component = { Lobby } />
-            <Route component = { NotFound } />
+            <Route exact path='/' component={Home} />
+            <Route exact path='/learn' component={Learn} />
+            <Route exact path='/login' component={Login} />
+            <Route exact path='/register' component={Register} />
+            <Route exact path='/contributors' component={Contrib} />
+            <Route path='/@/:profileId' component={Profile} />
+            <PrivateRoute path='/play' component={Lobby} />
+            <Route component={NotFound} />
 
           </Switch>
         </div>
