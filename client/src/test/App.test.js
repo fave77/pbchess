@@ -12,7 +12,7 @@ import Profile from '../components/profile/profile';
 import Lobby from '../components/lobby/lobby';
 import Game from '../components/game/game';
 import User from '../components/user/user';
-import NotFound from '../components/pagenotfound/pagenotfound';
+import NotFound from '../components/pagenotfound/page-not-found';
 import PrivateRoute from '../components/private/private';
 
 const renderWithWrappedRouter = ( ui, options ) => {
