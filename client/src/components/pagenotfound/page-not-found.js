@@ -1,10 +1,10 @@
 import React from 'react';
 import { Player } from '@lottiefiles/react-lottie-player';
 
-import './pagenotfound.css';
+import './page-not-found.css';
 import notFound from '../../images/not-found.json';
 
-function NotFound() {
+const NotFound = _ => {
   return (
     <div id = 'not-found'>
       <Player

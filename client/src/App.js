@@ -17,7 +17,9 @@ import Register from './components/register/register';
 import Profile from './components/profile/profile';
 import Lobby from './components/lobby/lobby';
 import Confirm from './components/confirm/confirm';
-import NotFound from './components/pagenotfound/pagenotfound';
+import NotFound from './components/pagenotfound/page-not-found';
+import Confirm from './components/confirm/confirm';
+
 import PrivateRoute from './components/private/private';
 
 class App extends Component {
