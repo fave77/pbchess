@@ -8,7 +8,7 @@ const sendMail = require('../services/email.service');
 const registerViaPbChess = async (fullname, username, password, email) => {
 
   const user = await registerUser(fullname, username, password, email, false);
-  const url = process.env.NODE_ENV == "development" ? process.env.DEV_URI : process.env.PROD_URI
+  const url = process.env.NODE_ENV == "development" ? process.env.DEV_CLIENT_URI : process.env.PROD_CLIENT_URI
   
   const message = `Thank you for registering at Pbchess. Your username is ${username}. 
   Please confirm your email using the given link to continue to the site. ${url}/confirm?userId=${user._id}`;
