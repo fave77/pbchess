@@ -203,7 +203,6 @@ const confirm = async (req, res) => {
     status: true
   });
 
-
   console.log("Successfully updated");
   return res.json({msg: "Verified Successfully"});
 };
