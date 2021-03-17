@@ -16,9 +16,6 @@ function ContribCard(props) {
     const [loading, setload] = useState(true)
     const [ccolor, setColor] = useState('#151922');
 
-    const onclickHandler = (e) => {
-        // window.location = props.html_url
-    }
 
     const [data, setData] = useState([]);
     const url = props.url
@@ -45,7 +42,7 @@ function ContribCard(props) {
                 <ProfileCard className="boundary" />
             ) : (
                 <FadeIn>
-                    <animated.div onClick={onclickHandler}
+                    <animated.div
                         onMouseMove={({ clientX: x, clientY: y }) => set({ xys: calc(x, y) })}
                         onMouseLeave={() => set({ xys: [0, 0, 1] })}
                         style={{ transform: p.xys.interpolate(trans) }}

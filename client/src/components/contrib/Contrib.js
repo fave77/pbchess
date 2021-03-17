@@ -39,7 +39,6 @@ function Contrib() {
                 ))}
             </animated.div>
             <br></br>
-            <Footer />
         </div>
     )
 }

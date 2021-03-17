@@ -49,7 +49,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.currentUser)
     return (
       <div>
         <Navbar
@@ -60,15 +59,15 @@ class App extends Component {
         <div>
           <Switch>
 
-            <Route exact path = '/' component = { Home } />
-            <Route exact path = '/learn' component = { Learn } />
-            <Route exact path = '/login' component = { Login } />
-            <Route exact path = '/confirm' component = { Confirm } />
-            <Route exact path = '/register' component = { Register } />
+            <Route exact path='/' component={Home} />
+            <Route exact path='/learn' component={Learn} />
+            <Route exact path='/login' component={Login} />
+            <Route exact path='/confirm' component={Confirm} />
+            <Route exact path='/register' component={Register} />
             <Route exact path='/contributors' component={Contrib} />
-            <Route path = '/@/:profileId' component = { Profile } />
-            <PrivateRoute path = '/play' component = { Lobby } />
-            <Route component = { NotFound } />
+            <Route path='/@/:profileId' component={Profile} />
+            <PrivateRoute path='/play' component={Lobby} />
+            <Route component={NotFound} />
 
 
           </Switch>
