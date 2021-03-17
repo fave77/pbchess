@@ -106,11 +106,16 @@ const login = async (req, res, next) => {
 const register = async (req, res) => {
 
   try {
-    const currUser = await User.findOne({ username: req.body.username });
+    let currUser = await User.findOne({ username: req.body.username });
 
     if (currUser)
-      return res.status(409).json({ success: false, msg: 'Username already exists! Try an even better one...' });
+      return res.status(409).json({ success: false, msg: 'An account with this username already exists! Try an even better one...' });
 
+    currUser = await User.findOne({ email : req.body.email });
+
+    if (currUser)
+      return res.status(409).json({ success: false, msg: 'An account with this email already exists! Try an alternate one...' });
+      
     const user = await registerViaPbChess(req.body.fullname, req.body.username, req.body.password, req.body.email);
 
     return res.json({
