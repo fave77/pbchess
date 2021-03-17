@@ -111,7 +111,7 @@ const register = async (req, res) => {
     if (currUser)
       return res.status(409).json({ success: false, msg: 'An account with this username already exists! Try an even better one...' });
 
-    currUser = await User.findOne({ email : req.body.email });
+    currUser = await Profile.findOne({ email : req.body.email });
 
     if (currUser)
       return res.status(409).json({ success: false, msg: 'An account with this email already exists! Try an alternate one...' });
