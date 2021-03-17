@@ -19,7 +19,11 @@
     "react-chessground": "^1.5.0",
     "react-content-loader": "^6.0.2",
     "react-dom": "^16.13.1",
+
     "react-fade-in": "^2.0.1",
+
+    "react-google-login": "^5.2.2",
+
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.4",
     "react-spring": "^8.0.27",
