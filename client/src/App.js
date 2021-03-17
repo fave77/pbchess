@@ -16,7 +16,10 @@ import Login from './components/login/login';
 import Register from './components/register/register';
 import Profile from './components/profile/profile';
 import Lobby from './components/lobby/lobby';
-import NotFound from './components/pagenotfound/pagenotfound';
+import Confirm from './components/confirm/confirm';
+import NotFound from './components/pagenotfound/page-not-found';
+
+
 import PrivateRoute from './components/private/private';
 import Contrib from './components/contrib/Contrib'
 
@@ -56,14 +59,17 @@ class App extends Component {
 
         <div>
           <Switch>
-            <Route exact path='/' component={Home} />
-            <Route exact path='/learn' component={Learn} />
-            <Route exact path='/login' component={Login} />
-            <Route exact path='/register' component={Register} />
+
+            <Route exact path = '/' component = { Home } />
+            <Route exact path = '/learn' component = { Learn } />
+            <Route exact path = '/login' component = { Login } />
+            <Route exact path = '/confirm' component = { Confirm } />
+            <Route exact path = '/register' component = { Register } />
             <Route exact path='/contributors' component={Contrib} />
-            <Route path='/@/:profileId' component={Profile} />
-            <PrivateRoute path='/play' component={Lobby} />
-            <Route component={NotFound} />
+            <Route path = '/@/:profileId' component = { Profile } />
+            <PrivateRoute path = '/play' component = { Lobby } />
+            <Route component = { NotFound } />
+
 
           </Switch>
         </div>

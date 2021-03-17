@@ -5,3 +5,20 @@
   margin: 0 auto 25px;
   margin-top: 50px;
 }
+
+.btn-pbchess {
+  background-color: #647dfc;
+  color: #ffffff;
+}
+
+.btn-pbchess:hover {
+  background-color: #8299fd;
+}
+
+.btn-link {
+  color: #647dfc;
+}
+
+.btn-link:hover {
+  color: #ffffff;
+}
