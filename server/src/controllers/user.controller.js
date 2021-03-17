@@ -171,13 +171,16 @@ const signIn = async (req, res) => {
 
 const confirm = async (req, res) => {
   const id = req.body.userId;
-  console.log(id);
   
   if(!id){
     return res.json({msg: "You are not Authorized on this route!"});
   }
   let user = await findOne({_id: id});
 
+  if(!user){
+    return res.json({msg: "You are not Authorized on this route!"});
+  }
+  
   if(user.status){
     return res.json({msg: "Your Email is already verified"});
   }
