@@ -14,7 +14,7 @@
     color: rgb(255, 253, 253);
     position: relative;
     top: 0;
-    transition: all .1s ease-in;
+    transition: all .5s ease-in;
     cursor: pointer;
 }
 
@@ -60,4 +60,11 @@
 
 .page_container {
     position: relative;
+}
+
+* {
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */ 
 }
