@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from 'react-router-dom';
+
 
 import "./footer.css";
 
@@ -10,14 +12,21 @@ function Footer() {
           <div className="col-lg-12 col-md-12 col-sm-12  col-xs-12">
             <div className="item">Made with ❤️ for the chess community</div>
           </div>
-          <div className="col-lg-6 col-md-6 col-sm-6  col-xs-12">
+          <div className="col-lg-4 col-md-4 col-sm-4  col-xs-12">
             <div className="item">
               <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">
                 GPLv3 License
               </a>
             </div>
           </div>
-          <div className="col-lg-6 col-md-6 col-sm-6  col-xs-12">
+          <div className="col-lg-4 col-md-4 col-sm-4  col-xs-12">
+            <div className="item">
+              <Link to="/contributors">
+                Contributors
+              </Link>
+            </div>
+          </div>
+          <div className="col-lg-4 col-md-4 col-sm-4  col-xs-12">
             <div className="item">
               <a href="https://github.com/fave77/pbchess">Support Us</a>
             </div>
