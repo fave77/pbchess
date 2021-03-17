@@ -175,12 +175,12 @@ const confirm = async (req, res) => {
   if(!id){
     return res.json({msg: "You are not Authorized on this route!"});
   }
-  let user = await findOne({_id: id});
+  let user = await User.findOne({_id: id});
 
   if(!user){
     return res.json({msg: "You are not Authorized on this route!"});
   }
-  
+
   if(user.status){
     return res.json({msg: "Your Email is already verified"});
   }
