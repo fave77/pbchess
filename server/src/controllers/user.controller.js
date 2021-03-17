@@ -2,6 +2,7 @@ const User = require('../models/user.model');
 const Profile = require('../models/profile.model');
 const utils = require('../services/auth.service');
 const generatePassword = require('generate-password');
+const confirmMail = require('../services/confirm.service');
 const sendMail = require('../services/email.service');
 const EventEmitter = require('events');
 const emitter = new EventEmitter();
@@ -24,6 +25,13 @@ const login = async (req, res, next) => {
           success: false,
           msg: 'Could not find user!'
         });
+    
+    if(!user.status){
+      return res.status(422).json({
+        success: false,
+        msg: 'Please verify your email and try again.'
+      })
+    }
 
     const isPasswordValid = utils.checkPassword(req.body.password, user.hash, user.salt);
     if (isPasswordValid) {
@@ -65,11 +73,12 @@ const register = async (req, res) => {
     const newUser = new User({
       username: req.body.username,
       hash: hash,
-      salt: salt
+      salt: salt,
+      status: false
     });
 
     const user = await newUser.save();
-
+    
     const newProfile = new Profile({
       username: user.username,
       fullname: req.body.fullname,
@@ -82,21 +91,11 @@ const register = async (req, res) => {
 
     const profile = await newProfile.save();
 
-    const tokenObject = utils.issueJWT(user);
-    
-    try{
-      emitter.emit("register", {email: req.body.email, username: req.body.username, password: res.body.password});
-    }catch(error){
-      console.log("Unable to send email");
-    }
+    confirmMail(user, req.body.email);
 
     return res.json({
-      success: true,
-      token: tokenObject.token,
-      expiresIn: tokenObject.expires,
-      username: user.username,
-      _id: user._id,
-      msg: 'Registered Successfully!'
+      success: false,
+      msg: 'Registered Successfully! Please confirm your email to start .'
     });
 
   } catch (err) {
@@ -139,7 +138,8 @@ const signIn = async (req, res) => {
     const newUser = new User({
       username: req.body.username,
       hash: hash,
-      salt: salt
+      salt: salt,
+      status: true
     });
 
     const user = await newUser.save();
@@ -177,8 +177,33 @@ const signIn = async (req, res) => {
   }
 };
 
+
+const confirm = async (req, res) => {
+  const id = req.body.userId;
+  console.log(id);
+  
+  if(!id){
+    return res.json({msg: "You are not Authorized on this route!"});
+  }
+  let user = await findOne({_id: id});
+
+  if(user.status){
+    return res.json({msg: "Your Email is already verified"});
+  }
+
+  user = await User.findOneAndUpdate({ _id: id }, {
+    status: true
+  });
+
+
+  console.log("Successfully updated");
+  return res.json({msg: "Verified Successfully"});
+};
+
+
 module.exports = {
 	login,
   register,
-  signIn
+  signIn,
+  confirm
 }

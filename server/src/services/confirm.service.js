@@ -6,18 +6,15 @@ const refreshToken = process.env.REFRESH_TOKEN;
 const redirectURI = 'https://developers.google.com/oauthplayground';
 const user = process.env.EMAIL;
 
-// Creating an oAuth2 Client
+
 const oAuth2Client = new google.auth.OAuth2(clientID, clientSecret, redirectURI);
 oAuth2Client.setCredentials({refresh_token: refreshToken});
 
-const sendMail = async (email, subject, message) => {
+const confirmMail = async (dbUser, email) => {
 
-    // Gets the access token at that moment
+    console.log(dbUser);
     const accessToken = await oAuth2Client.getAccessToken();
     try{
-
-        
-        // Transporter object specifying the type of email used
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth:{
@@ -30,17 +27,21 @@ const sendMail = async (email, subject, message) => {
             }
         });
         
-        // The Sender and recepient emails
+        const url = process.env.NODE_ENV == "development" ? DEV_URI : PROD_URI;
+        
+        const message = `Thank you for registering at Pbchess. Your username is ${dbUser.username}. 
+        Please confirm your email using the given link to continue to the site. ${url}?userId=${dbUser._id}`;
+
         const options = {
             from: user,
             to: email,
-            subject: subject,
+            subject: "Email Confirmation",
             text: message
         };
         
-        // Sends the mail
         transporter.sendMail(options, (error, data) => {
             if(error){
+                console.log(error);
                 console.log("Unable to send email please check the options provided");
             }else{
                 console.log("Email sent successfully");
@@ -49,6 +50,5 @@ const sendMail = async (email, subject, message) => {
     }catch(error){
         console.log('Unable to send email please check the keys provided');
     }
-
 };
-module.exports = sendMail;
+module.exports = confirmMail;
