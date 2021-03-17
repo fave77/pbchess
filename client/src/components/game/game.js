@@ -18,7 +18,7 @@ class Game extends React.Component {
       fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR',
       lastMove: undefined,
       gameOver: false,
-      orientation: this.props.socket.id === this.props.roomId
+      orientation: this.props.socket.id === this.props.gameId
         ? 'white'
         : 'black',
       turn: 'w',
@@ -54,7 +54,7 @@ class Game extends React.Component {
     this.props.socket.emit('move_piece', {
       from,
       to,
-      roomId: this.props.roomId,
+      gameId: this.props.gameId,
       promotion
     });
   }
