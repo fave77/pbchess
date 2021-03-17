@@ -2,17 +2,60 @@ const User = require('../models/user.model');
 const Profile = require('../models/profile.model');
 const utils = require('../services/auth.service');
 const generatePassword = require('generate-password');
-const confirmMail = require('../services/confirm.service');
 const sendMail = require('../services/email.service');
-const EventEmitter = require('events');
-const emitter = new EventEmitter();
 
-emitter.on("register", (req) => {
-    // Email message
-    const message = `Your username is ${req.username} your password is ${req.password}. Have a great day ahead.`;
-    // Sends an email to the client
-    sendMail(req.email, 'Thank you for registering at PbChess', message);
-});
+
+const registerViaPbChess = async (fullname, username, password, email) => {
+
+  const user = await registerUser(fullname, username, password, email, false);
+  const url = process.env.NODE_ENV == "development" ? process.env.DEV_URI : process.env.PROD_URI
+  
+  const message = `Thank you for registering at Pbchess. Your username is ${username}. 
+  Please confirm your email using the given link to continue to the site. ${url}/confirm?userId=${user._id}`;
+
+  
+  await sendMail(email, 'Email Confirmation', message);
+  return user;
+}
+
+const registerViaGoogle = async (fullname, username, password, email) => {
+
+  const user = await registerUser(fullname, username, password, email, true);
+  const message = `Thank you for registering at Pbchess. Your username is ${username} and password is ${password}. 
+  Have a great day ahead`;
+  
+  await sendMail(email, 'Thank you for registering at PbChess', message)
+  return user;
+}
+
+const registerUser = async (fullname, username, password, email, status) => {
+
+  const { salt, hash } = utils.createPassword(password);
+
+  const newUser = new User({
+    username: username,
+    hash: hash,
+    salt: salt,
+    status: status
+  });
+
+  const user = await newUser.save();
+  
+  const newProfile = new Profile({
+    username: user.username,
+    fullname: fullname,
+    email: email,
+    avatar: 'NA',
+    gender: 'NA',
+    country: 'NA',
+    joined: new Date().toGMTString().slice(0, -13)
+  });
+
+  const profile = await newProfile.save();
+
+  return user;
+}
+
 
 // Called while login
 const login = async (req, res, next) => {
@@ -68,34 +111,11 @@ const register = async (req, res) => {
     if (currUser)
       return res.status(409).json({ success: false, msg: 'Username already exists! Try an even better one...' });
 
-    const { salt, hash } = utils.createPassword(req.body.password);
-
-    const newUser = new User({
-      username: req.body.username,
-      hash: hash,
-      salt: salt,
-      status: false
-    });
-
-    const user = await newUser.save();
-    
-    const newProfile = new Profile({
-      username: user.username,
-      fullname: req.body.fullname,
-      email: req.body.email,
-      avatar: 'NA',
-      gender: 'NA',
-      country: 'NA',
-      joined: new Date().toGMTString().slice(0, -13)
-    });
-
-    const profile = await newProfile.save();
-
-    confirmMail(user, req.body.email);
+    const user = await registerViaPbChess(req.body.fullname, req.body.username, req.body.password, req.body.email);
 
     return res.json({
       success: false,
-      msg: 'Registered Successfully! Please confirm your email to start .'
+      msg: 'Registered Successfully! Please confirm your email to start playing.'
     });
 
   } catch (err) {
@@ -108,12 +128,11 @@ const register = async (req, res) => {
 const signIn = async (req, res) => {
 
   try {
-
     // Finds the user based on their profile email
     let currUser = await Profile.findOne({ email: req.body.email });
 
     if (currUser){
-      // Finds the user based on their user name
+      // Finds the user based on their username
       currUser = await User.findOne({username : currUser.username});
       const tokenObject = utils.issueJWT(currUser);
       return res
@@ -133,36 +152,8 @@ const signIn = async (req, res) => {
       numbers: true
     });
 
-    const { salt, hash } = utils.createPassword(password);
-    
-    const newUser = new User({
-      username: req.body.username,
-      hash: hash,
-      salt: salt,
-      status: true
-    });
-
-    const user = await newUser.save();
-
-    const newProfile = new Profile({
-      username: user.username,
-      fullname: req.body.fullname,
-      email: req.body.email,
-      avatar: 'NA',
-      gender: 'NA',
-      country: 'NA',
-      joined: new Date().toGMTString().slice(0, -13)
-    });
-
-    const profile = await newProfile.save();
-
+    const user = await registerViaGoogle(req.body.fullname, req.body.username, password, req.body.email);
     const tokenObject = utils.issueJWT(user);
-
-    try{
-      emitter.emit("register", {email: req.body.email, username: req.body.username, password: password});
-    }catch(error){
-      console.log("Unable to send email");
-    }
     
     return res.json({
       success: true,
