@@ -6,45 +6,44 @@ import './lobby.css';
 import Game from '../game/game';
 import configAPI from '../../configs/api.config';
 import AuthService from '../../services/auth.service';
-import clipboard from '../../images/clipboard.svg';
 
-import Modal from 'react-bootstrap/Modal';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
-import Image from 'react-bootstrap/Image';
+
+import CreateGame from './create-game';
+import JoinGame from './join-game';
 
 const API_URL = configAPI();
-
 
 class Lobby extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: AuthService.getCurrentUser(),
-      socket: undefined,
-      status: false,
-      loading: false,
-      created: false,
-      joined: false,
-      roomId: undefined,
-      copied: false,
-      joiningError: false
+      user: AuthService.getCurrentUser(), // holds the logged-in user's info 
+      socket: undefined,    // set to the socket connection when the lobby loads up
+      creating: false,      // set to true when user clicks `Create` for the first time
+      joining: false,       // set to true when user clicks `Join` for the first time
+      loading: false,       // set to true when user clicks `Create` or `Join` after configuring options
+      status: false,        // set to true when a game gets started
+      gameId: undefined,    // same as userId of the game's creator
+      player1: undefined,   // user who creates a game
+      player2: undefined    // user who joins the game
     }
   }
 
+  // Display options for creating a game
+  showCreate = _ => {
+    this.setState({loading: false, creating: true,  joining: false})
+  }
+
+  // Create a game with a unique gameId (player1's userId)
   createGame() {
 
     const { socket, user } = this.state;
 
     this.setState({
-      loading: true,
-      created: true
+      loading: true
     });
 
     socket.emit('create_game', {
@@ -53,8 +52,13 @@ class Lobby extends React.Component {
     });
   }
 
-  joinGame(e) {
-    e.preventDefault();
+  // Display options for joining a game
+  showJoin = _ => {
+    this.setState({loading: false, creating: false,  joining: true})
+  }
+
+  // Join a game with a unique gameId (player1's userId)
+  joinGame(gameId) {
 
     const { socket, user } = this.state;
 
@@ -65,22 +69,23 @@ class Lobby extends React.Component {
     socket.emit('join_game', {
       userId: user._id,
       username: user.username,
-      roomId: this.state.joined
+      gameId: gameId
     });
   }
 
+  // Start a game with a unique gameId (player1's userId)
   startGame = (gameInfo) => {
     console.log(gameInfo);
 
     this.setState({
       status: true,
-      roomId: gameInfo.roomId,
+      gameId: gameInfo.gameId,
       player1: gameInfo.createdBy,
       player2: gameInfo.joinedBy
     });
   }
 
-
+  // Establishes socket connection when the page loads up
   componentDidMount() {
     const socket = io(API_URL.slice(0, API_URL.indexOf('api/')), {transports: ['websocket']});
 
@@ -93,31 +98,11 @@ class Lobby extends React.Component {
           this.startGame(gameInfo);
         });
 
-        socket.on('cannot_join_game', msg => {
-          console.log(msg);
-
-          this.setState({
-            joiningError: msg
-          })
-        });
-
       });
     });
-
-
   }
 
-  copyToClipBoard() {
-    navigator.clipboard.writeText(this.state.socket.id);
-    this.setState({
-      copied: true
-    })
-  }
-
-  handleClose() {
-    window.location.reload();
-  }
-
+  // Disconnects socket on page exit (or refresh)
   componentWillUnmount() {
     if( this.state.socket ) {
       this.state.socket.disconnect();
@@ -127,134 +112,64 @@ class Lobby extends React.Component {
   render() {
     return (
       <div>
-        {
-          this.state.status
-            ? <Game
-                roomId = { this.state.roomId }
+        { this.state.status
+            ? <Game // renders gameboard
+                gameId = { this.state.gameId }
                 socket = { this.state.socket }
                 self = { this.state.user }
                 opponent = { this.state.player1.username !== this.state.user.username ? this.state.player1 : this.state.player2 }
               />
-            : <div>
-                <Card className = 'text-center lobby-card'>
-                  <h3>Welcome to the Lobby</h3>
-                  { this.state.loading
+            : <div> 
+                <Card className = 'text-center lobby-card' bg = 'dark' text = 'light'>
+                  <Card.Title> Welcome to the Lobby </Card.Title>
+                  { !(this.state.loading || this.state.creating || this.state.joining) 
+                    // renders default view of the lobby
                       ? <div>
-                          <Spinner animation='border' role='status'>
-                            <span className='sr-only'>Loading...</span>
+                          <Button
+                            variant = 'pbchess'
+                            name = 'create'
+                            onClick = { _ => this.showCreate()  }
+                          >
+                            Create
+                          </Button>{ ' ' }
+                          <Button
+                            variant = 'pbchess'
+                            name = 'join'
+                            onClick = { _ => this.showJoin() }
+                          >
+                            Join
+                          </Button>
+                        </div>
+                      : ''
+                  }
+                  { this.state.loading // renders loader
+                      ? <div>
+                          <Spinner animation = 'border' role = 'status'>
+                            <span className = 'sr-only'>Loading...</span>
                           </Spinner>
-                          { this.state.created
-                            ? <Card>
-                                <Card.Header>Share your Game ID for other players to join ...</Card.Header>
-                                <Card.Body>
-                                  <blockquote>
-                                    <OverlayTrigger
-                                      placement = 'bottom'
-                                      overlay = {
-                                        <Tooltip id = 'button-tooltip-2'>
-                                          { this.state.copied
-                                              ? 'copied'
-                                              : 'copy'
-                                          }
-                                        </Tooltip>
-                                      }
-                                    >
-                                      {({ ref, ...triggerHandler }) => (
-                                        <Button
-                                          variant = 'light'
-                                          {...triggerHandler}
-                                          className = 'd-inline-flex align-items-center'
-                                          onClick = { _ => this.copyToClipBoard() }
-                                        >
-                                          <span className = 'ml-1'>{ this.state.socket.id }</span>
-
-                                          <Image
-                                            ref = { ref }
-                                            thumbnail
-                                            src = { clipboard }
-                                            margin
-                                          />
-                                        </Button>
-                                      )}
-                                    </OverlayTrigger>
-                                  </blockquote>
-                                </Card.Body>
-                                <Button 
-                                    variant='link'
-                                    className='ml-auto py-0'
-                                    onClick ={ e => this.setState({loading: false, joined: true})}
-                                >
-                                  Join instead?
-                                </Button>
-                              </Card>
-                            : <div></div>
-                          }
                         </div>
-
-                      : <div>
-                          { this.state.joined
-                              ? <Form>
-                                  <Row className="mt-2">
-                                    <Col>
-                                      <Form.Control
-                                        placeholder = 'Enter game ID ...'
-                                        onChange = { e => this.setState({ joined: e.target.value }) }
-                                      />
-                                    </Col>
-                                    <Col>
-                                      <Button
-                                        variant = 'primary'
-                                        type = 'submit'
-                                        onClick = { e => this.joinGame(e) }
-                                      >
-                                        Join
-                                      </Button>
-                                    </Col>
-                                  </Row>
-                                  <Button 
-                                    variant='link'
-                                    className='ml-auto mt-3 d-block'
-                                    onClick={e => this.createGame(e)} 
-                                  >
-                                    Create a game instead?
-                                  </Button>
-                                </Form>
-                              : <div>
-                                  <Button
-                                    variant = 'dark'
-                                    name = 'create'
-                                    onClick = { _ => this.createGame() }
-                                  >
-                                    Create
-                                  </Button>{ ' ' }
-                                  <Button
-                                    variant = 'dark'
-                                    name = 'join'
-                                    onClick = { _ => { this.setState({ joined: true }) } }
-                                  >
-                                    Join
-                                  </Button>
-                                </div>
-                          }
-                        </div>
-
+                      : ''
+                  }
+                  { this.state.creating
+                    ? <CreateGame // renders option for creating a game
+                        socketId = { this.state.socket.id } 
+                        loading = { this.state.loading }
+                        showJoin = { _ => this.showJoin() } 
+                        createGame = { _ => this.createGame() }
+                      />
+                    : ''
+                  }
+                  { this.state.joining
+                      ? <JoinGame // renders option for joining a game
+                          socket = { this.state.socket }
+                          showCreate = { _ => this.showCreate() }
+                          joinGame = { e => this.joinGame(e) }
+                        />
+                      : ''
                   }
                 </Card>
-                <Modal show = { this.state.joiningError } onHide = { _ => this.handleClose() } >
-                  <Modal.Header closeButton></Modal.Header>
-                  <Modal.Body>
-                    <div style = {{ textAlign: 'center', cursor: 'pointer' }}>
-                      <span role = 'presentation'>
-                        <p> { this.state.joiningError } </p>
-                      </span>
-                    </div>
-                  </Modal.Body>
-                </Modal>
               </div>
         }
-
-
-
       </div>
     )
   }

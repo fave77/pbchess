@@ -20,7 +20,7 @@ const create = (io, socket, data, liveGames) => {
 // Called while joining a game
 const join = (io, socket, data, liveGames) => {
 
-  liveGames.hgetall(data.roomId, (err, res) => {
+  liveGames.hgetall(data.gameId, (err, res) => {
     const game = res ? JSON.parse(res['*']): undefined;
     if (!game)
       socket.emit('cannot_join_game', 'Cannot join! Room ID is invalid');
@@ -34,19 +34,19 @@ const join = (io, socket, data, liveGames) => {
     else {
       console.log('Joining a game...');
 
-      socket.join(data.roomId);
+      socket.join(data.gameId);
       game.joinedBy = {
         userId: data.userId,
         username: data.username
       };
       game.ongoing = true;
 
-      liveGames.hmset(data.roomId, '*', JSON.stringify(game));
+      liveGames.hmset(data.gameId, '*', JSON.stringify(game));
 
-      io.to(data.roomId).emit('start_game', {
+      io.to(data.gameId).emit('start_game', {
         createdBy: game.createdBy,
         joinedBy: game.joinedBy,
-        roomId: data.roomId
+        gameId: data.gameId
       });
     }
   });
@@ -55,9 +55,9 @@ const join = (io, socket, data, liveGames) => {
 
 // Called while moving pieces
 const move = (io, socket, data, liveGames) => {
-  const { roomId, ...pendingMove } = data;
+  const { gameId, ...pendingMove } = data;
 
-  liveGames.hgetall(roomId, (err, res) => {
+  liveGames.hgetall(gameId, (err, res) => {
     const game = JSON.parse(res['*']);
     const chess = new Chess()
     chess.load_pgn(game.state);
@@ -76,7 +76,7 @@ const move = (io, socket, data, liveGames) => {
     if (chess.game_over()) {
       gameState.gameOver = evaluateGame(chess);
       console.log('Purging the game...');
-      liveGames.del(roomId);
+      liveGames.del(gameId);
     }
 
     if (gameState.lastMove === null)
@@ -84,21 +84,21 @@ const move = (io, socket, data, liveGames) => {
 
     game.state = chess.pgn();
 
-    liveGames.hmset(roomId, '*', JSON.stringify(game));
-    io.to(roomId).emit('move_piece', gameState);
+    liveGames.hmset(gameId, '*', JSON.stringify(game));
+    io.to(gameId).emit('move_piece', gameState);
   });
 };
 
 // Called while leaving the game
 const disconnect = (socket, liveGames) => {
   console.log('Socket disconnected', socket.id);
-  const roomId = Object.keys(socket.adapter.rooms)[0] || socket.id;
+  const gameId = Object.keys(socket.adapter.rooms)[0] || socket.id;
 
-  liveGames.hgetall(roomId, (err, res) => {
+  liveGames.hgetall(gameId, (err, res) => {
 
     if (res !== null) {
       console.log('Purging the game...');
-      liveGames.del(roomId);
+      liveGames.del(gameId);
       socket.broadcast.emit('abort_game', 'Opponent left the game! You won by default');
     }
   });
