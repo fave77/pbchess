@@ -180,12 +180,15 @@ const signIn = async (req, res) => {
 
 const confirm = async (req, res) => {
   const id = req.body.userId;
-  console.log(id);
   
   if(!id){
     return res.json({msg: "You are not Authorized on this route!"});
   }
-  let user = await findOne({_id: id});
+  let user = await User.findOne({_id: id});
+
+  if(!user){
+    return res.json({msg: "You are not Authorized on this route!"});
+  }
 
   if(user.status){
     return res.json({msg: "Your Email is already verified"});
@@ -194,7 +197,6 @@ const confirm = async (req, res) => {
   user = await User.findOneAndUpdate({ _id: id }, {
     status: true
   });
-
 
   console.log("Successfully updated");
   return res.json({msg: "Verified Successfully"});
