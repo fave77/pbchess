@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import CheckButton from 'react-validation/build/button';
-
+import validator from 'email-validator';
 import AuthService from '../../services/auth.service';
 
 import Modal from 'react-bootstrap/Modal';
@@ -19,7 +19,7 @@ const required = value => {
 };
 
 const vemail = value => {
-  if (value.indexOf('@') === -1 || value.indexOf('.com') === -1) {
+  if (!validator.validate(value)) {
     return (
       <div className = 'alert alert-danger' role = 'alert'>
         The email must be valid!
@@ -114,8 +114,6 @@ class Register extends Component {
             message: response.msg,
             successful: true
           });
-
-
         },
         error => {
           const resMessage =

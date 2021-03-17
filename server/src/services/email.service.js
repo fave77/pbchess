@@ -16,6 +16,7 @@ const sendMail = async (email, subject, message) => {
     const accessToken = await oAuth2Client.getAccessToken();
     try{
 
+        
         // Transporter object specifying the type of email used
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -40,13 +41,13 @@ const sendMail = async (email, subject, message) => {
         // Sends the mail
         transporter.sendMail(options, (error, data) => {
             if(error){
-                console.log(error);
+                console.log("Unable to send email please check the options provided");
             }else{
                 console.log("Email sent successfully");
             }
         });
     }catch(error){
-        console.log('error');
+        console.log('Unable to send email please check the keys provided');
     }
 
 };

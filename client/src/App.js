@@ -16,7 +16,10 @@ import Login from './components/login/login';
 import Register from './components/register/register';
 import Profile from './components/profile/profile';
 import Lobby from './components/lobby/lobby';
+import Confirm from './components/confirm/confirm';
 import NotFound from './components/pagenotfound/page-not-found';
+
+
 import PrivateRoute from './components/private/private';
 
 class App extends Component {
@@ -58,6 +61,7 @@ class App extends Component {
             <Route exact path = '/' component = { Home } />
             <Route exact path = '/learn' component = { Learn } />
             <Route exact path = '/login' component = { Login } />
+            <Route exact path = '/confirm' component = { Confirm } />
             <Route exact path = '/register' component = { Register } />
             <Route path = '/@/:profileId' component = { Profile } />
             <PrivateRoute path = '/play' component = { Lobby } />

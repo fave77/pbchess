@@ -35,6 +35,12 @@ class AuthService {
     });
   }
 
+  confirm(userId){
+    return axios.post(API_URL + 'confirm', {
+      userId
+    }).then(res => res.data);
+  }
+
   getCurrentUser() {
     return JSON.parse(localStorage.getItem('user'));;
   }

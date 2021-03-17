@@ -3,15 +3,59 @@ const Profile = require('../models/profile.model');
 const utils = require('../services/auth.service');
 const generatePassword = require('generate-password');
 const sendMail = require('../services/email.service');
-const EventEmitter = require('events');
-const emitter = new EventEmitter();
 
-emitter.on("register", (req) => {
-    // Email message
-    const message = `Your username is ${req.username} your password is ${req.password}. Have a great day ahead.`;
-    // Sends an email to the client
-    sendMail(req.email, 'Thank you for registering at PbChess', message);
-});
+
+const registerViaPbChess = async (fullname, username, password, email) => {
+
+  const user = await registerUser(fullname, username, password, email, false);
+  const url = process.env.NODE_ENV == "development" ? process.env.DEV_CLIENT_URI : process.env.PROD_CLIENT_URI
+  
+  const message = `Thank you for registering at Pbchess. Your username is ${username}. 
+  Please confirm your email using the given link to continue to the site. ${url}/confirm?userId=${user._id}`;
+
+  
+  await sendMail(email, 'Email Confirmation', message);
+  return user;
+}
+
+const registerViaGoogle = async (fullname, username, password, email) => {
+
+  const user = await registerUser(fullname, username, password, email, true);
+  const message = `Thank you for registering at Pbchess. Your username is ${username} and password is ${password}. 
+  Have a great day ahead`;
+  
+  await sendMail(email, 'Thank you for registering at PbChess', message)
+  return user;
+}
+
+const registerUser = async (fullname, username, password, email, status) => {
+
+  const { salt, hash } = utils.createPassword(password);
+
+  const newUser = new User({
+    username: username,
+    hash: hash,
+    salt: salt,
+    status: status
+  });
+
+  const user = await newUser.save();
+  
+  const newProfile = new Profile({
+    username: user.username,
+    fullname: fullname,
+    email: email,
+    avatar: 'NA',
+    gender: 'NA',
+    country: 'NA',
+    joined: new Date().toGMTString().slice(0, -13)
+  });
+
+  const profile = await newProfile.save();
+
+  return user;
+}
+
 
 // Called while login
 const login = async (req, res, next) => {
@@ -24,6 +68,13 @@ const login = async (req, res, next) => {
           success: false,
           msg: 'Could not find user!'
         });
+    
+    if(!user.status){
+      return res.status(422).json({
+        success: false,
+        msg: 'Please verify your email and try again.'
+      })
+    }
 
     const isPasswordValid = utils.checkPassword(req.body.password, user.hash, user.salt);
     if (isPasswordValid) {
@@ -60,43 +111,11 @@ const register = async (req, res) => {
     if (currUser)
       return res.status(409).json({ success: false, msg: 'Username already exists! Try an even better one...' });
 
-    const { salt, hash } = utils.createPassword(req.body.password);
-
-    const newUser = new User({
-      username: req.body.username,
-      hash: hash,
-      salt: salt
-    });
-
-    const user = await newUser.save();
-
-    const newProfile = new Profile({
-      username: user.username,
-      fullname: req.body.fullname,
-      email: req.body.email,
-      avatar: 'NA',
-      gender: 'NA',
-      country: 'NA',
-      joined: new Date().toGMTString().slice(0, -13)
-    });
-
-    const profile = await newProfile.save();
-
-    const tokenObject = utils.issueJWT(user);
-    
-    try{
-      emitter.emit("register", {email: req.body.email, username: req.body.username, password: res.body.password});
-    }catch(error){
-      console.log("Unable to send email");
-    }
+    const user = await registerViaPbChess(req.body.fullname, req.body.username, req.body.password, req.body.email);
 
     return res.json({
-      success: true,
-      token: tokenObject.token,
-      expiresIn: tokenObject.expires,
-      username: user.username,
-      _id: user._id,
-      msg: 'Registered Successfully!'
+      success: false,
+      msg: 'Registered Successfully! Please confirm your email to start playing.'
     });
 
   } catch (err) {
@@ -109,12 +128,11 @@ const register = async (req, res) => {
 const signIn = async (req, res) => {
 
   try {
-
     // Finds the user based on their profile email
     let currUser = await Profile.findOne({ email: req.body.email });
 
     if (currUser){
-      // Finds the user based on their user name
+      // Finds the user based on their username
       currUser = await User.findOne({username : currUser.username});
       const tokenObject = utils.issueJWT(currUser);
       return res
@@ -134,35 +152,8 @@ const signIn = async (req, res) => {
       numbers: true
     });
 
-    const { salt, hash } = utils.createPassword(password);
-    
-    const newUser = new User({
-      username: req.body.username,
-      hash: hash,
-      salt: salt
-    });
-
-    const user = await newUser.save();
-
-    const newProfile = new Profile({
-      username: user.username,
-      fullname: req.body.fullname,
-      email: req.body.email,
-      avatar: 'NA',
-      gender: 'NA',
-      country: 'NA',
-      joined: new Date().toGMTString().slice(0, -13)
-    });
-
-    const profile = await newProfile.save();
-
+    const user = await registerViaGoogle(req.body.fullname, req.body.username, password, req.body.email);
     const tokenObject = utils.issueJWT(user);
-
-    try{
-      emitter.emit("register", {email: req.body.email, username: req.body.username, password: password});
-    }catch(error){
-      console.log("Unable to send email");
-    }
     
     return res.json({
       success: true,
@@ -177,8 +168,36 @@ const signIn = async (req, res) => {
   }
 };
 
+
+const confirm = async (req, res) => {
+  const id = req.body.userId;
+  
+  if(!id){
+    return res.json({msg: "You are not Authorized on this route!"});
+  }
+  let user = await User.findOne({_id: id});
+
+  if(!user){
+    return res.json({msg: "You are not Authorized on this route!"});
+  }
+
+  if(user.status){
+    return res.json({msg: "Your Email is already verified"});
+  }
+
+  user = await User.findOneAndUpdate({ _id: id }, {
+    status: true
+  });
+
+
+  console.log("Successfully updated");
+  return res.json({msg: "Verified Successfully"});
+};
+
+
 module.exports = {
 	login,
   register,
-  signIn
+  signIn,
+  confirm
 }
