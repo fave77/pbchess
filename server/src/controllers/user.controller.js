@@ -3,7 +3,10 @@ const Profile = require('../models/profile.model');
 const utils = require('../services/auth.service');
 const generatePassword = require('generate-password');
 const sendMail = require('../services/email.service');
+const { OAuth2Client } = require('google-auth-library');
 
+const clientID = process.env.CLIENT_ID;
+const client = new OAuth2Client(clientID);
 
 const registerViaPbChess = async (fullname, username, password, email) => {
 
@@ -133,9 +136,15 @@ const register = async (req, res) => {
 const signIn = async (req, res) => {
 
   try {
-    // Finds the user based on their profile email
-    let currUser = await Profile.findOne({ email: req.body.email });
+    const response = await (await client.verifyIdToken({idToken: req.body.idToken, audience: clientID}));
+    const data = response.payload;
 
+    const fullname = data.name;
+    const email = data.email;
+    const username = email.substring(0, email.indexOf('@'));
+    
+    let currUser = await Profile.findOne({ email: email });
+    
     if (currUser){
       // Finds the user based on their username
       currUser = await User.findOne({username : currUser.username});
@@ -157,7 +166,7 @@ const signIn = async (req, res) => {
       numbers: true
     });
 
-    const user = await registerViaGoogle(req.body.fullname, req.body.username, password, req.body.email);
+    const user = await registerViaGoogle(fullname, username, password, email);
     const tokenObject = utils.issueJWT(user);
     
     return res.json({

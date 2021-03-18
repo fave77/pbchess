@@ -48,22 +48,15 @@ class Login extends Component {
   
   // Gets called when a user signs in using google
   onSignIn(googleUser) {
-    console.log(googleUser);
-    const profile = googleUser.getBasicProfile();
+    const id_token = googleUser.tokenObj.id_token;
     
-    const name = profile.getName();
-    const email = profile.getEmail();
-
-    const username = email.substring(0, email.indexOf('@'));
-    const password = null;
-
     this.setState({
       message: '',
       loading: true
     });
 
 
-    GoogleAuthService.signIn(name, email, username, password, "Google").then(
+    GoogleAuthService.signIn(id_token).then(
       () => {
         this.props.history.push('/play');
         window.location.reload();
