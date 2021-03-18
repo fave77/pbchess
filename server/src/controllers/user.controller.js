@@ -143,13 +143,10 @@ const signIn = async (req, res) => {
 
     const fullname = data.name;
     const email = data.email;
-    const username = email.substring(0, email.indexOf('@'));
-    
-    let currUser = await Profile.findOne({ email: email });
-    
+    const username = email.substring(0, email.indexOf('@')); 
 
     // Finds the user based on their profile email
-    let currUser = await Profile.findOne({ email: req.body.email });
+    let currUser = await Profile.findOne({ email: email });
 
 
     if (currUser){
