@@ -176,8 +176,6 @@ const signIn = async (req, res) => {
 
     const user = await registerViaGoogle(fullname, username, password, email);
 
-    const user = await registerViaGoogle(req.body.fullname, req.body.username, password, req.body.email);
-
     const tokenObject = utils.issueJWT(user);
     
     return res.json({
