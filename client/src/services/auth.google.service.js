@@ -7,18 +7,13 @@ const API_URL = configAPI();
 class GoogleAuthService {
 
     
-    signIn(fullname, email, username, password, type) {
+    signIn(idToken) {
         return axios.post(API_URL + 'signin/google', {
-            fullname,
-            email,
-            username,
-            password,
-            type
+            idToken
         }).then(res => {
                 if (res.data.success){
                     localStorage.setItem('user', JSON.stringify(res.data));
                 }
-                    
                 return res.data;
             });
     }
