@@ -1,6 +1,4 @@
 import React from "react";
-import { Link } from 'react-router-dom';
-
 
 import "./footer.css";
 
@@ -21,9 +19,11 @@ function Footer() {
           </div>
           <div className="col-lg-4 col-md-4 col-sm-4  col-xs-12">
             <div className="item">
-              <Link to="/contributors">
+
+              <a href="/contributors">
                 Contributors
-              </Link>
+              </a>
+
             </div>
           </div>
           <div className="col-lg-4 col-md-4 col-sm-4  col-xs-12">

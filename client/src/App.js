@@ -21,7 +21,7 @@ import NotFound from './components/pagenotfound/page-not-found';
 
 
 import PrivateRoute from './components/private/private';
-import Contrib from './components/contrib/Contrib'
+import Contrib from './components/contrib/Contrib';
 
 class App extends Component {
   constructor(props) {

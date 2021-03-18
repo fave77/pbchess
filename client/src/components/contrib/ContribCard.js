@@ -1,39 +1,33 @@
-import React, { useState, useEffect } from 'react'
-import "./contrib.css"
-import Image from 'react-bootstrap/Image'
-import { Link } from 'react-router-dom';
-import { useSpring, animated, useTransition } from 'react-spring'
-import { CSSTransition } from 'react-transition-group';
-import ProfileCard from "./ProfileCard"
+import React, { useState, useEffect } from 'react';
+import "./contrib.css";
+import Image from 'react-bootstrap/Image';
+import { useSpring, animated } from 'react-spring';
+import ProfileCard from "./ProfileCard";
 import FadeIn from 'react-fade-in';
 
-const calc = (x, y) => [-(y - window.innerHeight / 2) / 30, (x - window.innerWidth / 2) / 30, 1.03]
-const trans = (x, y, s) => `scale(${s})`
+const calc = (x, y) => [-(y - window.innerHeight / 2) / 30, (x - window.innerWidth / 2) / 30, 1.03];
+const trans = (x, y, s) => `scale(${s})`;
 
 function ContribCard(props) {
 
-    const [p, set] = useSpring(() => ({ xys: [0, 0, 1], config: { mass: 1, tension: 200, friction: 30 } }))
-    const [loading, setload] = useState(true)
+    const [p, set] = useSpring(() => ({ xys: [0, 0, 1], config: { mass: 1, tension: 200, friction: 30 } }));
+    const [loading, setload] = useState(true);
     const [ccolor, setColor] = useState('#151922');
 
 
     const [data, setData] = useState([]);
-    const url = props.url
+    const url = props.url;
 
     const fetchURL = async () => {
         const response = await fetch(url);
         const jsonData = await response.json();
-        setData(jsonData)
-        setload(false)
-    }
+        setData(jsonData);
+        setload(false);
+    };
 
     useEffect(() => {
         fetchURL();
-    }, [])
-
-    const mouseDownHandler = (e) => {
-        e.style = { color: 'black' }
-    }
+    }, []);
 
 
     return (
@@ -71,4 +65,4 @@ function ContribCard(props) {
     )
 }
 
-export default ContribCard
+export default ContribCard;

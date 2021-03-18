@@ -1,5 +1,5 @@
-import React from 'react'
-import ContentLoader from 'react-content-loader'
+import React from 'react';
+import ContentLoader from 'react-content-loader';
 
 const ProfileCard = props => {
   return (
@@ -23,7 +23,7 @@ const ProfileCard = props => {
       <rect x="200" y="236" rx="0" ry="0" width="92" height="9" />
       <rect x="170" y="324" rx="0" ry="0" width="146" height="51" />
     </ContentLoader>
-  )
-}
+  );
+};
 
-export default ProfileCard
+export default ProfileCard;
