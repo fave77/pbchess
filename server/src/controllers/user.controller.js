@@ -60,59 +60,6 @@ const registerUser = async (fullname, username, password, email, status) => {
 }
 
 
-
-const registerViaPbChess = async (fullname, username, password, email) => {
-
-  const user = await registerUser(fullname, username, password, email, false);
-  const url = process.env.NODE_ENV == "development" ? process.env.DEV_URI : process.env.PROD_URI
-  
-  const message = `Thank you for registering at Pbchess. Your username is ${username}. 
-  Please confirm your email using the given link to continue to the site. ${url}/confirm?userId=${user._id}`;
-
-  
-  await sendMail(email, 'Email Confirmation', message);
-  return user;
-}
-
-const registerViaGoogle = async (fullname, username, password, email) => {
-
-  const user = await registerUser(fullname, username, password, email, true);
-  const message = `Thank you for registering at Pbchess. Your username is ${username} and password is ${password}. 
-  Have a great day ahead`;
-  
-  await sendMail(email, 'Thank you for registering at PbChess', message)
-  return user;
-}
-
-const registerUser = async (fullname, username, password, email, status) => {
-
-  const { salt, hash } = utils.createPassword(password);
-
-  const newUser = new User({
-    username: username,
-    hash: hash,
-    salt: salt,
-    status: status
-  });
-
-  const user = await newUser.save();
-  
-  const newProfile = new Profile({
-    username: user.username,
-    fullname: fullname,
-    email: email,
-    avatar: 'NA',
-    gender: 'NA',
-    country: 'NA',
-    joined: new Date().toGMTString().slice(0, -13)
-  });
-
-  const profile = await newProfile.save();
-
-  return user;
-}
-
-
 // Called while login
 const login = async (req, res, next) => {
   try {
