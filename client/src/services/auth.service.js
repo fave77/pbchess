@@ -1,5 +1,6 @@
 import axios from 'axios';
 import configAPI from '../configs/api.config';
+import authHeader from './auth.header';
 
 const API_URL = configAPI();
 
@@ -38,6 +39,17 @@ class AuthService {
   confirm(userId){
     return axios.post(API_URL + 'confirm', {
       userId
+    }).then(res => res.data);
+  }
+
+  changePassword(oldPassword, newPassword, userId){
+    
+    return axios.put(API_URL + 'update-pswd', {
+      oldPassword,
+      newPassword,
+      userId
+    }, {
+      headers: authHeader()
     }).then(res => res.data);
   }
 

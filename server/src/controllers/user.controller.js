@@ -213,10 +213,46 @@ const confirm = async (req, res) => {
   return res.json({msg: "Verified Successfully"});
 };
 
+const updatePassword = async (req, res) => {
+
+  try{
+    const newPassword = req.body.newPassword;
+    const oldPassword = req.body.oldPassword;
+    const userId = req.body.userId;
+  
+    const user = await User.findById(userId)
+    
+    const valid = utils.checkPassword(oldPassword, user.hash, user.salt);
+
+    if(!valid){
+      return res.json({
+        success: false,
+        msg: "You have entered an invalid password"
+      })
+    }
+  
+    const { salt, hash } = utils.createPassword(newPassword);
+  
+    const newUser = await User.findOneAndUpdate({_id : userId}, {
+      salt: salt,
+      hash: hash
+    })
+    
+    return res.json({
+      success: true,
+      msg: "You have successfully updated your password. Please login to continue."
+    })
+  }catch(error){
+    console.log(error);
+    return res.json({ success: false, msg: error });
+  }
+
+}
 
 module.exports = {
 	login,
   register,
   signIn,
-  confirm
+  confirm,
+  updatePassword
 }
