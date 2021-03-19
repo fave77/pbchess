@@ -38,13 +38,18 @@ const vusername = value => {
   }
 };
 
-const vpassword = value => {
-  if (value.length < 6 || value.length > 40) {
-    return (
-      <div className = 'alert alert-danger' role = 'alert'>
-        The password must be between 6 and 40 characters!
-      </div>
-    );
+const vpassword = (password) => {
+  if (
+      !password.match(
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%* #+=\(\)\^?&])[A-Za-z\d$@$!%* #+=\(\)\^?&]{5,}$/
+      )
+  ) {
+      return (
+          <div className='alert alert-danger' role='alert'>
+              Your password's length should be at least 5 and should contain at least
+              one letter, one number and one special character.
+          </div>
+      );
   }
 };
 
