@@ -37,7 +37,7 @@ export default class ScrollTop extends Component {
   }
 
   render() {
-    const visible = this.state;
+    const {visible} = this.state;
     return (
       <div className="scroll-to-top">
         {visible&&(<div className="to-top" onClick={() => this.scrolltoTop()}><FontAwesomeIcon icon={faArrowUp} /></div>)}
