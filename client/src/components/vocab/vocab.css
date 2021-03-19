@@ -79,9 +79,6 @@ html {
   font-size: 32px;
   color: #1f1f1f;
   text-decoration: none;
-}
-
-.to-top i{
   animation: scrolltop 0.5s alternate ease infinite;
 }
 

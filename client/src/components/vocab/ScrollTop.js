@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
 
 export default class ScrollTop extends Component {
   constructor(props) {
@@ -38,7 +40,7 @@ export default class ScrollTop extends Component {
     const { visible } = this.state;
     return (
       <div className="scroll-to-top">
-        {visible&&(<div className="to-top" onClick={() => this.scrolltoTop()}><i class="fas fa-arrow-up"></i></div>)}
+        {visible&&(<div className="to-top" onClick={() => this.scrolltoTop()}><FontAwesomeIcon icon={faArrowUp} /></div>)}
       </div>
     );
   }
