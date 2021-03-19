@@ -67,6 +67,7 @@ html {
   animation: fadeIn 650ms ease-in-out 1s both;
   cursor: pointer;
 }
+
 .to-top {
   background: #fff;
   width: 50px;
@@ -79,9 +80,11 @@ html {
   color: #1f1f1f;
   text-decoration: none;
 }
+
 .to-top i{
   animation: scrolltop 0.5s alternate ease infinite;
 }
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -90,6 +93,7 @@ html {
     opacity: 1;
   }
 }
+
 @keyframes scrolltop {
   from {
     transform: translateY(2px);
