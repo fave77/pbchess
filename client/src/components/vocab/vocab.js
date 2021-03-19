@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Terms from "./Terms.json";
+import ScrollTopButton from "./ScrollTop";
 import "./vocab.css";
 
 class Vocab extends Component {
@@ -34,6 +35,7 @@ class Vocab extends Component {
             ))}
           </div>
         </div>
+        <ScrollTopButton />
       </div>
     );
   }
