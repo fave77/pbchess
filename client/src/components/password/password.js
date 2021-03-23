@@ -125,9 +125,9 @@ class ChangePassword extends Component {
 
     render() {
         return (
-            <div className="col-md-12">
-                <div className="card card-container password-card">
-                    <h2 class = "title">Change Password</h2>
+            <div className = "col-md-12">
+                <div className = "card card-container password-card">
+                    <h2 class = "pswd-title">Change Password</h2>
                     <Form
                         name="changePassword"
                         onSubmit={this.handleSubmit}

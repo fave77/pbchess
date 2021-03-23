@@ -1,6 +1,6 @@
 const {
   create, join, move, disconnect
-} = require('../controllers/game.controller.js');
+} = require('../controllers/game.controller');
 
 // Socket router for handling events emitted from the client
 const socketRouter = (io, liveGames) => {

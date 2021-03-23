@@ -28,6 +28,7 @@ app.use(passport.initialize());
 
 app.use('/api', require('./routes/user.route'));
 app.use('/api', require('./routes/profile.route'));
+app.use('/api', require('./routes/game.route'));
 
 // Running the server at port PORT or default 8000
 const port = process.env.PORT || 8000;

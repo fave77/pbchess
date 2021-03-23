@@ -1,6 +1,8 @@
 const { Chess } = require('chess.js');
 const { validatePawnPromotion, evaluateGame } = require('../services/chess.service');
 
+const Game = require('../models/game.model');
+
 // Called while creating a game
 const create = (io, socket, data, liveGames) => {
 
@@ -104,6 +106,37 @@ const disconnect = (socket, liveGames) => {
   });
 };
 
+const fetchGameDetails = async (req, res) => {
+  
+  try {
+    const game = await Game.findOne({ gameId: req.body.gameId });
+    console.log("fetching a game...")
+
+    if (!game)
+      return res
+        .status(401)
+        .json({
+          success: false,
+          msg: 'Invalid gameId! Could not find a game...'
+        });
+        
+    return res
+      .status(200)
+      .json({
+        success: true,
+        gameId: game.gameId,
+        createdBy: game.createdBy,
+        joinedBy: game.joinedBy,
+        state: game.state,
+        outcome: game.outcome
+      });
+  } catch(error) {
+
+    console.log(error);
+    return res.json({ success: false, msg: error });
+  }
+};
+
 module.exports = {
-  create, join, move, disconnect
+  create, join, move, disconnect, fetchGameDetails
 };

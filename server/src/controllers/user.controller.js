@@ -16,7 +16,6 @@ const registerViaPbChess = async (fullname, username, password, email) => {
   const message = `Thank you for registering at Pbchess. Your username is ${username}. 
   Please confirm your email using the given link to continue to the site. ${url}/confirm?userId=${user._id}`;
 
-  
   await sendMail(email, 'Email Confirmation', message);
   return user;
 }
@@ -26,7 +25,7 @@ const registerViaGoogle = async (fullname, username, password, email) => {
   const user = await registerUser(fullname, username, password, email, true);
   const message = `Thank you for registering at Pbchess. Your username is ${username} and password is ${password}. 
   Have a great day ahead`;
-  
+  console.log(message)
   await sendMail(email, 'Thank you for registering at PbChess', message)
   return user;
 }
