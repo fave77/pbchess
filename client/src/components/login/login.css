@@ -25,3 +25,18 @@ label {
 .mybtn:hover, .mybtn:focus {
   background-color: #8198fd99;
 }
+
+.lichessbtn {
+  background-color: #1b6ec2;
+}
+
+.lichessbtn:hover .lichessbtn:focus {
+  background-color: #0069d9;
+}
+
+.lichess-logo-image {
+  background-color: #fff;
+  width: 1.3em;
+  height: 1.3em;
+  margin: 2px;
+}
