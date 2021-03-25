@@ -8,7 +8,7 @@ import GoogleLogin from 'react-google-login';
 import './login.css';
 import { Link } from 'react-router-dom';
 import configAPI from '../../configs/api.config';
-import lichesslogo from '../../images/lichesslogo.svg'
+import lichesslogo from '../../images/lichesslogo.svg';
 
 const API_ORIGIN = configAPI().split('/api')[0];
 
@@ -128,7 +128,7 @@ class Login extends Component {
 
   registerLoginJWT(event) {
     if (event.origin !== API_ORIGIN) {
-      console.log("Invalid origin", event)
+      console.log("Invalid origin", event);
       return;
     }
 
@@ -136,11 +136,11 @@ class Login extends Component {
       localStorage.setItem('user', JSON.stringify(event.data));
       this.props.history.push('/play');
       window.location.reload();
-    }
-    else
+    } else {
       this.setState({message: event.data.success});
+    }
     
-    window.removeEventListener("message", this.registerLoginJWT)
+    window.removeEventListener("message", this.registerLoginJWT);
   }
 
   handleLichessLogin(e) {
@@ -148,7 +148,7 @@ class Login extends Component {
     console.debug("Clicked 'Login with Lichess");
     let popup = window.open(API_ORIGIN+'/api/auth/lichess/', "Login With Lichess", "width=650, height=900");
     
-    window.addEventListener("message", this.registerLoginJWT)
+    window.addEventListener("message", this.registerLoginJWT);
   }
   
   render() {

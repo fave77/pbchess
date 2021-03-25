@@ -48,8 +48,8 @@ authRouter.get(
             </html>
         `;
         res.set("Content-Security-Policy", "script-src 'self' 'unsafe-inline'");
-        return res.send(html)
+        return res.send(html);
     }
-)
+);
 
 module.exports = authRouter;
