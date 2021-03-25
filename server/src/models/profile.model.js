@@ -8,7 +8,8 @@ const profileSchema = new Schema({
   avatar: String,
   gender: String,
   country: String,
-  joined: String
+  joined: String,
+  lichess: String,
 });
 
 module.exports = model('Profile', profileSchema, 'profiles');
