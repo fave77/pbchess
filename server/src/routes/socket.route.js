@@ -1,5 +1,5 @@
 const {
-  create, join, move, disconnect
+  create, join, move, disconnect, timeout
 } = require('../controllers/game.controller');
 
 // Socket router for handling events emitted from the client
@@ -17,7 +17,9 @@ const socketRouter = (io, liveGames) => {
     socket.on('move_piece', data => {
       move(io, socket, data, liveGames);
     });
-
+    socket.on('timeout', data=>{
+      timeout(socket, data, liveGames);
+    })
     socket.on('disconnect', _ => {
       disconnect(socket, liveGames);
     });

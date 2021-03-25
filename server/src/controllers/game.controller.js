@@ -106,6 +106,19 @@ const disconnect = (socket, liveGames) => {
   });
 };
 
+// Called when any player timeouts
+const timeout = (socket, data, liveGames) => {
+  const {player, gameId} = data;
+
+  liveGames.hgetall(gameId, (err, res) => {
+    if (res !== null) {
+      console.log(`Player- ${player.username} timed out !!`);
+      liveGames.del(gameId);
+      socket.broadcast.emit('timed_out', player);
+    }
+  });
+}
+
 const fetchGameDetails = async (req, res) => {
   
   try {
@@ -138,5 +151,5 @@ const fetchGameDetails = async (req, res) => {
 };
 
 module.exports = {
-  create, join, move, disconnect, fetchGameDetails
+  create, join, move, disconnect, fetchGameDetails, timeout
 };

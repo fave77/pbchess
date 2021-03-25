@@ -59,6 +59,13 @@ class Game extends React.Component {
     });
   }
 
+  onTimeOut= (player) => {
+    this.props.socket.emit('timeout', {
+      gameId: this.props.gameId,
+      player
+    });
+  }
+
   promotion(e) {
     this.setState({ promotion: false }, _ => {
       const { from, to } = this.state.lastMove;
@@ -92,6 +99,11 @@ class Game extends React.Component {
       });
     });
 
+    this.props.socket.on('timed_out', player => {
+      console.log(`${player.username} timed out !!`);
+      this.setState({ gameAborted: `${player.username} timed out !!`});
+    })
+
     this.props.socket.on('abort_game', msg => {
       this.setState({ gameAborted: msg });
     });
@@ -108,6 +120,7 @@ class Game extends React.Component {
               player={this.props.opponent}
               turn={this.state.turn !== this.state.orientation.charAt(0)}
             />
+            <button onClick={event => this.onTimeOut(this.props.opponent)}>Timeout</button>
             <Chessground
               turnColor = { this.turnColor() }
               movable = { this.calcMovable() }
@@ -115,6 +128,7 @@ class Game extends React.Component {
               fen = { this.state.fen }
               orientation = { this.state.orientation }
             />
+            <button onClick={event => this.onTimeOut(this.props.self)}>Timeout p2</button>
             <User
               player={this.props.self}
               turn={this.state.turn === this.state.orientation.charAt(0)}
