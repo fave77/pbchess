@@ -60,6 +60,9 @@ class Game extends React.Component {
   }
 
   onTimeOut= (player) => {
+    this.setState({ 
+      gameAborted: `${player.username === this.props.self.username ? 'You' : player.username} timed out !!`
+    });
     this.props.socket.emit('timeout', {
       gameId: this.props.gameId,
       player
@@ -99,10 +102,12 @@ class Game extends React.Component {
       });
     });
 
-    this.props.socket.on('timed_out', player => {
-      console.log(`${player.username} timed out !!`);
-      this.setState({ gameAborted: `${player.username} timed out !!`});
-    })
+    this.props.socket.on('timed_out', data => {
+      const {result, timedoutPlayer} = data;
+      this.setState({ 
+        gameAborted: `${timedoutPlayer.username === this.props.self.username ? 'You' : timedoutPlayer.username} timed out !!`
+      });
+    });
 
     this.props.socket.on('abort_game', msg => {
       this.setState({ gameAborted: msg });
@@ -116,6 +121,7 @@ class Game extends React.Component {
       <div style = {{ background: '#2b313c', height: '100vh' }}>
         <Col span = { 6 } />
         <Col span = { 12 } style = {{ top: '4%', margin: 'auto', width: 'fit-content' }}>
+            Category: {this.props.timerDetails.category} Total time of game: {this.props.timerDetails.totalTime}
             <User
               player={this.props.opponent}
               turn={this.state.turn !== this.state.orientation.charAt(0)}

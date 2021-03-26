@@ -17,9 +17,9 @@ const socketRouter = (io, liveGames) => {
     socket.on('move_piece', data => {
       move(io, socket, data, liveGames);
     });
-    socket.on('timeout', data=>{
+    socket.on('timeout', data => {
       timeout(socket, data, liveGames);
-    })
+    });
     socket.on('disconnect', _ => {
       disconnect(socket, liveGames);
     });

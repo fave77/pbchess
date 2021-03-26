@@ -108,16 +108,18 @@ const disconnect = (socket, liveGames) => {
 
 // Called when any player timeouts
 const timeout = (socket, data, liveGames) => {
-  const {player, gameId} = data;
+  const {gameId, player} = data;
 
   liveGames.hgetall(gameId, (err, res) => {
+    const game = JSON.parse(res['*']);
     if (res !== null) {
       console.log(`Player- ${player.username} timed out !!`);
+      const evaluation = evaluateGame(undefined, player);
+      socket.broadcast.emit('timed_out', evaluation);
       liveGames.del(gameId);
-      socket.broadcast.emit('timed_out', player);
     }
   });
-}
+};
 
 const fetchGameDetails = async (req, res) => {
   
