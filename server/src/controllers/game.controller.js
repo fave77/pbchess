@@ -111,8 +111,8 @@ const timeout = (socket, data, liveGames) => {
   const {gameId, player} = data;
 
   liveGames.hgetall(gameId, (err, res) => {
-    const game = JSON.parse(res['*']);
     if (res !== null) {
+      const game = JSON.parse(res['*']);
       console.log(`Player- ${player.username} timed out !!`);
       const evaluation = evaluateGame(undefined, player);
       socket.broadcast.emit('timed_out', evaluation);

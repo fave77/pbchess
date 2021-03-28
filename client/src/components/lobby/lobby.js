@@ -31,7 +31,7 @@ class Lobby extends React.Component {
       player2: undefined,    // user who joins the game
       timerDetails: {
         category: 'Blitz',
-        totalTime: 120000
+        totalTime: 1800000
       }
     }
   }

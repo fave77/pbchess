@@ -15,12 +15,13 @@ const evaluateGame = (chess, timedoutPlayer=undefined) => {
   
   // Timeout evaluation
   if(!chess){
-    if(!timedoutPlayer)
+    if(!timedoutPlayer){
       throw new Error('Either Chess state or timedout player details must be provided!');    
+    }
     return {
       result: 'timeout',
       timedoutPlayer
-    }
+    };
   }
 
   // Chess game evaluation
