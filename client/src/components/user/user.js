@@ -29,10 +29,11 @@ const User = forwardRef(({player, turn, timeLimit, timedout}, ref) => {
     }
   }));
 
-  useEffect(()=>{
+  useEffect(() => {
     // Start timer from beginning or not
-    if(!turn)
+    if(!turn){
       pause();
+    }
   }, []);
 
   const toggleStyles = {
@@ -57,7 +58,7 @@ const User = forwardRef(({player, turn, timeLimit, timedout}, ref) => {
             {minutes} : {seconds}
         </h4>
     </Row>
-  )
+  );
 });
 
-export default User
+export default User;

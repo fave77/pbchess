@@ -68,7 +68,7 @@ class Game extends React.Component {
       gameAborted: `${timedOut} timed out !! ${winner} won`
     });
   }
-  onTimeOut= (player) => {
+  onTimeOut = (player) => {
     this.props.socket.emit('timeout', {
       gameId: this.props.gameId,
       player
@@ -141,7 +141,7 @@ class Game extends React.Component {
               turn={this.state.turn !== this.state.orientation.charAt(0)}
               ref={this.opponent}
               timeLimit={Date.now() + this.props.timerDetails.totalTime}
-              timedout={()=>this.onTimeOut(this.props.opponent)}
+              timedout={() => this.onTimeOut(this.props.opponent)}
             />
             <Chessground
               turnColor = { this.turnColor() }
@@ -155,7 +155,7 @@ class Game extends React.Component {
               turn={this.state.turn === this.state.orientation.charAt(0)}
               ref={this.self}
               timeLimit={Date.now() + this.props.timerDetails.totalTime}
-              timedout={()=>this.onTimeOut(this.props.self)}
+              timedout={() => this.onTimeOut(this.props.self)}
             />
         </Col>
         <Col span = { 1 } />
