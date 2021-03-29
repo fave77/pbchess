@@ -3,8 +3,8 @@
 const { createClient } = require('redis');
 const redisAdapter = require('socket.io-redis');
 
-const prodRedisURI = process.env.PROD_STORAGE_URI || '';
-const devRedisURI = process.env.DEV_STORAGE_URI || '';
+const prodRedisURI = process.env.PROD_STORAGE_URL || '';
+const devRedisURI = process.env.DEV_STORAGE_URL || '';
 
 const prodRedisPswd = process.env.PROD_STORAGE_PSWD;
 const devRedisPswd = process.env.DEV_STORAGE_PSWD

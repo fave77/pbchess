@@ -6,47 +6,19 @@ const sendMail = require('../services/email.service');
 const { OAuth2Client } = require('google-auth-library');
 const axios = require('axios');
 
-const clientID = process.env.CLIENT_ID;
-const client = new OAuth2Client(clientID);
+const googleClientID = process.env.GOOGLE_CLIENT_ID;
+const googleOAuth2Client = new OAuth2Client(googleClientID);
 
-const registerViaPbChess = async (fullname, username, password, email) => {
+const { configClient } = require('../configs/client.config');
+const CLIENT_URL = configClient();
 
-  const user = await registerUser(fullname, username, password, email, false);
-  const url = process.env.NODE_ENV == "development" ? process.env.DEV_CLIENT_URI : process.env.PROD_CLIENT_URI
-  
-  const message = `Thank you for registering at Pbchess. Your username is ${username}. 
-  Please confirm your email using the given link to continue to the site. ${url}/confirm?userId=${user._id}`;
+/* Following 5 functions perform user registration via 
+  Google <Oauth>, Lichess <OAuth>, Pbchess <POST /register>
+*/
 
-  await sendMail(email, 'Email Confirmation', message);
-  return user;
-}
 
-const registerViaGoogle = async (fullname, username, password, email) => {
-
-  const user = await registerUser(fullname, username, password, email, true);
-  const message = `Thank you for registering at Pbchess. Your username is ${username} and password is ${password}. Have a great day ahead`;
-  await sendMail(email, 'Thank you for registering at PbChess', message);
-  return user;
-}
-
-const registerViaLichess = async (lichessProfile) => {
-  const fullname = "None";
-  const username = lichessProfile.username;
-  const password = generatePassword.generate({
-    length: 10,
-    numbers: true
-  });
-  const email = lichessProfile.email;
-  const status = false;
-  const service = {lichess: lichessProfile.id};
-
-  const user = await registerUser(fullname, username, password, email, status, service);
-  const message = `Thank you for registering at Pbchess. Your username is ${username} and password is ${password}.`;
-  await sendMail(email, "Thank you for registering at PbChess", message)
-  return user;
-}
-
-const registerUser = async (fullname, username, password, email, status, service) => {
+// creates new respective user and profile collection on DB
+const registerUser = async (fullname, username, password, email, status, lichess = 'NA') => {
 
   const { salt, hash } = utils.createPassword(password);
 
@@ -58,7 +30,7 @@ const registerUser = async (fullname, username, password, email, status, service
   });
 
   const user = await newUser.save();
-  
+
   const newProfile = new Profile({
     username: user.username,
     fullname: fullname,
@@ -67,16 +39,187 @@ const registerUser = async (fullname, username, password, email, status, service
     gender: 'NA',
     country: 'NA',
     joined: new Date().toGMTString().slice(0, -13),
-    ...service,
+    lichess: lichess
   });
 
   const profile = await newProfile.save();
 
   return user;
+};
+
+// invokes registerUser for creating new record and sends confirmation mail 
+const registerViaPbChess = async (pbchessProfile) => {
+
+  const { fullname, username, password, email } = pbchessProfile;
+
+  const user = await registerUser(fullname, username, password, email, false);  
+  const message = `Thank you for registering at Pbchess. Your username is ${username}. 
+  Please confirm your email using the given link to continue to the site. ${CLIENT_URL}/confirm?userId=${user._id}`;
+  await sendMail(email, 'Thank you for registering at Pbchess', message);
+  return user;
+
 }
 
+// invokes registerUser for creating new record and sends confirmation mail 
+const registerViaGoogle = async (googleProfile) => {
 
-// Called while login
+  const fullname = googleProfile.name;
+  const email = googleProfile.email;
+  const username = email.substring(0, email.indexOf('@')); 
+
+  // Generating a random password
+  const password = generatePassword.generate({
+    length: 10,
+    numbers: true
+  });
+
+  const user = await registerUser(fullname, username, password, email, true);
+  const message = `Thank you for registering at pbchess. Your username is ${username} and password is ${password}. Have a great day ahead!`;
+  await sendMail(email, 'Thank you for registering at Pbchess', message);
+  return user;
+
+}
+
+// invokes registerUser for creating new record and sends confirmation mail 
+const registerViaLichess = async (lichessProfile) => {
+
+  const fullname = 'NA';
+  const email = lichessProfile.email;
+  const username = lichessProfile.username;
+  const lichessURL = lichessProfile.profileUrl;
+
+  // Generating a random password
+  const password = generatePassword.generate({
+    length: 10,
+    numbers: true
+  });
+
+  const user = await registerUser(fullname, username, password, email, true, lichessURL);
+  const message = `Thank you for registering at pbchess. Your username is ${username} and password is ${password}. Have a great day ahead!`;
+  await sendMail(email, "Thank you for registering at Pbchess", message)
+  return user;
+
+};
+
+// Called when registering with Pbchess
+const register = async (req, res) => {
+
+  try {
+    let currUser = await User.findOne({ username: req.body.username });
+
+    if (currUser)
+      return res.status(409).json({ success: false, msg: 'An account with this username already exists! Try an even better one...' });
+
+    currUser = await Profile.findOne({ email : req.body.email });
+
+    if (currUser)
+      return res.status(409).json({ success: false, msg: 'An account with this email already exists! Try an alternate one...' });
+      
+
+    const user = await registerViaPbChess(req.body);
+
+    return res.json({
+      success: false,
+      msg: 'Registered Successfully! Please confirm your email to start playing.'
+    });
+
+  } catch (err) {
+    return res.json({ success: false, msg: err });
+  }
+
+};
+
+/* Following 3 functions perform user login via 
+  Google <Oauth>, Lichess <OAuth>, Pbchess <POST /login>
+*/
+
+// Called when signing in with Google
+const googleSignIn = async (req, res) => {
+
+  try {
+
+    const response = await (await googleOAuth2Client.verifyIdToken({idToken: req.body.idToken, audience: googleClientID}));
+    const googleProfile = response.payload;
+
+    // Finds the user based on their email
+    let currUser = await Profile.findOne({ email: googleProfile.email });
+
+
+    if (currUser){
+      // Finds the user based on their username
+      currUser = await User.findOne({ username : currUser.username });
+      const tokenObject = utils.issueJWT(currUser);
+      return res
+        .status(200)
+        .json({
+          success: true,
+          token: tokenObject.token,
+          expiresIn: tokenObject.expires,
+          username: currUser.username,
+          _id: currUser._id,
+        });
+    }
+
+    const user = await registerViaGoogle(googleProfile);
+
+    const tokenObject = utils.issueJWT(user);
+    
+    return res.json({
+      success: true,
+      token: tokenObject.token,
+      expiresIn: tokenObject.expires,
+      username: user.username,
+      _id: user._id,
+      msg: 'Registered Successfully!'
+    });
+  } catch (err) {
+    return res.json({ success: false, msg: err });
+  }
+
+};
+
+
+// Called when signing in with Lichess
+const lichessSignIn = async (accessToken, refreshToken, lichessProfile, done) => {
+  
+  try {
+    let user = null;
+    let profile = null;
+    let error = null;
+
+    // Finds the user based on their email
+    const resp = await axios.get('https://lichess.org/api/account/email', {
+      headers: {
+        "Authorization": `Bearer ${accessToken}`
+      }
+    });
+
+    lichessProfile.email = resp.data.email;
+
+    profile = await Profile.findOneAndUpdate({ lichess: lichessProfile.email }, {
+      $set: { lichess: lichessProfile.url }
+    });
+
+    if (profile) {
+      // Return user obj for associated profile
+      user = await User.findOne({ username: profile.username });
+      error = user || new Error(`Unable to find user linked to Profile ${profile.username}`);
+    } else {
+      // Create new user and profile obj
+      user = await registerViaLichess(lichessProfile);
+      error = error || new Error(`Unable to create new user with LichessProfile ${lichessProfile.username}`);
+    }
+
+    if (user) return done(null, user);
+    else return done(error, false);
+  }
+  catch (err) {
+    return done(err, false);
+  }
+
+};
+
+// Called when signing in with Pbchess
 const login = async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username });
@@ -115,96 +258,14 @@ const login = async (req, res, next) => {
           msg: 'You entered the wrong password!'
         });
 
-  } catch(err) {
-    next(err);
-  }
-
-};
-
-// Called while registering
-const register = async (req, res) => {
-
-  try {
-    let currUser = await User.findOne({ username: req.body.username });
-
-    if (currUser)
-      return res.status(409).json({ success: false, msg: 'An account with this username already exists! Try an even better one...' });
-
-    currUser = await Profile.findOne({ email : req.body.email });
-
-    if (currUser)
-      return res.status(409).json({ success: false, msg: 'An account with this email already exists! Try an alternate one...' });
-      
-
-    const user = await registerViaPbChess(req.body.fullname, req.body.username, req.body.password, req.body.email);
-
-    return res.json({
-      success: false,
-      msg: 'Registered Successfully! Please confirm your email to start playing.'
-    });
-
   } catch (err) {
     return res.json({ success: false, msg: err });
   }
 
 };
 
-// Called when signing in with google
-const googleSignIn = async (req, res) => {
 
-  try {
-
-    const response = await (await client.verifyIdToken({idToken: req.body.idToken, audience: clientID}));
-    const data = response.payload;
-
-    const fullname = data.name;
-    const email = data.email;
-    const username = email.substring(0, email.indexOf('@')); 
-
-    // Finds the user based on their profile email
-    let currUser = await Profile.findOne({ email: email });
-
-
-    if (currUser){
-      // Finds the user based on their username
-      currUser = await User.findOne({username : currUser.username});
-      const tokenObject = utils.issueJWT(currUser);
-      return res
-        .status(200)
-        .json({
-          success: true,
-          token: tokenObject.token,
-          expiresIn: tokenObject.expires,
-          username: currUser.username,
-          _id: currUser._id,
-        });
-    }
-
-    // Generating a random password
-    const password = generatePassword.generate({
-      length: 10,
-      numbers: true
-    });
-
-
-    const user = await registerViaGoogle(fullname, username, password, email);
-
-    const tokenObject = utils.issueJWT(user);
-    
-    return res.json({
-      success: true,
-      token: tokenObject.token,
-      expiresIn: tokenObject.expires,
-      username: user.username,
-      _id: user._id,
-      msg: 'Registered Successfully!'
-    });
-  } catch (err) {
-    return res.json({ success: false, msg: err });
-  }
-};
-
-
+// Verifies user via registered email
 const confirm = async (req, res) => {
   const id = req.body.userId;
   
@@ -229,6 +290,7 @@ const confirm = async (req, res) => {
   return res.json({msg: "Verified Successfully"});
 };
 
+// Update password for existing user
 const updatePassword = async (req, res) => {
 
   try{
@@ -258,60 +320,13 @@ const updatePassword = async (req, res) => {
       success: true,
       msg: "You have successfully updated your password. Please login to continue."
     })
-  }catch(error){
-    console.log(error);
+  } catch (error) {
     return res.json({ success: false, msg: error });
   }
 
-}
+};
 
-// Called when signing in with Lichess
-const lichessSignIn = async (accessToken, refreshToken, lichessProfile, done) => {
-  try {
-    let user = null;
-    let profile = null;
-    let error = null;
-
-    // Find User|Profile using LichessID
-    profile = await Profile.findOne({ lichess: lichessProfile.id });
-    
-    if (!profile) {
-      // Find User|Profile using email id
-      const resp = await axios.get('https://lichess.org/api/account/email', {
-        headers: {
-          "Authorization": `Bearer ${accessToken}`
-        }
-      })
-
-      const email = resp.data.email;
-      lichessProfile.email = email;
-
-      profile = await Profile.findOneAndUpdate({ email }, {
-        $set: { lichess: lichessProfile.id }
-      });
-    }
-
-    if (profile) {
-      // Return user obj for associated profile
-      user = await User.findOne({username: profile.username});
-      error = user || new Error(`Unable to find user linked to Profile ${profile.username}`);
-    }
-    else {
-      // Create new user and profile obj
-      user = await registerViaLichess(lichessProfile);
-      error = error || new Error(`Unable to create new user with LichessProfile ${lichessProfile.username}`);
-    }
-
-    if (user) return done(null, user);
-    else return done(error, false);
-  }
-  catch (err) {
-    console.log("Caught an error", err);
-    return done(err, false);
-  }
-}
-
-// Called aftering signing in with Lichess
+// Called after signing in with Lichess
 const lichessSignInCallback = (req, res) => {
   let payload = {};
   let text = "Authentication ";
@@ -334,7 +349,6 @@ const lichessSignInCallback = (req, res) => {
     };
     text += "failed";
   }
-  const clientURL = process.env.DEV_CLIENT_URI;
   const html = `
       <!DOCTYPE html>
       <html>
@@ -344,7 +358,7 @@ const lichessSignInCallback = (req, res) => {
           <body>
           ${text}.
           <script type="text/javascript">
-              window.opener.postMessage(${JSON.stringify(payload)}, "${clientURL}");
+              window.opener.postMessage(${JSON.stringify(payload)}, "${CLIENT_URL}");
               window.close();
           </script>
           </body>
@@ -352,7 +366,7 @@ const lichessSignInCallback = (req, res) => {
   `;
   res.set("Content-Security-Policy", "script-src 'self' 'unsafe-inline'");
   return res.send(html);
-}
+};
 
 module.exports = {
 	login,
@@ -362,4 +376,4 @@ module.exports = {
   lichessSignInCallback,
   confirm,
   updatePassword
-}
+};

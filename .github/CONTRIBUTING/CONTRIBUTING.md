@@ -54,16 +54,22 @@ Create `.env` files in both `client` and `server` folder with the following vari
 	- `NODE_ENV=development`
 	- `CI=false`
 	- `REACT_APP_DEV_API_URL=http://localhost:8000/api/`
+	- `REACT_APP_GOOGLE_CLIENT_ID=<your-google-client-id>`
 
 - Server:
 	- `NODE_ENV=development`
-	- `DEV_DATABASE_URI=mongodb://127.0.0.1:27017/<YOUR-DB-NAME>`
-	- `DEV_STORAGE_URI=127.0.0.1:6379`
-	- `DEV_STORAGE_PSWD=<YOUR-REDIS-INSTANCE-PSWD>`
-  	- `PUBLIC_KEY=<YOUR-RSA-PUBLIC-KEY>`
-  	- `PRIVATE_KEY=<YOUR-RSA-PRIVATE-KEY>`
-	- `DEV_LICHESS_CLIENT_ID=<YOUR-LICHESS-CLIENT-ID`
-	- `DEV_LICHESS_CLIENT_SECRET=<YOUR-LICHESS-CLIENT-SECRET>`
+	- `DEV_CLIENT_URL=http://localhost:3000`
+  	- `PUBLIC_KEY=<your-rsa-public-key>`
+  	- `PRIVATE_KEY=<your-rsa-private-key>`
+	- `DEV_DATABASE_URL=mongodb://127.0.0.1:27017/pbchess`
+	- `DEV_STORAGE_URL=127.0.0.1:6379`
+	- `DEV_STORAGE_PSWD=<your-redis-instance-pswd>`
+	- `EMAIL=<your-google-oauthplayground-mail-id>`
+	- `GOOGLE_CLIENT_ID=<your-google-client-id>`
+	- `GOOGLE_CLIENT_SECRET=<your-google-client-secret>`
+	- `GOOGLE_REFRESH_TOKEN=<your-google-oauthplayground-refresh-token>`
+	- `DEV_LICHESS_CLIENT_ID=<your-lichess-client-id`
+	- `DEV_LICHESS_CLIENT_SECRET=<your-lichess-client-secret>`
 
 **Default Ports:**
 - React (or Client) - 3000
@@ -71,10 +77,13 @@ Create `.env` files in both `client` and `server` folder with the following vari
 - MongoDB (or Database) - 27017
 - Redis (or In-memory DS) - 6379
 
-**Note:** In order to run the client (properly), you need to have the server running at port 8000. Similarly, to run the server (propely), you need both MongoDB and Redis running at default ports 27017 and 6379 respectively. Also, do not forget to generate your rsa keys seperately and storing them in environment variables, like so: 
+**Note:** In order to run the client (properly), you need to have the server running at port 8000. Similarly, to run the server (propely), you need both MongoDB and Redis running at default ports 27017 and 6379 respectively. 
+
+For authentication using JWT, you must generate your rsa keys seperately and store them in environment variables, like so: 
 ```bash
-$ node keys.service.js generate
+$ node server/src/services/keys.service.js generate
 ```
+For using Google Sign-In and Lichess Sign-In, do not forget to provide your own credentials like clientId, clientSecret, refreshToken, etc.
 
 ## :cyclone: Run the Project
 

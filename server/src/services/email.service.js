@@ -1,30 +1,32 @@
 const nodemailer = require('nodemailer');
-const {google} = require('googleapis');
-const clientID = process.env.CLIENT_ID;
-const clientSecret = process.env.CLIENT_SECRET;
-const refreshToken = process.env.REFRESH_TOKEN;
-const redirectURI = 'https://developers.google.com/oauthplayground';
+const { google } = require('googleapis');
+const googleClientID = process.env.GOOGLE_CLIENT_ID;
+const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+const googleRefreshToken = process.env.GOOGLE_REFRESH_TOKEN;
+const redirectURL = 'https://developers.google.com/oauthplayground';
 const user = process.env.EMAIL;
 
 const sendMail = async (email, subject, message) => {
     
   try {
     // Creating an oAuth2 Client
-    const oAuth2Client = new google.auth.OAuth2(clientID, clientSecret, redirectURI);
-    oAuth2Client.setCredentials({refresh_token: refreshToken});
+    const oAuth2Client = new google.auth.OAuth2(googleClientID, googleClientSecret, redirectURL);
+    oAuth2Client.setCredentials({refresh_token: googleRefreshToken});
 
     // Gets the access token at that moment
     const accessToken = await oAuth2Client.getAccessToken();
 
     // Transporter object specifying the type of email used
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
       auth:{
         type: 'OAuth2',
         user: user,
-        clientId: clientID,
-        clientSecret: clientSecret,
-        refreshToken: refreshToken,
+        clientId: googleClientID,
+        clientSecret: googleClientSecret,
+        refreshToken: googleRefreshToken,
         accessToken: accessToken
       }
     });
@@ -39,9 +41,9 @@ const sendMail = async (email, subject, message) => {
     
     // Sends the mail
     transporter.sendMail(options, (error, data) => {
-      if (error)
+      if (error) {
         console.log("Unable to send email please check the options provided");
-      else
+      } else
         console.log("Email sent successfully");
     });
   } catch (error) {

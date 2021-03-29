@@ -216,7 +216,7 @@ class Login extends Component {
 
             <div className = 'form-group'>
               <GoogleLogin
-                clientId = { process.env.REACT_APP_CLIENT_ID }
+                clientId = { process.env.REACT_APP_GOOGLE_CLIENT_ID }
                 buttonText = "Sign in with Google"
                 onSuccess = {this.onSignIn}
                 onFailure = {this.handleGoogleOAuthError}
