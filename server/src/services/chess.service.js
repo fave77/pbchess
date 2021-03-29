@@ -11,7 +11,20 @@ const validatePawnPromotion = (socket, chess, pendingMove) => {
 };
 
 // For evaluating games which ended
-const evaluateGame = chess => {
+const evaluateGame = (chess, timedoutPlayer=undefined) => {
+  
+  // Timeout evaluation
+  if(!chess){
+    if(!timedoutPlayer){
+      throw new Error('Either Chess state or timedout player details must be provided!');    
+    }
+    return {
+      result: 'timeout',
+      timedoutPlayer
+    };
+  }
+
+  // Chess game evaluation
   if (chess.in_checkmate()) {
     return {
       result: 'checkmate'

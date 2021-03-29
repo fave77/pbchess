@@ -28,7 +28,11 @@ class Lobby extends React.Component {
       status: false,        // set to true when a game gets started
       gameId: undefined,    // same as userId of the game's creator
       player1: undefined,   // user who creates a game
-      player2: undefined    // user who joins the game
+      player2: undefined,    // user who joins the game
+      timerDetails: {
+        category: 'Blitz',
+        totalTime: 1800000
+      }
     }
   }
 
@@ -118,6 +122,7 @@ class Lobby extends React.Component {
                 socket = { this.state.socket }
                 self = { this.state.user }
                 opponent = { this.state.player1.username !== this.state.user.username ? this.state.player1 : this.state.player2 }
+                timerDetails={ this.state.timerDetails }
               />
             : <div> 
                 <Card className = 'text-center lobby-card' bg = 'dark' text = 'light'>

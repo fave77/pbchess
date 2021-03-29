@@ -1,4 +1,4 @@
-.userContainer {
+.timerContainer {
   width: 512px;
   height: 40px;
   margin: 0;
@@ -9,6 +9,8 @@
   align-items: center;
 }
 
-.userContainer h5 {
+.timerContainer h5 {
   margin-bottom: 0.2rem;
+  width: 380px;
+  text-align: left;
 }

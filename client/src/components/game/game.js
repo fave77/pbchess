@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 
 import Chessground from 'react-chessground';
 import 'react-chessground/dist/styles/chessground.css';
-import User from '../user/user';
+import Timer from '../timer/timer';
 
 import queen from '../../images/wQ.svg'
 import rook from '../../images/wR.svg'
@@ -37,6 +37,8 @@ class Game extends React.Component {
       promotion: false,
       gameAborted: false
     }
+    this.self = React.createRef();
+    this.opponent = React.createRef();
   }
 
   turnColor() {
@@ -59,6 +61,21 @@ class Game extends React.Component {
     });
   }
 
+  postTimeOut = (player) => {
+    let timedOut = player.username === this.props.self.username ? 'You' : 'Opponent';
+    let winner = player.username === this.props.self.username ? 'Opponent' : 'You';
+    this.setState({ 
+      gameAborted: `${timedOut} timed out !! ${winner} won`
+    });
+  }
+  onTimeOut = (player) => {
+    this.props.socket.emit('timeout', {
+      gameId: this.props.gameId,
+      player
+    });
+    this.postTimeOut(player);
+  }
+
   promotion(e) {
     this.setState({ promotion: false }, _ => {
       const { from, to } = this.state.lastMove;
@@ -74,7 +91,17 @@ class Game extends React.Component {
     this.props.socket.on('move_piece', gameState => {
       const { fen, lastMove, gameOver, turn, dests } = gameState;
 
-      console.log(lastMove)
+      console.log(lastMove);
+
+      if(this.state.turn !== this.state.orientation.charAt(0)){
+        // Start self timer and stop opponents timer if self turn
+        this.opponent.current.pauseTimer();
+        this.self.current.resumeTimer();
+      }else{
+        // Start opponent's timer and stop self timer if opponent's turn
+        this.self.current.pauseTimer();        
+        this.opponent.current.resumeTimer();
+      }
 
       this.setState({
         fen,
@@ -92,10 +119,14 @@ class Game extends React.Component {
       });
     });
 
+    this.props.socket.on('timed_out', data => {
+      const { result, timedoutPlayer } = data;
+      this.postTimeOut(timedoutPlayer);
+    });
+
     this.props.socket.on('abort_game', msg => {
       this.setState({ gameAborted: msg });
     });
-
   }
 
   render() {
@@ -104,9 +135,13 @@ class Game extends React.Component {
       <div style = {{ background: '#2b313c', height: '100vh' }}>
         <Col span = { 6 } />
         <Col span = { 12 } style = {{ top: '4%', margin: 'auto', width: 'fit-content' }}>
-            <User
-              player={this.props.opponent}
-              turn={this.state.turn !== this.state.orientation.charAt(0)}
+            {/* Category: {this.props.timerDetails.category} Total time of game: {this.props.timerDetails.totalTime} */}
+            <Timer
+              player = { this.props.opponent }
+              turn = { this.state.turn !== this.state.orientation.charAt(0) }
+              ref = { this.opponent }
+              timeLimit = { Date.now() + this.props.timerDetails.totalTime }
+              timedout = { () => this.onTimeOut(this.props.opponent) }
             />
             <Chessground
               turnColor = { this.turnColor() }
@@ -115,9 +150,12 @@ class Game extends React.Component {
               fen = { this.state.fen }
               orientation = { this.state.orientation }
             />
-            <User
-              player={this.props.self}
-              turn={this.state.turn === this.state.orientation.charAt(0)}
+            <Timer
+              player = { this.props.self }
+              turn = { this.state.turn === this.state.orientation.charAt(0) }
+              ref = { this.self }
+              timeLimit = { Date.now() + this.props.timerDetails.totalTime }
+              timedout = { () => this.onTimeOut(this.props.self) }
             />
         </Col>
         <Col span = { 1 } />
