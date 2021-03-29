@@ -7,8 +7,14 @@ const User = require('../models/user.model');
 const Profile = require('../models/profile.model');
 
 const PUB_KEY = process.env.PUBLIC_KEY.replace(/\\n/g, '\n');
-const LICHESS_CLIENT_ID = process.env.LICHESS_CLIENT_ID.replace(/\\n/g, '\n');
-const LICHESS_CLIENT_SECRET = process.env.LICHESS_CLIENT_SECRET.replace(/\\n/g, '\n');
+
+const LICHESS_CLIENT_ID = (process.env.NODE_ENV === 'production')
+  ? process.env.PROD_LICHESS_CLIENT_ID.replace(/\\n/g, '\n')
+  : process.env.DEV_LICHESS_CLIENT_ID.replace(/\\n/g, '\n');
+
+const LICHESS_CLIENT_SECRET = (process.env.NODE_ENV === 'production')
+  ? process.env.PROD_LICHESS_CLIENT_SECRET.replace(/\\n/g, '\n')
+  : process.env.DEV_LICHESS_CLIENT_SECRET.replace(/\\n/g, '\n');
 
 const configAuth = passport => {
   const jwtOptions = {
