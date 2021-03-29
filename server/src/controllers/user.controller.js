@@ -24,9 +24,8 @@ const registerViaPbChess = async (fullname, username, password, email) => {
 const registerViaGoogle = async (fullname, username, password, email) => {
 
   const user = await registerUser(fullname, username, password, email, true);
-  const message = `Thank you for registering at Pbchess. Your username is ${username} and password is ${password}. 
-  Have a great day ahead`;
-  await sendMail(email, 'Thank you for registering at PbChess', message)
+  const message = `Thank you for registering at Pbchess. Your username is ${username} and password is ${password}. Have a great day ahead`;
+  await sendMail(email, 'Thank you for registering at PbChess', message);
   return user;
 }
 
@@ -42,7 +41,7 @@ const registerViaLichess = async (lichessProfile) => {
   const service = {lichess: lichessProfile.id};
 
   const user = await registerUser(fullname, username, password, email, status, service);
-  const message = `Thank you for registering at Pbchess. Your username is ${username} and password is ${password}.`
+  const message = `Thank you for registering at Pbchess. Your username is ${username} and password is ${password}.`;
   await sendMail(email, "Thank you for registering at PbChess", message)
   return user;
 }
@@ -268,50 +267,47 @@ const updatePassword = async (req, res) => {
 
 // Called when signing in with Lichess
 const lichessSignIn = async (accessToken, refreshToken, lichessProfile, done) => {
-  // Find User/Profile using LichessID
   try {
-    let profile = await Profile.findOne({ lichess: lichessProfile.username });
+    let user = null;
+    let profile = null;
+    let error = null;
 
-    if (profile) {
-      let user = await User.findOne({ username: profile.username });
-
-      if (user) return done(null, user);
-      else return done(new Error(`Internal Error, unable to find User linked to Profile ${profile.username}`), false);
-    }
-  }
-  catch(err) {
-    console.log("Got an error", err);
-  }
-
-  // No lichess ID linked, find using email address
-  try {
-    const resp = await axios.get('https://lichess.org/api/account/email', {
-      headers: {
-        "Authorization": `Bearer ${accessToken}`
-      }
-    })
-
-    const email = resp.data.email;
-    lichessProfile.email = email;
-    profile = await Profile.findOneAndUpdate({ email }, {
-      $set: { lichess: lichessProfile.id }
-    });
+    // Find User|Profile using LichessID
+    profile = await Profile.findOne({ lichess: lichessProfile.username });
     
     if (!profile) {
-      // Create new user
-      const user = await registerViaLichess(lichessProfile);
-      if (user) return done(null, user);
-      else return done(new Error(`Unable to create new user`));
+      // Find User|Profile using email id
+      const resp = await axios.get('https://lichess.org/api/account/email', {
+        headers: {
+          "Authorization": `Bearer ${accessToken}`
+        }
+      })
+
+      const email = resp.data.email;
+      lichessProfile.email = email;
+
+      profile = await Profile.findOneAndUpdate({ email }, {
+        $set: { lichess: lichessProfile.id }
+      });
+    }
+
+    if (profile) {
+      // Return user obj for associated profile
+      user = await User.findOne({username: profile.username});
+      error = user || new Error(`Unable to find user linked to Profile ${profile.username}`);
     }
     else {
-      // Return existing user
-      user = await User.findOne({username: profile.username});
-      if (user) return done(null, user);
-      else return done(new Error(`Internal Error, unable to find User linked to Profile ${profile.username}`), false);
+      // Create new user and profile obj
+      user = await registerViaLichess(lichessProfile);
+      error = error || new Error(`Unable to create new user with LichessProfile ${lichessProfile.username}`);
     }
+
+    if (user) return done(null, user);
+    else return done(error, false);
   }
-  catch(err) {
-    console.log("Got an error", err);
+  catch (err) {
+    console.log("Caught an error", err);
+    return done(err, false);
   }
 }
 
