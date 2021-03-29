@@ -273,7 +273,7 @@ const lichessSignIn = async (accessToken, refreshToken, lichessProfile, done) =>
     let error = null;
 
     // Find User|Profile using LichessID
-    profile = await Profile.findOne({ lichess: lichessProfile.username });
+    profile = await Profile.findOne({ lichess: lichessProfile.id });
     
     if (!profile) {
       // Find User|Profile using email id
