@@ -122,7 +122,7 @@ class Lobby extends React.Component {
                 socket = { this.state.socket }
                 self = { this.state.user }
                 opponent = { this.state.player1.username !== this.state.user.username ? this.state.player1 : this.state.player2 }
-                timerDetails={this.state.timerDetails}
+                timerDetails={ this.state.timerDetails }
               />
             : <div> 
                 <Card className = 'text-center lobby-card' bg = 'dark' text = 'light'>

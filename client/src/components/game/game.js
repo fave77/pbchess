@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 
 import Chessground from 'react-chessground';
 import 'react-chessground/dist/styles/chessground.css';
-import User from '../user/user';
+import Timer from '../timer/timer';
 
 import queen from '../../images/wQ.svg'
 import rook from '../../images/wR.svg'
@@ -120,7 +120,7 @@ class Game extends React.Component {
     });
 
     this.props.socket.on('timed_out', data => {
-      const {result, timedoutPlayer} = data;
+      const { result, timedoutPlayer } = data;
       this.postTimeOut(timedoutPlayer);
     });
 
@@ -136,12 +136,12 @@ class Game extends React.Component {
         <Col span = { 6 } />
         <Col span = { 12 } style = {{ top: '4%', margin: 'auto', width: 'fit-content' }}>
             {/* Category: {this.props.timerDetails.category} Total time of game: {this.props.timerDetails.totalTime} */}
-            <User
-              player={this.props.opponent}
-              turn={this.state.turn !== this.state.orientation.charAt(0)}
-              ref={this.opponent}
-              timeLimit={Date.now() + this.props.timerDetails.totalTime}
-              timedout={() => this.onTimeOut(this.props.opponent)}
+            <Timer
+              player = { this.props.opponent }
+              turn = { this.state.turn !== this.state.orientation.charAt(0) }
+              ref = { this.opponent }
+              timeLimit = { Date.now() + this.props.timerDetails.totalTime }
+              timedout = { () => this.onTimeOut(this.props.opponent) }
             />
             <Chessground
               turnColor = { this.turnColor() }
@@ -150,12 +150,12 @@ class Game extends React.Component {
               fen = { this.state.fen }
               orientation = { this.state.orientation }
             />
-            <User
-              player={this.props.self}
-              turn={this.state.turn === this.state.orientation.charAt(0)}
-              ref={this.self}
-              timeLimit={Date.now() + this.props.timerDetails.totalTime}
-              timedout={() => this.onTimeOut(this.props.self)}
+            <Timer
+              player = { this.props.self }
+              turn = { this.state.turn === this.state.orientation.charAt(0) }
+              ref = { this.self }
+              timeLimit = { Date.now() + this.props.timerDetails.totalTime }
+              timedout = { () => this.onTimeOut(this.props.self) }
             />
         </Col>
         <Col span = { 1 } />

@@ -2,21 +2,19 @@ import React, { forwardRef, useEffect, useImperativeHandle } from "react";
 import Row from 'react-bootstrap/Row';
 import { Link } from 'react-router-dom';
 import { useTimer } from 'react-timer-hook';
-import './user.css';
+import './timer.css';
 
 
-const User = forwardRef(({player, turn, timeLimit, timedout}, ref) => {
+const Timer = forwardRef(({ player, turn, timeLimit, timedout }, ref) => {
 
   const {
     seconds,
     minutes,
     hours,
-    isRunning,
     start,
     pause,
-    resume,
-    restart,
-   } = useTimer({expiryTimestamp: timeLimit, onExpire: () => timedout(player)});
+    resume
+   } = useTimer({ expiryTimestamp: timeLimit, onExpire: () => timedout(player) });
 
    useImperativeHandle(ref, () => ({
     pauseTimer() {
@@ -46,19 +44,19 @@ const User = forwardRef(({player, turn, timeLimit, timedout}, ref) => {
   };
 
   return (
-    <Row className="userContainer">        
+    <Row className="timerContainer">        
         <div className="rounded-circle" style={toggleStyles}>
         </div>
         <h5>
             <Link to={`/@/${player.username}`} target="_blank"> 
-                {player.username} 
+                { player.username } 
             </Link>
         </h5>
         <h4 className="mb-0">
-            {minutes} : {seconds}
+            { minutes } : { seconds }
         </h4>
     </Row>
   );
 });
 
-export default User;
+export default Timer;
