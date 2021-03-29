@@ -26,7 +26,7 @@ function Footer() {
           </div>
           <div className="col-lg-4 col-md-4 col-sm-4  col-xs-12">
             <div className="item">
-              <a href="https://github.com/fave77/pbchess">Support Us</a>
+              <a href="https://github.com/fave77/pbchess">Report Bug</a>
             </div>
           </div>
         </div>

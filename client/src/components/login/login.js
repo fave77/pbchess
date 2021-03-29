@@ -7,6 +7,10 @@ import GoogleAuthService from '../../services/auth.google.service';
 import GoogleLogin from 'react-google-login';
 import './login.css';
 import { Link } from 'react-router-dom';
+import configAPI from '../../configs/api.config';
+import lichesslogo from '../../images/lichesslogo.svg';
+
+const API_ORIGIN = configAPI().split('/api')[0];
 
 const required = value => {
   if (!value)
@@ -25,6 +29,8 @@ class Login extends Component {
     this.onChangePassword = this.onChangePassword.bind(this);
     this.onSignIn = this.onSignIn.bind(this);
     this.handleGoogleOAuthError = this.handleGoogleOAuthError.bind(this);
+    this.handleLichessLogin = this.handleLichessLogin.bind(this);
+    this.registerLoginJWT = this.registerLoginJWT.bind(this);
 
     this.state = {
       username: '',
@@ -119,6 +125,29 @@ class Login extends Component {
       });
     }
   }
+
+  registerLoginJWT(event) {
+    if (event.origin !== API_ORIGIN) {
+      return;
+    }
+
+    if (event.data.success){
+      localStorage.setItem('user', JSON.stringify(event.data));
+      this.props.history.push('/play');
+      window.location.reload();
+    } else {
+      this.setState({message: event.data.success});
+    }
+    
+    window.removeEventListener("message", this.registerLoginJWT);
+  }
+
+  handleLichessLogin(e) {
+    e.preventDefault();
+    let popup = window.open(API_ORIGIN+'/api/signin/lichess/', "Login With Lichess", "width=650, height=900");
+    
+    window.addEventListener("message", this.registerLoginJWT);
+  }
   
   render() {
     return (
@@ -172,6 +201,16 @@ class Login extends Component {
                   <span className = 'spinner-border spinner-border-sm'></span>
                 )}
                 <span>Login</span>
+              </button>
+            </div>
+
+            <div className = 'form-group'>
+              <button className = "btn btn-block lichessbtn"
+                onClick={this.handleLichessLogin}>
+              <span>
+                  <img src={ lichesslogo } class="lichess-logo-image" alt="Lichess logo"/>
+              </span>
+                Login with Lichess
               </button>
             </div>
 

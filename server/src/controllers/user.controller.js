@@ -4,6 +4,7 @@ const utils = require('../services/auth.service');
 const generatePassword = require('generate-password');
 const sendMail = require('../services/email.service');
 const { OAuth2Client } = require('google-auth-library');
+const axios = require('axios');
 
 const clientID = process.env.CLIENT_ID;
 const client = new OAuth2Client(clientID);
@@ -23,14 +24,29 @@ const registerViaPbChess = async (fullname, username, password, email) => {
 const registerViaGoogle = async (fullname, username, password, email) => {
 
   const user = await registerUser(fullname, username, password, email, true);
-  const message = `Thank you for registering at Pbchess. Your username is ${username} and password is ${password}. 
-  Have a great day ahead`;
-  console.log(message)
-  await sendMail(email, 'Thank you for registering at PbChess', message)
+  const message = `Thank you for registering at Pbchess. Your username is ${username} and password is ${password}. Have a great day ahead`;
+  await sendMail(email, 'Thank you for registering at PbChess', message);
   return user;
 }
 
-const registerUser = async (fullname, username, password, email, status) => {
+const registerViaLichess = async (lichessProfile) => {
+  const fullname = "None";
+  const username = lichessProfile.username;
+  const password = generatePassword.generate({
+    length: 10,
+    numbers: true
+  });
+  const email = lichessProfile.email;
+  const status = false;
+  const service = {lichess: lichessProfile.id};
+
+  const user = await registerUser(fullname, username, password, email, status, service);
+  const message = `Thank you for registering at Pbchess. Your username is ${username} and password is ${password}.`;
+  await sendMail(email, "Thank you for registering at PbChess", message)
+  return user;
+}
+
+const registerUser = async (fullname, username, password, email, status, service) => {
 
   const { salt, hash } = utils.createPassword(password);
 
@@ -50,7 +66,8 @@ const registerUser = async (fullname, username, password, email, status) => {
     avatar: 'NA',
     gender: 'NA',
     country: 'NA',
-    joined: new Date().toGMTString().slice(0, -13)
+    joined: new Date().toGMTString().slice(0, -13),
+    ...service,
   });
 
   const profile = await newProfile.save();
@@ -133,7 +150,7 @@ const register = async (req, res) => {
 };
 
 // Called when signing in with google
-const signIn = async (req, res) => {
+const googleSignIn = async (req, res) => {
 
   try {
 
@@ -248,10 +265,101 @@ const updatePassword = async (req, res) => {
 
 }
 
+// Called when signing in with Lichess
+const lichessSignIn = async (accessToken, refreshToken, lichessProfile, done) => {
+  try {
+    let user = null;
+    let profile = null;
+    let error = null;
+
+    // Find User|Profile using LichessID
+    profile = await Profile.findOne({ lichess: lichessProfile.id });
+    
+    if (!profile) {
+      // Find User|Profile using email id
+      const resp = await axios.get('https://lichess.org/api/account/email', {
+        headers: {
+          "Authorization": `Bearer ${accessToken}`
+        }
+      })
+
+      const email = resp.data.email;
+      lichessProfile.email = email;
+
+      profile = await Profile.findOneAndUpdate({ email }, {
+        $set: { lichess: lichessProfile.id }
+      });
+    }
+
+    if (profile) {
+      // Return user obj for associated profile
+      user = await User.findOne({username: profile.username});
+      error = user || new Error(`Unable to find user linked to Profile ${profile.username}`);
+    }
+    else {
+      // Create new user and profile obj
+      user = await registerViaLichess(lichessProfile);
+      error = error || new Error(`Unable to create new user with LichessProfile ${lichessProfile.username}`);
+    }
+
+    if (user) return done(null, user);
+    else return done(error, false);
+  }
+  catch (err) {
+    console.log("Caught an error", err);
+    return done(err, false);
+  }
+}
+
+// Called aftering signing in with Lichess
+const lichessSignInCallback = (req, res) => {
+  let payload = {};
+  let text = "Authentication ";
+
+  if (req.user) {
+    const user = req.user;
+    const tokenObject = utils.issueJWT(user);
+    payload = {
+      success: true,
+      token: tokenObject.token,
+      expiresIn: tokenObject.expires,
+      username: user.username,
+      _id: user._id,
+    };
+    text += "successfull";
+  } else {
+    payload = {
+      success: false,
+      message: "Authentication failed"
+    };
+    text += "failed";
+  }
+  const clientURL = process.env.CLIENT_URL;
+  const html = `
+      <!DOCTYPE html>
+      <html>
+          <head>
+          <title>${text}</title>
+          </head>
+          <body>
+          ${text}.
+          <script type="text/javascript">
+              window.opener.postMessage(${JSON.stringify(payload)}, "${clientURL}");
+              window.close();
+          </script>
+          </body>
+      </html>
+  `;
+  res.set("Content-Security-Policy", "script-src 'self' 'unsafe-inline'");
+  return res.send(html);
+}
+
 module.exports = {
 	login,
   register,
-  signIn,
+  googleSignIn,
+  lichessSignIn,
+  lichessSignInCallback,
   confirm,
   updatePassword
 }
