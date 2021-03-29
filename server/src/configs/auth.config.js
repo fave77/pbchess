@@ -32,18 +32,7 @@ const configAuth = passport => {
     scope: ['email:read']
   };
 
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
-  });
-
-  passport.deserializeUser((id, done) => {
-    User.findById(id)
-    .then(user => done(null, user))
-    .catch(e => done(new Error("Failed to deserialize user")));
-  });
-
-  // Find/Create a new user
-  passport.use(new LichessStrategy(lichessOptions, async (accessToken, refreshToken, profile, done) => {
+  passport.use(new LichessStrategy(lichessOptions, async (accessToken, refreshToken, lichessProfile, done) => {
     // Retrieve the email address
     try {
       const resp = await axios.get('https://lichess.org/api/account/email', {
@@ -60,17 +49,12 @@ const configAuth = passport => {
         console.log("TODO: Create a new user");
         return done(null, false);
       }
-      else /*if (user.lichess === profile.id)*/ {
-        // Find and return the `User` object
+      else {
+        // Return existing user
         const user = await User.findOne({username: profile.username});
         if (user) return done(null, user);
-        else return done(null, false);
+        else return done(new Error(`Internal Error, unable to find User linked to Profile ${profile.username}`), false);
       }
-      // else {
-      //   // LichessID needs to be linked in settings
-      //   console.log("TODO: Link lichess ID to Profile object");
-      //   return done(null, false);
-      // }
     }
     catch(err) {
       console.log("Got an error", err);
