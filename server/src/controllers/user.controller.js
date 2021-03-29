@@ -248,10 +248,54 @@ const updatePassword = async (req, res) => {
 
 }
 
+// Called when signing in with Lichess
+const lichessSignIn = (req, res) => {
+  let payload = {};
+  let text = "Authentication ";
+  console.log(req)
+  if (req.user) {
+    const user = req.user;
+    const tokenObject = utils.issueJWT(user);
+    payload = {
+      success: true,
+      token: tokenObject.token,
+      expiresIn: tokenObject.expires,
+      username: user.username,
+      _id: user._id,
+    };
+    text += "successfull";
+  } else {
+    payload = {
+      success: false,
+      message: "Authentication failed"
+    };
+    text += "failed";
+  }
+  const clientURL = process.env.CLIENT_URL;
+  const html = `
+      <!DOCTYPE html>
+      <html>
+          <head>
+          <title>${text}</title>
+          </head>
+          <body>
+          ${text}.
+          <script type="text/javascript">
+              window.opener.postMessage(${JSON.stringify(payload)}, "${clientURL}");
+              window.close();
+          </script>
+          </body>
+      </html>
+  `;
+  res.set("Content-Security-Policy", "script-src 'self' 'unsafe-inline'");
+  return res.send(html);
+}
+
 module.exports = {
 	login,
   register,
   googleSignIn,
+  lichessSignIn,
   confirm,
   updatePassword
 }

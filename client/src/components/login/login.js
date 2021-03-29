@@ -146,7 +146,7 @@ class Login extends Component {
   handleLichessLogin(e) {
     e.preventDefault();
     console.debug("Clicked 'Login with Lichess");
-    let popup = window.open(API_ORIGIN+'/api/auth/lichess/', "Login With Lichess", "width=650, height=900");
+    let popup = window.open(API_ORIGIN+'/api/signin/lichess/', "Login With Lichess", "width=650, height=900");
     
     window.addEventListener("message", this.registerLoginJWT);
   }

@@ -28,7 +28,7 @@ const configAuth = passport => {
   const lichessOptions = {
     clientID: LICHESS_CLIENT_ID,
     clientSecret: LICHESS_CLIENT_SECRET,
-    callbackURL: '/api/auth/lichess/callback',
+    callbackURL: '/api/signin/lichess/callback',
     scope: ['email:read']
   };
 
