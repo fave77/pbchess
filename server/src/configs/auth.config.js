@@ -2,9 +2,8 @@
 
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 const LichessStrategy = require('passport-lichess');
-const axios = require('axios');
 const User = require('../models/user.model');
-const Profile = require('../models/profile.model');
+const { lichessSignIn } = require('../controllers/user.controller');
 
 const PUB_KEY = process.env.PUBLIC_KEY.replace(/\\n/g, '\n');
 
@@ -38,34 +37,7 @@ const configAuth = passport => {
     scope: ['email:read']
   };
 
-  passport.use(new LichessStrategy(lichessOptions, async (accessToken, refreshToken, lichessProfile, done) => {
-    // Retrieve the email address
-    try {
-      const resp = await axios.get('https://lichess.org/api/account/email', {
-        headers: {
-          "Authorization": `Bearer ${accessToken}`
-        }
-      })
-
-      const email = resp.data.email;
-      const profile = await Profile.findOne({ email});
-      
-      if (!profile) {
-        // Create a new user
-        console.log("TODO: Create a new user");
-        return done(null, false);
-      }
-      else {
-        // Return existing user
-        const user = await User.findOne({username: profile.username});
-        if (user) return done(null, user);
-        else return done(new Error(`Internal Error, unable to find User linked to Profile ${profile.username}`), false);
-      }
-    }
-    catch(err) {
-      console.log("Got an error", err);
-    }
-  }));
+  passport.use(new LichessStrategy(lichessOptions, lichessSignIn));
 
 };
 
