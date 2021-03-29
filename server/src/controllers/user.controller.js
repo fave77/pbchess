@@ -133,7 +133,7 @@ const register = async (req, res) => {
 };
 
 // Called when signing in with google
-const signIn = async (req, res) => {
+const googleSignIn = async (req, res) => {
 
   try {
 
@@ -251,7 +251,7 @@ const updatePassword = async (req, res) => {
 module.exports = {
 	login,
   register,
-  signIn,
+  googleSignIn,
   confirm,
   updatePassword
 }
