@@ -37,7 +37,7 @@ const registerViaLichess = async (lichessProfile) => {
     numbers: true
   });
   const email = lichessProfile.email;
-  const status = true;
+  const status = false;
   const service = {lichess: lichessProfile.id};
 
   const user = await registerUser(fullname, username, password, email, status, service);
