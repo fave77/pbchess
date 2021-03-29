@@ -334,7 +334,7 @@ const lichessSignInCallback = (req, res) => {
     };
     text += "failed";
   }
-  const clientURL = process.env.CLIENT_URL;
+  const clientURL = process.env.DEV_CLIENT_URI;
   const html = `
       <!DOCTYPE html>
       <html>
