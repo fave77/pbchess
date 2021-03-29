@@ -11,7 +11,7 @@ import Register from '../components/register/register';
 import Profile from '../components/profile/profile';
 import Lobby from '../components/lobby/lobby';
 import Game from '../components/game/game';
-import User from '../components/user/user';
+import Timer from '../components/timer/timer';
 import NotFound from '../components/pagenotfound/page-not-found';
 import PrivateRoute from '../components/private/private';
 
@@ -29,7 +29,7 @@ test('renders without crashing', () => {
   renderWithWrappedRouter(<Profile />);
   render(<Lobby />);
   //render(<Game />);
-  //render(<User />);
+  //render(<Timer />);
   render(<NotFound />);
   renderWithWrappedRouter(<PrivateRoute />);
 });
