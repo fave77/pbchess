@@ -68,7 +68,7 @@ Create `.env` files in both `client` and `server` folder with the following vari
 	- `GOOGLE_CLIENT_ID=<your-google-client-id>`
 	- `GOOGLE_CLIENT_SECRET=<your-google-client-secret>`
 	- `GOOGLE_REFRESH_TOKEN=<your-google-oauthplayground-refresh-token>`
-	- `DEV_LICHESS_CLIENT_ID=<your-lichess-client-id`
+	- `DEV_LICHESS_CLIENT_ID=<your-lichess-client-id>`
 	- `DEV_LICHESS_CLIENT_SECRET=<your-lichess-client-secret>`
 
 **Default Ports:**
