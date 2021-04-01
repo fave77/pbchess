@@ -20,7 +20,7 @@
     "googleapis": "^67.1.1",
     "helmet": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.12.2",
+    "mongoose": "^5.12.3",
     "morgan": "^1.10.0",
     "nodemailer": "^6.5.0",
     "passport": "^0.4.1",
