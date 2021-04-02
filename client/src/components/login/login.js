@@ -192,14 +192,6 @@ class Login extends Component {
               />
             </div> 
 
-            <div className = 'reset-container' >
-              <Link 
-                to = '/password/reset'
-                className = 'reset'
-              >
-                Forgot Password?
-              </Link> 
-            </div>
             <div className = 'form-group'>
               <button
                 className = 'btn btn-block mybtn'
@@ -212,13 +204,23 @@ class Login extends Component {
               </button>
             </div>
 
+            <div className = 'reset-container' >
+              <Link 
+                to = '/password/reset'
+                className = 'forgot-pswd'
+              >
+                Forgot Password?
+              </Link> 
+            </div>
+
             <div className = 'form-group'>
-              <button className = "btn btn-block lichessbtn"
-                onClick={this.handleLichessLogin}>
-              <span>
-                  <img src={ lichesslogo } class="lichess-logo-image" alt="Lichess logo"/>
-              </span>
-                Login with Lichess
+              <button 
+                className = "btn btn-block lichessbtn"
+                onClick = { this.handleLichessLogin }>
+                  <span className = 'lichess-cont'>
+                      <img src={ lichesslogo } class="lichess-logo-image" alt="Lichess logo"/>
+                      <span className = 'lichesstxt'>Login with Lichess</span>
+                  </span>
               </button>
             </div>
 

@@ -27,11 +27,24 @@ label {
 }
 
 .lichessbtn {
-  background-color: #1b6ec2;
+  background-color: rgb(255, 255, 255); 
+  display: inline-flex; 
+  align-items: center; 
+  color: rgba(0, 0, 0, 0.54); 
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 2px 0px, rgba(0, 0, 0, 0.24) 0px 0px 1px 0px; 
+  padding: 0px; border-radius: 2px; 
+  border: 1px solid transparent; 
+  font-size: 14px; 
+  font-weight: 500; 
+  font-family: Roboto, sans-serif;
 }
 
-.lichessbtn:hover .lichessbtn:focus {
-  background-color: #0069d9;
+.lichess-cont {
+  padding: 10px;
+}
+
+.lichesstxt {
+  padding: 17px;
 }
 
 .lichess-logo-image {
@@ -39,5 +52,18 @@ label {
   width: 1.3em;
   height: 1.3em;
   margin: 2px;
+}
+
+.reset-container {
+  text-align: center;
+  margin: 1em;
+}
+
+.forgot-pswd {
+  color: #647dfc;
+}
+
+.forgot-pswd:hover, .forgot-pswd:focus {
+  color: #000;
 }
 
