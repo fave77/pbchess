@@ -5,7 +5,7 @@ const generatePassword = require('generate-password');
 const sendMail = require('../services/email.service');
 const { OAuth2Client } = require('google-auth-library');
 const axios = require('axios');
-
+const savePassword = require('../services/password.service');
 const googleClientID = process.env.GOOGLE_CLIENT_ID;
 const googleOAuth2Client = new OAuth2Client(googleClientID);
 
@@ -290,42 +290,6 @@ const confirm = async (req, res) => {
   return res.json({msg: "Verified Successfully"});
 };
 
-// Update password for existing user
-const updatePassword = async (req, res) => {
-
-  try{
-    const newPassword = req.body.newPassword;
-    const oldPassword = req.body.oldPassword;
-    const userId = req.body.userId;
-  
-    const user = await User.findById(userId)
-    
-    const valid = utils.checkPassword(oldPassword, user.hash, user.salt);
-
-    if(!valid){
-      return res.json({
-        success: false,
-        msg: "You have entered an invalid password"
-      })
-    }
-  
-    const { salt, hash } = utils.createPassword(newPassword);
-  
-    const newUser = await User.findOneAndUpdate({_id : userId}, {
-      salt: salt,
-      hash: hash
-    })
-    
-    return res.json({
-      success: true,
-      msg: "You have successfully updated your password. Please login to continue."
-    })
-  } catch (error) {
-    return res.json({ success: false, msg: error });
-  }
-
-};
-
 // Called after signing in with Lichess
 const lichessSignInCallback = (req, res) => {
   let payload = {};
@@ -368,6 +332,104 @@ const lichessSignInCallback = (req, res) => {
   return res.send(html);
 };
 
+
+/* Following 3 function handle the password changes
+UpdatePassword : Resets the user password(validates the old password first)
+ResetLink : Sends reset link via email to the user
+ResetPassword : Resets the user password
+*/
+
+// Update password for existing user
+const updatePassword = async (req, res) => {
+
+  try{
+    const newPassword = req.body.newPassword;
+    const oldPassword = req.body.oldPassword;
+    const userId = req.body.userId;
+  
+    const user = await User.findById(userId)
+    
+    const valid = utils.checkPassword(oldPassword, user.hash, user.salt);
+
+    if(!valid){
+      return res.json({
+        success: false,
+        msg: "You have entered an invalid password"
+      })
+    }
+
+    await savePassword(newPassword, userId);
+
+    
+    return res.json({
+      success: true,
+      msg: "You have successfully updated your password. Please login to continue."
+    })
+  } catch (error) {
+    console.log(error);
+    return res.json({ success: false, msg: "Server error" });
+  }
+
+};
+
+//Sends a reset link to user via email
+const resetLink = async (req, res) => {
+
+  const email = req.body.email;
+
+  const profile = await Profile.findOne({ email : email })
+
+  if(!profile){
+    return res.json({
+      msg: "No account was registered with the given mail address"
+    })
+  }
+  
+  const user = await User.findOne({ username : profile.username });
+  const token = utils.issueJWT(user, '5m').token.split(" ")[1];
+
+  const message = `Click <a href =${CLIENT_URL}/password/reset?token=${token}&id=${user._id}>here</a> to reset your password. `;
+
+  await sendMail(email, 'Reset Password', message);
+
+  return res.json({
+    msg: "Email sent successfully"
+  })
+
+};
+
+// Resets the user password
+const resetPassword = async (req, res) => {
+
+  try{
+    const password = req.body.password;
+    const id = req.body.id;
+    if(!id){
+      return res.json({
+        msg: "Verification Error."
+      })
+    }
+    const user = await savePassword(password, id);
+
+    if(!user){
+      return res.json({
+        msg: "Verification Error."
+      })
+    }
+
+    return res.json({
+      msg: "Password updated successfully."
+    })
+  }catch(error){
+
+    console.log(error);
+    return res.json({
+      msg: error
+    })
+  }
+
+};
+
 module.exports = {
 	login,
   register,
@@ -375,5 +437,7 @@ module.exports = {
   lichessSignIn,
   lichessSignInCallback,
   confirm,
-  updatePassword
+  updatePassword,
+  resetLink,
+  resetPassword,
 };

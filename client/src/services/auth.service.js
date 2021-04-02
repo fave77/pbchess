@@ -44,7 +44,7 @@ class AuthService {
 
   changePassword(oldPassword, newPassword, userId){
     
-    return axios.put(API_URL + 'update-pswd', {
+    return axios.put(API_URL + 'password/update', {
       oldPassword,
       newPassword,
       userId

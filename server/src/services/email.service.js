@@ -36,7 +36,7 @@ const sendMail = async (email, subject, message) => {
       from: user,
       to: email,
       subject: subject,
-      text: message
+      html: message
     };
     
     // Sends the mail
