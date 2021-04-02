@@ -3,7 +3,6 @@ import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import AuthService from '../../services/auth.service';
 import Validator from '../../services/validation.service';
-// import './password.css';
 
 class UpdatePassword extends Component {
     constructor(props) {
