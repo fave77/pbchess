@@ -5,7 +5,7 @@ const generatePassword = require('generate-password');
 const sendMail = require('../services/email.service');
 const { OAuth2Client } = require('google-auth-library');
 const axios = require('axios');
-
+const savePassword = require('../services/password.service');
 const googleClientID = process.env.GOOGLE_CLIENT_ID;
 const googleOAuth2Client = new OAuth2Client(googleClientID);
 
@@ -308,20 +308,17 @@ const updatePassword = async (req, res) => {
         msg: "You have entered an invalid password"
       })
     }
-  
-    const { salt, hash } = utils.createPassword(newPassword);
-  
-    const newUser = await User.findOneAndUpdate({_id : userId}, {
-      salt: salt,
-      hash: hash
-    })
+
+    await savePassword(newPassword, userId);
+
     
     return res.json({
       success: true,
       msg: "You have successfully updated your password. Please login to continue."
     })
   } catch (error) {
-    return res.json({ success: false, msg: error });
+    console.log(error);
+    return res.json({ success: false, msg: "Server error" });
   }
 
 };
@@ -368,6 +365,63 @@ const lichessSignInCallback = (req, res) => {
   return res.send(html);
 };
 
+const resetLink = async (req, res) => {
+
+  const email = req.body.email;
+
+  const profile = await Profile.findOne({ email : email })
+
+  if(!profile){
+    return res.json({
+      msg: "No account was registered with the given mail address"
+    })
+  }
+  
+  const user = await User.findOne({ username : profile.username });
+  const token = utils.issueJWT(user, '5m').token.split(" ")[1];
+
+  const message = `Click <a href =${CLIENT_URL}/password/reset?token=${token}&id=${user._id}>here</a> to reset your password. `;
+
+  await sendMail(email, 'Reset Password', message);
+
+  return res.json({
+    msg: "Email sent successfully"
+  })
+
+}
+
+
+const resetPassword = async (req, res) => {
+
+  try{
+  const password = req.body.password;
+  const id = req.body.id;
+  if(!id){
+    return res.json({
+      msg: "Verification Error."
+    })
+  }
+  const user = await savePassword(password, id);
+
+  if(!user){
+    return res.json({
+      msg: "Verification Error."
+    })
+  }
+
+  return res.json({
+    msg: "Password updated successfully."
+  })
+}catch(error){
+
+  console.log(error);
+  return res.json({
+    msg: error
+  })
+}
+
+}
+
 module.exports = {
 	login,
   register,
@@ -375,5 +429,7 @@ module.exports = {
   lichessSignIn,
   lichessSignInCallback,
   confirm,
-  updatePassword
+  updatePassword,
+  resetLink,
+  resetPassword,
 };

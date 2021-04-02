@@ -19,9 +19,7 @@ import Lobby from './components/lobby/lobby';
 import Confirm from './components/confirm/confirm';
 import NotFound from './components/pagenotfound/page-not-found';
 import Contrib from './components/contrib/contrib.js';
-import ChangePassword from './components/password/password';
-
-
+import { ChangePassword, ResetPassword } from './components/password/password';
 import PrivateRoute from './components/private/private';
 
 class App extends Component {
@@ -67,7 +65,8 @@ class App extends Component {
             <Route exact path = '/register' component = { Register } />
             <Route exact path = '/contributors' component = { Contrib } />
             <Route path = '/@/:profileId' component = { Profile } />
-            <PrivateRoute path = '/password' component = { ChangePassword } />
+            <Route path = '/password/reset' component = { ResetPassword } />
+            <PrivateRoute path = '/password/update' component = { ChangePassword } /> 
             <PrivateRoute path = '/play' component = { Lobby } />
             <Route component = { NotFound } />
 

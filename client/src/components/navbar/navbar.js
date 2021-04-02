@@ -70,7 +70,7 @@ function MyNavbar(props) {
                 <NavDropdown.Item href = { '/login' } onClick = { logOut }>
                   <p className = "mydropdown">LogOut</p>
                 </NavDropdown.Item>
-                <NavDropdown.Item href = { `/password` }>
+                <NavDropdown.Item href = { `/password/update` }>
                   <p className = "mydropdown">Change Password</p>
                 </NavDropdown.Item>
               </NavDropdown>

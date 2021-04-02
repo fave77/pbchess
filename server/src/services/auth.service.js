@@ -25,9 +25,9 @@ const createPassword = pswd => {
 const checkPassword = (pswd, hash, salt) => hash === createHash(pswd, salt);
 
 // Creating a JWT for authenticated routes
-const issueJWT = user => {
+const issueJWT = (user, expiry='1d') => {
   const { _id } = user;
-  const expiresIn = '1d';
+  const expiresIn = expiry;
 
   const payload = {
     id: _id,

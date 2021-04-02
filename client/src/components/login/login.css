@@ -40,3 +40,17 @@ label {
   height: 1.3em;
   margin: 2px;
 }
+
+.reset {
+  font-weight: bold;
+  color: #647dfc;
+}
+
+.reset-container{
+  padding-bottom: 15px;
+  text-align: center;
+}
+
+.reset:hover {
+  color: #647dfc;
+}

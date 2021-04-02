@@ -192,6 +192,14 @@ class Login extends Component {
               />
             </div> 
 
+            <div className = 'reset-container' >
+              <Link 
+                to = '/password/reset'
+                className = 'reset'
+              >
+                Forgot Password?
+              </Link> 
+            </div>
             <div className = 'form-group'>
               <button
                 className = 'btn btn-block mybtn'
