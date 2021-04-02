@@ -290,39 +290,6 @@ const confirm = async (req, res) => {
   return res.json({msg: "Verified Successfully"});
 };
 
-// Update password for existing user
-const updatePassword = async (req, res) => {
-
-  try{
-    const newPassword = req.body.newPassword;
-    const oldPassword = req.body.oldPassword;
-    const userId = req.body.userId;
-  
-    const user = await User.findById(userId)
-    
-    const valid = utils.checkPassword(oldPassword, user.hash, user.salt);
-
-    if(!valid){
-      return res.json({
-        success: false,
-        msg: "You have entered an invalid password"
-      })
-    }
-
-    await savePassword(newPassword, userId);
-
-    
-    return res.json({
-      success: true,
-      msg: "You have successfully updated your password. Please login to continue."
-    })
-  } catch (error) {
-    console.log(error);
-    return res.json({ success: false, msg: "Server error" });
-  }
-
-};
-
 // Called after signing in with Lichess
 const lichessSignInCallback = (req, res) => {
   let payload = {};
@@ -365,6 +332,47 @@ const lichessSignInCallback = (req, res) => {
   return res.send(html);
 };
 
+
+/* Following 3 function handle the password changes
+UpdatePassword : Resets the user password(validates the old password first)
+ResetLink : Sends reset link via email to the user
+ResetPassword : Resets the user password
+*/
+
+// Update password for existing user
+const updatePassword = async (req, res) => {
+
+  try{
+    const newPassword = req.body.newPassword;
+    const oldPassword = req.body.oldPassword;
+    const userId = req.body.userId;
+  
+    const user = await User.findById(userId)
+    
+    const valid = utils.checkPassword(oldPassword, user.hash, user.salt);
+
+    if(!valid){
+      return res.json({
+        success: false,
+        msg: "You have entered an invalid password"
+      })
+    }
+
+    await savePassword(newPassword, userId);
+
+    
+    return res.json({
+      success: true,
+      msg: "You have successfully updated your password. Please login to continue."
+    })
+  } catch (error) {
+    console.log(error);
+    return res.json({ success: false, msg: "Server error" });
+  }
+
+};
+
+//Sends a reset link to user via email
 const resetLink = async (req, res) => {
 
   const email = req.body.email;
@@ -388,39 +396,39 @@ const resetLink = async (req, res) => {
     msg: "Email sent successfully"
   })
 
-}
+};
 
-
+// Resets the user password
 const resetPassword = async (req, res) => {
 
   try{
-  const password = req.body.password;
-  const id = req.body.id;
-  if(!id){
+    const password = req.body.password;
+    const id = req.body.id;
+    if(!id){
+      return res.json({
+        msg: "Verification Error."
+      })
+    }
+    const user = await savePassword(password, id);
+
+    if(!user){
+      return res.json({
+        msg: "Verification Error."
+      })
+    }
+
     return res.json({
-      msg: "Verification Error."
+      msg: "Password updated successfully."
+    })
+  }catch(error){
+
+    console.log(error);
+    return res.json({
+      msg: error
     })
   }
-  const user = await savePassword(password, id);
 
-  if(!user){
-    return res.json({
-      msg: "Verification Error."
-    })
-  }
-
-  return res.json({
-    msg: "Password updated successfully."
-  })
-}catch(error){
-
-  console.log(error);
-  return res.json({
-    msg: error
-  })
-}
-
-}
+};
 
 module.exports = {
 	login,
