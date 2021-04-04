@@ -65,13 +65,19 @@ const registerViaGoogle = async (googleProfile) => {
 
   const fullname = googleProfile.name;
   const email = googleProfile.email;
-  const username = email.substring(0, email.indexOf('@')); 
+  let username = email.substring(0, email.indexOf('@')); 
 
   // Generating a random password
   const password = generatePassword.generate({
     length: 10,
     numbers: true
   });
+
+  const dbUser = await User.findOne({username: username});
+
+  if(dbUser){
+    username += Math.floor(Math.random() * 1000000);
+  }
 
   const user = await registerUser(fullname, username, password, email, true);
   const message = `Thank you for registering at pbchess. Your username is ${username} and password is ${password}. Have a great day ahead!`;
@@ -85,7 +91,7 @@ const registerViaLichess = async (lichessProfile) => {
 
   const fullname = 'NA';
   const email = lichessProfile.email;
-  const username = lichessProfile.username;
+  let username = lichessProfile.username;
   const lichessURL = lichessProfile.profileUrl;
 
   // Generating a random password
@@ -93,6 +99,12 @@ const registerViaLichess = async (lichessProfile) => {
     length: 10,
     numbers: true
   });
+
+  const dbUser = await User.findOne({username: username});
+
+  if(dbUser){
+    username += Math.floor(Math.random() * 1000000);
+  }
 
   const user = await registerUser(fullname, username, password, email, true, lichessURL);
   const message = `Thank you for registering at pbchess. Your username is ${username} and password is ${password}. Have a great day ahead!`;
