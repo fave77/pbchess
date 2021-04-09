@@ -22,7 +22,6 @@ class JoinGame extends React.Component {
 
   componentDidMount() {
     this.props.socket.on('cannot_join_game', msg => {
-      console.log(msg);
 
       this.setState({
         joiningError: msg

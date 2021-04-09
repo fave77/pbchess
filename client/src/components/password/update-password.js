@@ -79,7 +79,6 @@ class UpdatePassword extends Component {
             response => {
                 const success = response.success;
                 const message = response.msg;
-                console.log(success, message);
                 this.setState({
                     loading: false,
                     success: success,

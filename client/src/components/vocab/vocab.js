@@ -5,7 +5,6 @@ import "./vocab.css";
 
 class Vocab extends Component {
   render() {
-    console.log(Terms);
     let letters = Terms.terms.filter(x => x.id).map(x => x.id)
     return (
       <div className="content">
