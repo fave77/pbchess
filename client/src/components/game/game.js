@@ -91,7 +91,6 @@ class Game extends React.Component {
     this.props.socket.on('move_piece', gameState => {
       const { fen, lastMove, gameOver, turn, dests } = gameState;
 
-      console.log(lastMove);
 
       if(this.state.turn !== this.state.orientation.charAt(0)){
         // Start self timer and stop opponents timer if self turn
@@ -130,7 +129,6 @@ class Game extends React.Component {
   }
 
   render() {
-    console.log(this.state.fen, this.state.turn);
     return (
       <div style = {{ background: '#2b313c', height: '100vh' }}>
         <Col span = { 6 } />

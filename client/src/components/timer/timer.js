@@ -18,11 +18,9 @@ const Timer = forwardRef(({ player, turn, timeLimit, timedout }, ref) => {
 
    useImperativeHandle(ref, () => ({
     pauseTimer() {
-      console.log('Pause trigerred');
       pause();
     },
     resumeTimer() {
-      console.log('Resume trigerred');
       resume();
     }
   }));

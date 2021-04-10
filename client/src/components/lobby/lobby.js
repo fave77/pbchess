@@ -79,7 +79,6 @@ class Lobby extends React.Component {
 
   // Start a game with a unique gameId (player1's userId)
   startGame = (gameInfo) => {
-    console.log(gameInfo);
 
     this.setState({
       status: true,

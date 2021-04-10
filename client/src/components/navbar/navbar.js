@@ -26,7 +26,6 @@ const renderTooltip = props => {
 
 function MyNavbar(props) {
   const { currentUser, logOut } = props;
-  console.log(currentUser)
   return (
     <Navbar expand = 'lg' sticky = 'top' className = 'mynavbar navbar-dark'>
       <Navbar.Brand>
