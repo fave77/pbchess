@@ -135,12 +135,12 @@ class ResetPassword extends Component {
                                 type='email'
                                 className='form-control'
                                 name='email'
+                                required
                                 value={this.state.email}
                                 onChange={this.onChangeEmail}
                                 validations={[Validator.required, Validator.validateEmail]}
                             />
                         </div>
-
                         <div className='form-group'>
                             <button className='btn btn-block mybtn'>
                                 <span>Submit</span>
