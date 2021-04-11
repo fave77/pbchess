@@ -27,7 +27,7 @@ const renderTooltip = props => {
 function MyNavbar(props) {
   const { currentUser, logOut } = props;
   return (
-    <Navbar expand = 'lg' sticky = 'top' className = 'mynavbar navbar-dark'>
+    <Navbar expand = 'lg'  className = 'mynavbar navbar-dark'>
       <Navbar.Brand>
         <Link to = { '/' } className = 'navbar-brand'>
           <OverlayTrigger
@@ -86,6 +86,6 @@ function MyNavbar(props) {
       </Navbar.Collapse>
     </Navbar>
   );
-};
+}
 
 export default MyNavbar;
