@@ -17,8 +17,8 @@ const renderTooltip = props => {
   return (
     <Tooltip bsPrefix = 'tooltip' {...props} >
       { pathname !== '/'
-          ? 'go home!'
-          : 'u\'re home!'
+          ? 'Click to go Home'
+          : 'Home'
       }
     </Tooltip>
   );
@@ -31,7 +31,7 @@ function MyNavbar(props) {
       <Navbar.Brand>
         <Link to = { '/' } className = 'navbar-brand'>
           <OverlayTrigger
-            placement = 'right-end'
+            placement = 'bottom-start'
             overlay = { renderTooltip }
           >
             <img
