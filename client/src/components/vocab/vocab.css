@@ -25,7 +25,7 @@ html {
   width: 100%;
   height: auto;
   min-height: 100px;
-  background-color: grey;
+  background-color: #1d1e22;
 }
 
 .term-title {
@@ -37,12 +37,11 @@ html {
 
 .meaning {
   width: 70%;
-  padding-top: 4vh;
   background-color: #1d1e22;
   color: white;
   padding-left: 20px;
-  padding-top: auto;
   padding-right: 20px;
+  align-self: center;
 }
 
 .tags {
