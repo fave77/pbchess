@@ -23,8 +23,28 @@
   margin: 0;
 }
 
-.tooltip {
-  color: #1d1e22;
+.tooltip-main {
+  width: fit-content;
+  border-radius: 50%;
+  font-weight: 700;
+  background: #f3f3f3;
+  border: 1px solid #737373;
+  color: #737373;
+  margin: 4px 121px 0 5px;
+  text-align: left;
+}
+
+.tooltip-inner {
+  width: fit-content;
+  font-size: 12px;
+  padding: 2px 10px 2px 10px;
+  background: #fff;
+  color: rgb(0, 0, 0, 0.7);
+  text-align: left;
+}
+
+.bs-tooltip-bottom .arrow::before {
+  border-bottom-color: white;
 }
 
 a{

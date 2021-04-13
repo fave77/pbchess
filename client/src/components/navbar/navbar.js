@@ -27,36 +27,36 @@ const renderTooltip = props => {
 function MyNavbar(props) {
   const { currentUser, logOut } = props;
   return(
-    <Navbar expand = 'lg' sticky = 'top' className = 'mynavbar navbar-dark'>
-      <Navbar.Brand>
-        <Link to = { '/' } className = 'navbar-brand'>
-          <OverlayTrigger placement = 'right-end' overlay = { renderTooltip }>
-            <img src = { pbchessLogo } width = '60em' height = '60em' className = 'd-inline-block align-top' alt = 'pbchess logo'/>
-          </OverlayTrigger>
-        </Link>
+      <Navbar expand = 'lg' sticky = 'top' className = 'mynavbar navbar-dark'>
+        <Navbar.Brand>
+          <Link to = { '/' } className = 'navbar-brand'>
+            <OverlayTrigger placement = 'right-end' overlay = { renderTooltip }>
+              <img src = { pbchessLogo } width = '60em' height = '60em' className = 'd-inline-block align-top' alt = 'pbchess logo'/>
+            </OverlayTrigger>
+          </Link>
 
-      </Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="ml-auto">
-          <Nav.Item><Nav.Link href="/play">Play</Nav.Link></Nav.Item>
-          <Nav.Item><Nav.Link href="/learn">Learn</Nav.Link></Nav.Item>
-          { currentUser? (
-            <NavDropdown title = { currentUser.username } id = 'collapsible-nav-dropdown'>
-              <NavDropdown.Item href = { `/@/${currentUser.username}` }>
-                <p className = "mydropdown">Profile</p>
-              </NavDropdown.Item>
-              <NavDropdown.Item href = { '/login' } onClick = { logOut }>
-                <p className = "mydropdown">LogOut</p>
-              </NavDropdown.Item>
-              <NavDropdown.Item href = { `/password/update` }>
-                <p className = "mydropdown">Change Password</p>
-              </NavDropdown.Item>
-            </NavDropdown>) : (<Nav.Item><Nav.Link href="/login">Login</Nav.Link></Nav.Item>)
-          }
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ml-auto">
+            <Nav.Item><Nav.Link href="/play">Play</Nav.Link></Nav.Item>
+            <Nav.Item><Nav.Link href="/learn">Learn</Nav.Link></Nav.Item>
+            { currentUser? (
+              <NavDropdown title = { currentUser.username } id = 'collapsible-nav-dropdown'>
+                <NavDropdown.Item href = { `/@/${currentUser.username}` }>
+                  <p className = "mydropdown">Profile</p>
+                </NavDropdown.Item>
+                <NavDropdown.Item href = { '/login' } onClick = { logOut }>
+                  <p className = "mydropdown">LogOut</p>
+                </NavDropdown.Item>
+                <NavDropdown.Item href = { `/password/update` }>
+                  <p className = "mydropdown">Change Password</p>
+                </NavDropdown.Item>
+              </NavDropdown>) : (<Nav.Item><Nav.Link href="/login">Login</Nav.Link></Nav.Item>)
+            }
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
   )
 }
 
