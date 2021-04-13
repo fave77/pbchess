@@ -5,7 +5,9 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+
 import pbchessLogo from '../../images/pbchess-logo.svg';
+
 import './navbar.css';
 
 const renderTooltip = props => {
@@ -14,10 +16,13 @@ const renderTooltip = props => {
   pathname = pathname.slice(pathname.indexOf('/'))
   return (
     <Tooltip bsPrefix = 'tooltip' {...props} >
-      { pathname !== '/' ? 'go home!' : 'u\'re home!'}
+      { pathname !== '/'
+        ? 'Click to go Home'
+        : 'Home'
+      }
     </Tooltip>
-  )
-}
+  );
+};
 
 function MyNavbar(props) {
   const { currentUser, logOut } = props;
