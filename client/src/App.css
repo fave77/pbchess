@@ -23,7 +23,7 @@ code {
 /***scrollbar***/
 /* width */
 ::-webkit-scrollbar {
-  width:13px;
+  width:8px;
 }
 /* Track */
 ::-webkit-scrollbar-track {
@@ -34,7 +34,7 @@ code {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #7E7F81;
+  background: #8299fd;
   border-radius:10px;
 }
 /* Handle on hover */
@@ -42,4 +42,3 @@ code {
   cursor: pointer;
   background: #4B588B;
 }
-

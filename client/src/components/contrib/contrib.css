@@ -58,11 +58,9 @@
   
     margin-bottom: 2rem;
   }
-  
   .page_container {
     position: relative;
   }
-  
   * {
     -webkit-user-select: none;  /* Chrome all / Safari all */
     -moz-user-select: none;     /* Firefox all */
