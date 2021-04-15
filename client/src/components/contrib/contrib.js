@@ -16,6 +16,25 @@ function Contrib() {
     useEffect(() => {
         fetchURL();
     }, []);
+    
+  /****scroll-to-top */
+  const [isvisible,setIsVisible] = useState(false);
+
+
+   // Show button when page is scorlled upto given distance
+  const toggleVisibility = () => {
+    if (window.pageYOffset > 50) {
+      setIsVisible(true);
+    }
+    else {
+      setIsVisible(false);
+    }
+  }
+  useEffect(() => {
+    window.addEventListener("scroll" , toggleVisibility)
+  }, []);
+   // make scrolling smooth
+  const scrollToTop = () => window.scrollTo({top:0 , behavior:"smooth"});
 
     return (
         <div className="page_container">
@@ -31,6 +50,11 @@ function Contrib() {
                 </div>
             </FadeIn>
             <br></br>
+            {isvisible &&
+            <div className="scroll-to-top cursor-pointer text-center"
+            onClick={scrollToTop}>
+               <i className="icon fas fa-arrow-up"/>
+            </div>}
         </div>
     );
 }

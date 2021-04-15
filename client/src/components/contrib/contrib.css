@@ -69,3 +69,34 @@
     -ms-user-select: none;      /* IE 10+ */
     user-select: none;          /* Likely future */ 
   }
+
+  /****Scroll-to-top***/
+.scroll-to-top
+{
+  position: fixed;
+  bottom: 12px;
+  right: 3%;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  background-color:#BCBCBD;
+  color: #8299FD;
+  z-index: 1;
+  font-size: 20px;
+}
+.scroll-to-top:hover{
+  color: #4B588B;
+}
+.scroll-to-top .icon{
+  margin-top: 10px;
+  animation: scrollTop 0.5s alternate ease infinite;
+}
+
+@keyframes scrollTop {
+  from{
+    transform: translateY(2px);
+  }
+  to{
+    transform: translateY(-1px);
+  }
+}
