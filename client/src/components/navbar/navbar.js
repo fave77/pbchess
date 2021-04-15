@@ -1,14 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-
 import pbchessLogo from '../../images/pbchess-logo.svg';
-
 import './navbar.css';
+import { LinkContainer } from "react-router-bootstrap";
+import Home from "../home/home";
 
 const renderTooltip = props => {
   let pathname = window.location.href;
@@ -22,27 +22,43 @@ const renderTooltip = props => {
       }
     </Tooltip>
   );
-};
+}
 
 function MyNavbar(props) {
   const { currentUser, logOut } = props;
-  return(
-      <Navbar expand = 'lg' sticky = 'top' className = 'mynavbar navbar-dark'>
-        <Navbar.Brand>
-          <Link to = { '/' } className = 'navbar-brand'>
-            <OverlayTrigger placement = 'right-end' overlay = { renderTooltip }>
-              <img src = { pbchessLogo } width = '60em' height = '60em' className = 'd-inline-block align-top' alt = 'pbchess logo'/>
-            </OverlayTrigger>
-          </Link>
 
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-auto">
-            <Nav.Item><Nav.Link href="/play">Play</Nav.Link></Nav.Item>
-            <Nav.Item><Nav.Link href="/learn">Learn</Nav.Link></Nav.Item>
-            { currentUser? (
-              <NavDropdown title = { currentUser.username } id = 'collapsible-nav-dropdown'>
+  return (
+    <Navbar collapseOnSelect expand = 'lg' sticky = 'top' className = 'mynavbar navbar-dark'>
+      <Navbar.Brand>
+        <Link to = { '/' } className = 'navbar-brand'>
+          <OverlayTrigger placement = 'bottom-start' overlay = { renderTooltip }>
+            <LinkContainer to="/">
+              <Nav.Link ><img
+                src = { pbchessLogo }
+                width = '60em'
+                height = '60em'
+                className = 'd-inline-block align-top'
+                alt = 'pbchess logo'
+              /></Nav.Link>
+            </LinkContainer>
+          </OverlayTrigger>
+        </Link>
+      </Navbar.Brand>
+      <Navbar.Toggle/>
+      <Navbar.Collapse>
+        <Nav className="mr-auto">
+          <LinkContainer to="/play">
+            <Nav.Link >Play</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/learn">
+            <Nav.Link >Learn</Nav.Link>
+          </LinkContainer>
+          { currentUser
+            ? (
+              <NavDropdown
+                title = { currentUser.username }
+                id = 'collapsible-nav-dropdown'
+              >
                 <NavDropdown.Item href = { `/@/${currentUser.username}` }>
                   <p className = "mydropdown">Profile</p>
                 </NavDropdown.Item>
@@ -52,12 +68,19 @@ function MyNavbar(props) {
                 <NavDropdown.Item href = { `/password/update` }>
                   <p className = "mydropdown">Change Password</p>
                 </NavDropdown.Item>
-              </NavDropdown>) : (<Nav.Item><Nav.Link href="/login">Login</Nav.Link></Nav.Item>)
-            }
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-  )
+              </NavDropdown>
+            )
+            : (
+              <LinkContainer to="/login">
+                <Nav.Link >Login</Nav.Link>
+              </LinkContainer>
+            )
+          }
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
+)
 }
 
 export default MyNavbar;
+
