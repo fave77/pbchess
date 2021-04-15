@@ -19,7 +19,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
 /***scrollbar***/
 /* width */
 ::-webkit-scrollbar {
@@ -41,3 +40,4 @@ code {
   cursor: pointer;
   background: #4B588B;
 }
+
