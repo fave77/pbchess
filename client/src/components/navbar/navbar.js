@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link} from 'react-router-dom';
+import { Link,  } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -44,9 +44,9 @@ function MyNavbar(props) {
           </OverlayTrigger>
         </Link>
       </Navbar.Brand>
-      <Navbar.Toggle/>
-      <Navbar.Collapse>
-        <Nav className="mr-auto">
+      <Navbar.Toggle aria-controls = 'basic-navbar-nav' />
+      <Navbar.Collapse id = 'basic-navbar-nav'>
+        <Nav className="ml-auto" >
           <LinkContainer to="/play">
             <Nav.Link >Play</Nav.Link>
           </LinkContainer>
@@ -83,4 +83,3 @@ function MyNavbar(props) {
 }
 
 export default MyNavbar;
-
