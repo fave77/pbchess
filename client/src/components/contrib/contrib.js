@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import ContribCard from './contrib-card.js';
 import FadeIn from 'react-fade-in';
 
-import {useWindowScroll} from "react-use";
 
 function Contrib() {
     const [data, setData] = useState([]);

@@ -29,7 +29,6 @@
     "react-scripts": "3.4.4",
     "react-timer-hook": "^2.0.7",
     "react-transition-group": "^4.4.1",
-    "react-use": "^17.2.3",
     "react-validation": "^3.0.7",
     "react-vanilla-tilt": "^1.0.0",
     "socket.io-client": "^2.3.0",
