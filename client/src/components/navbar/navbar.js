@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link,  } from 'react-router-dom';
+import { Link} from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -7,8 +8,6 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import pbchessLogo from '../../images/pbchess-logo.svg';
 import './navbar.css';
-import { LinkContainer } from "react-router-bootstrap";
-import Home from "../home/home";
 
 const renderTooltip = props => {
   let pathname = window.location.href;
