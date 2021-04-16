@@ -11,6 +11,9 @@ import pbchessLogo from '../../images/pbchess-logo.svg';
 
 import './navbar.css';
 
+import { faBookOpen, faChess, faSignInAlt, faUser, faSignOutAlt, faKey} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 const renderTooltip = props => {
   let pathname = window.location.href;
   pathname = pathname.slice(pathname.indexOf('://') + 3)
@@ -49,10 +52,10 @@ function MyNavbar(props) {
       <Navbar.Collapse id = 'basic-navbar-nav'>
         <Nav className="ml-auto" >
           <LinkContainer to="/play">
-            <Nav.Link >Play</Nav.Link>
+            <Nav.Link >Play <FontAwesomeIcon icon={faChess} /></Nav.Link>
           </LinkContainer>
           <LinkContainer to="/learn">
-            <Nav.Link >Learn</Nav.Link>
+            <Nav.Link >Learn <FontAwesomeIcon icon={faBookOpen} /></Nav.Link>
           </LinkContainer>
           { currentUser
             ? (
@@ -61,19 +64,19 @@ function MyNavbar(props) {
                 id = 'collapsible-nav-dropdown'
               >
                 <NavDropdown.Item href = { `/@/${currentUser.username}` }>
-                  <p className = "mydropdown">Profile</p>
+                  <p className = "mydropdown">Profile <FontAwesomeIcon icon={faUser} /></p>
                 </NavDropdown.Item>
                 <NavDropdown.Item href = { '/login' } onClick = { logOut }>
-                  <p className = "mydropdown">LogOut</p>
+                  <p className = "mydropdown">LogOut <FontAwesomeIcon icon={faSignOutAlt} /></p>
                 </NavDropdown.Item>
                 <NavDropdown.Item href = { `/password/update` }>
-                  <p className = "mydropdown">Change Password</p>
+                  <p className = "mydropdown">Change Password <FontAwesomeIcon icon={faKey} /></p>
                 </NavDropdown.Item>
               </NavDropdown>
             )
             : (
               <LinkContainer to="/login">
-                <Nav.Link >Login</Nav.Link>
+                <Nav.Link >Login <FontAwesomeIcon icon={faSignInAlt} /></Nav.Link>
               </LinkContainer>
             )
           }
