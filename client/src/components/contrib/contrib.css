@@ -62,10 +62,37 @@
   .page_container {
     position: relative;
   }
-  
+
   * {
     -webkit-user-select: none;  /* Chrome all / Safari all */
     -moz-user-select: none;     /* Firefox all */
     -ms-user-select: none;      /* IE 10+ */
     user-select: none;          /* Likely future */ 
   }
+
+/***scroll-To-Top****/
+.scroll-To-Top
+{
+  cursor: pointer;
+  position: fixed;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color:#fff;
+  color: #1f1f1f;
+  z-index: 1;
+  font-size: 32px;
+  line-height: 48px;
+  animation: scrollTop 0.5s alternate ease infinite;
+}
+
+@keyframes scrollTop {
+  from{
+    transform: translateY(2px);
+  }
+  to{
+    transform: translateY(-1px);
+  }
+}
