@@ -35,17 +35,13 @@ function MyNavbar(props) {
             placement = 'bottom-start'
             overlay = { renderTooltip }
           >
-            <LinkContainer to="/">
-              <Nav.Link >
-                <img
+              <img
                 src = { pbchessLogo }
                 width = '60em'
                 height = '60em'
                 className = 'd-inline-block align-top'
                 alt = 'pbchess logo'
               />
-              </Nav.Link>
-            </LinkContainer>
           </OverlayTrigger>
         </Link>
       </Navbar.Brand>
