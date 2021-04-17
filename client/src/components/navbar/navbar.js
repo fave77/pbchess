@@ -18,8 +18,8 @@ const renderTooltip = props => {
   return (
     <Tooltip bsPrefix = 'tooltip' {...props} >
       { pathname !== '/'
-         ? 'Click to go Home'
-         : 'Home'
+          ? 'Click to go Home'
+          : 'Home'
       }
     </Tooltip>
   );
