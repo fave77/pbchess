@@ -25,6 +25,7 @@
     "react-dom": "^16.13.1",
     "react-fade-in": "^2.0.1",
     "react-google-login": "^5.2.2",
+    "react-router-bootstrap": "^0.25.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.4",
     "react-timer-hook": "^2.0.7",

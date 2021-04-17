@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -17,8 +18,8 @@ const renderTooltip = props => {
   return (
     <Tooltip bsPrefix = 'tooltip' {...props} >
       { pathname !== '/'
-          ? 'Click to go Home'
-          : 'Home'
+        ? 'Click to go Home'
+        : 'Home'
       }
     </Tooltip>
   );
@@ -27,36 +28,36 @@ const renderTooltip = props => {
 function MyNavbar(props) {
   const { currentUser, logOut } = props;
   return (
-    <Navbar expand = 'lg' sticky = 'top' className = 'mynavbar navbar-dark'>
+    <Navbar collapseOnSelect expand = 'lg' sticky = 'top' className = 'mynavbar navbar-dark'>
       <Navbar.Brand>
         <Link to = { '/' } className = 'navbar-brand'>
           <OverlayTrigger
             placement = 'bottom-start'
             overlay = { renderTooltip }
           >
-            <img
-              src = { pbchessLogo }
-              width = '60em'
-              height = '60em'
-              className = 'd-inline-block align-top'
-              alt = 'pbchess logo'
-            />
+            <LinkContainer to="/">
+              <Nav.Link >
+                <img
+                src = { pbchessLogo }
+                width = '60em'
+                height = '60em'
+                className = 'd-inline-block align-top'
+                alt = 'pbchess logo'
+              />
+              </Nav.Link>
+            </LinkContainer>
           </OverlayTrigger>
         </Link>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls = 'basic-navbar-nav' />
       <Navbar.Collapse id = 'basic-navbar-nav'>
-        <Nav className = 'ml-auto'>
-          <Nav.Link>
-            <Link to = { '/play' }>
-              Play
-            </Link>
-          </Nav.Link>
-          <Nav.Link>
-            <Link to = { '/learn' }>
-              Learn
-            </Link>
-          </Nav.Link>
+        <Nav className="ml-auto" >
+          <LinkContainer to="/play">
+            <Nav.Link >Play</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/learn">
+            <Nav.Link >Learn</Nav.Link>
+          </LinkContainer>
           { currentUser
             ? (
               <NavDropdown
@@ -75,11 +76,9 @@ function MyNavbar(props) {
               </NavDropdown>
             )
             : (
-              <Nav.Link>
-                <Link to = { '/login' }>
-                  Login
-                </Link>
-              </Nav.Link>
+              <LinkContainer to="/login">
+                <Nav.Link >Login</Nav.Link>
+              </LinkContainer>
             )
           }
         </Nav>
