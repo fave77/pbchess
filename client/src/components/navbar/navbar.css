@@ -69,7 +69,7 @@ a:hover {
 /****nav-link class for each link ****/
 .hover-link:hover{
   background-color: #8299fd;
-  transition: all 400ms ease-in-out;
+  transition: all 300ms ease-in-out;
   border-radius: 3px;
   color: rgba(255, 255, 255, 0.7);
 }
