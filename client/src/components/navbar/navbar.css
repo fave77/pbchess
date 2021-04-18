@@ -56,7 +56,13 @@ a:hover {
   text-decoration: none;
   color: rgba(255, 255, 255, 0.7);
 }
-
+/***Navbar on haver***/
+#basic-navbar-nav a:hover{
+  background-color: #8299fd;
+  transition: all 1s linear;
+  border-radius: 3px;
+  color: rgba(255, 255, 255, 0.7);
+}
 .mydropdown {
   display: inline;
   color: rgba(255, 255, 255, 0.5);
