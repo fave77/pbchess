@@ -176,6 +176,7 @@ class Register extends Component {
                     type = 'text'
                     className = 'form-control'
                     name = 'fullname'
+                    placeholder = "John Doe"
                     value = { this.state.fullname }
                     onChange = { this.onChangeFullname }
                     validations = { [required] }
@@ -188,6 +189,7 @@ class Register extends Component {
                     type = 'email'
                     className = 'form-control'
                     name = 'email'
+                    placeholder = "johndoe@xyz.com"
                     value = { this.state.email }
                     onChange = { this.onChangeEmail }
                     validations = { [required, vemail] }
