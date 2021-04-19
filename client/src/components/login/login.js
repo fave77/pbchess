@@ -173,6 +173,7 @@ class Login extends Component {
                 type = 'text'
                 className = 'form-control'
                 name = 'username'
+                placeholder = "johndoe"
                 value = { this.state.username }
                 onChange = { this.onChangeUsername }
                 validations = { [required] }
@@ -185,6 +186,7 @@ class Login extends Component {
                 type = 'password'
                 className = 'form-control'
                 name = 'password'
+                placeholder = "Abcd1#@*"
                 value = { this.state.password }
                 onChange = { this.onChangePassword }
                 validations = { [required] }

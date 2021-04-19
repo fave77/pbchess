@@ -176,6 +176,7 @@ class Register extends Component {
                     type = 'text'
                     className = 'form-control'
                     name = 'fullname'
+                    placeholder = "John Doe"
                     value = { this.state.fullname }
                     onChange = { this.onChangeFullname }
                     validations = { [required] }
@@ -188,6 +189,7 @@ class Register extends Component {
                     type = 'email'
                     className = 'form-control'
                     name = 'email'
+                    placeholder = "johndoe@xyz.com"
                     value = { this.state.email }
                     onChange = { this.onChangeEmail }
                     validations = { [required, vemail] }
@@ -200,6 +202,7 @@ class Register extends Component {
                     type = 'text'
                     className = 'form-control'
                     name = 'username'
+                    placeholder = "johndoe"
                     value = { this.state.username }
                     onChange = { this.onChangeUsername }
                     validations = { [required, vusername] }
@@ -212,6 +215,7 @@ class Register extends Component {
                     type = 'password'
                     className = 'form-control'
                     name = 'password'
+                    placeholder = "Abcd1#@*"
                     value = { this.state.password }
                     onChange = { this.onChangePassword }
                     validations = { [required, vpassword] }
