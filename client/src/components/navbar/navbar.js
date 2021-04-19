@@ -51,10 +51,10 @@ function MyNavbar(props) {
       <Navbar.Toggle aria-controls = 'basic-navbar-nav' />
       <Navbar.Collapse id = 'basic-navbar-nav'>
         <Nav className="ml-auto" >
-          <LinkContainer to="/play">
+          <LinkContainer className="hover-link" to="/play">
             <Nav.Link >Play <FontAwesomeIcon icon={faChess} /></Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/learn">
+          <LinkContainer className="hover-link" to="/learn">
             <Nav.Link >Learn <FontAwesomeIcon icon={faBookOpen} /></Nav.Link>
           </LinkContainer>
           { currentUser
@@ -75,7 +75,7 @@ function MyNavbar(props) {
               </NavDropdown>
             )
             : (
-              <LinkContainer to="/login">
+              <LinkContainer className="hover-link" to="/login">
                 <Nav.Link >Login <FontAwesomeIcon icon={faSignInAlt} /></Nav.Link>
               </LinkContainer>
             )
