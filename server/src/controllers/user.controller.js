@@ -1,4 +1,5 @@
 const User = require('../models/user.model');
+const Avatar = require('../models/avatar.model')
 const Profile = require('../models/profile.model');
 const utils = require('../services/auth.service');
 const generatePassword = require('generate-password');
@@ -28,14 +29,27 @@ const registerUser = async (fullname, username, password, email, status, lichess
     salt: salt,
     status: status
   });
+  const newAvatar = new Avatar({
+    top:"LongHairStraight",
+    accessories:"Blank",
+    hairColor:"BrownDark",
+    facialHair:"Blank",
+    clothes:"BlazerShirt",
+    eyes:"Default",
+    eyebrow:"Default",
+    mouth:"Default",
+    skin:"Light",
+    clothColor: "Black"
+  })
 
   const user = await newUser.save();
+  const avatar = await newAvatar.save();
 
   const newProfile = new Profile({
     username: user.username,
     fullname: fullname,
     email: email,
-    avatar: 'NA',
+    avatar: avatar._id,
     gender: 'NA',
     country: 'NA',
     joined: new Date().toGMTString().slice(0, -13),

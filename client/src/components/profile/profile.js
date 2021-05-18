@@ -8,7 +8,9 @@ import configAPI from '../../configs/api.config';
 import EditProfilePopup from './editprofile'
 import './profile.css';
 
+
 const API_URL = configAPI();
+
 
 class Profile extends Component {
   constructor(props) {
@@ -45,8 +47,8 @@ class Profile extends Component {
     const { fullname, avatar, email, gender, country } = updatedProfileData;
     this.setState({
       profileData: {
-        // avatar,
         ...this.state.profileData,
+        avatar, 
         fullname,
         email,
         gender,
@@ -63,6 +65,7 @@ class Profile extends Component {
     const username = this.props.match.params.profileId;
     try {
       const { data } = await this.fetchProfile(username);
+      console.log(data)
       const { avatar, country, email, fullname, gender, joined } = data;
       this.setState({
         profileData: {
@@ -94,10 +97,12 @@ class Profile extends Component {
       fullname,
       joined,
       email,
+      avatar,
       gender,
       country,
     } = this.state.profileData;
-    const dataForEditProfile = { fullname, email, gender, country };
+    const dataForEditProfile = { fullname, email, gender, country, avatar };
+    
 
     return this.state.isProfileLoading ? (
       <div className="container-fluid" style={{ textAlign: "center", marginTop: 15 }}>
@@ -136,7 +141,7 @@ class Profile extends Component {
                 <div>
                   <img
                     className="profile-page__user-img"
-                    src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                    src={`https://avataaars.io/?avatarStyle=Circle&topType=${avatar.top}&accessoriesType=${avatar.accessories}&hairColor=${avatar.hairColor}&facialHairType=${avatar.facialColor}&clotheType=${avatar.clothes}&eyeType=${avatar.eyes}&eyebrowType=${avatar.eyebrow}&mouthType=${avatar.mouth}&skinColor=${avatar.skin}&clotheColor=${avatar.clothColor}`}
                     alt="your current profile"
                   />
                 </div>

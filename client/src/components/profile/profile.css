@@ -39,8 +39,8 @@
 }
 .profile-page__user-img {
   display: inline-block;
-  width: 120px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
   box-shadow: 0 2px 4px 0 #16191f;
   border-radius: 50%;
 }
