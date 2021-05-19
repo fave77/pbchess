@@ -50,7 +50,6 @@ g)Anastasia’s checkmate
 
 Note: The Anastasia’s mate shows an importance of a rook lift in the middle game, which is a technique when one player lifts his rook from the back rank to an active position, usually close to an opponent’s King.
 
-
 2)KING AND PAWN ENDINGS
 
 Attacking king in front 1
@@ -68,7 +67,6 @@ Triangulation
 -Triangulation occurs most commonly in endgames with only kings and pawns when one king can maneuver on three adjacent squares in the shape of a  triangle and maintain the basic position while the opposing king only has two such squares. Thus, if one king triangulates by using three moves  to return to the original square and the opposing king cannot do the same, he has lost a crucial tempo and reached the same position with the  other player to move. Triangulation can occur in other endgames and even in some middlegames. 
 
 Unlike most positions, king and pawn endgames can usually be analyzed to a definite conclusion, given enough skill and time. An error in a king and pawn endgame almost always turns a win into a draw or a draw into a loss – there is little chance for recovery. Accuracy is most important in these endgames.
-
 
 3)KNIGHT AND PAWN ENDINGS
 
