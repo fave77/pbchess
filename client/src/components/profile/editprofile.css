@@ -20,7 +20,9 @@
 
 /* component styles */
 .edit-profile-popup {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: absolute;
   top: 0;
   left: 0;
@@ -46,7 +48,6 @@
   max-width: 520px;
   max-height: 100vh;
   margin: 0 auto;
-  padding: 35px;
 }
 .edit-profile-popup__btn-group > button,
 .edit-profile-popup__form > input,
@@ -55,6 +56,9 @@
   width: 100%;
 }
 .edit-profile-popup__input-label {
+  color: white;
+}
+.edit-profile-popup__input-label-avatar {
   color: white;
 }
 .edit-profile-popup__input-label::after {
@@ -129,4 +133,12 @@
     width: 100%;
     margin: 10px 0;
   }
+}
+.edit-profile-popup__user-img {
+  display: flex;
+  width: 170px;
+  height: 170px;
+  box-shadow: 0 2px 4px 0 #16191f;
+  border-radius: 50%;
+  margin-left: 30% ; 
 }

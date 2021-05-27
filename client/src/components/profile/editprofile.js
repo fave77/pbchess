@@ -9,6 +9,7 @@ import Select from 'react-validation/build/select';
 import Button from 'react-validation/build/button';
 import authHeader from '../../services/auth.header';
 import Alert from 'react-bootstrap/Alert';
+import Avatar from 'avataaars';
 import './editprofile.css';
 
 
@@ -33,7 +34,6 @@ class EditProfilePopup extends Component {
 
     this.state = {
       isEditedProfileSaving: false,
-      avatar: '',
       fullname: '',
       email: '',
       gender: 'NA',
@@ -69,7 +69,6 @@ class EditProfilePopup extends Component {
       country: e.target.value
     })
   }
-
   onCloseAlertSuccess = (e) => {
     this.setState({
       alertSuccess: {
@@ -84,9 +83,13 @@ class EditProfilePopup extends Component {
       }
     });
   }
+  
+  
 
   updateProfile = (e) => {
-    const {avatar, fullname, email, gender, country} = this.state;
+
+    const { fullname, email, gender, country} = this.state;
+    const {avatar} = this.props;
     return axios.put(`${API_URL}update-profile`, {
       username: this.props.currentUser.username,
       avatar,
@@ -107,7 +110,7 @@ class EditProfilePopup extends Component {
     this.setState({
       isEditedProfileSaving: true
     })
-
+  
     try {
       const updateProfileResponse =  await this.updateProfile();
       const {success, msg, ...updatedProfileData} = updateProfileResponse.data; 
@@ -143,7 +146,7 @@ class EditProfilePopup extends Component {
   }
 
   componentDidMount() {
-    const {fullname, email, gender, country} = this.props;
+    const {fullname, email, gender, country } = this.props;
     this.setState({
       fullname,
       email,
@@ -155,11 +158,34 @@ class EditProfilePopup extends Component {
   render() {
 
     const {alertSuccess, alertFailure} = this.state;
+    const {avatar} = this.props;
 
     return (
       <div className='edit-profile-popup'>
-        <h3 className='edit-profile-popup__title'>Change Your Details.</h3>
-        <Form 
+
+          <h3 className='edit-profile-popup__title'>Edit your Details</h3>
+          <Avatar
+            style={{ 
+                display: 'inline-block',
+                width: '160px',
+                height: '160px',
+                boxShadow: '0 2 4 0 #16191f',
+                borderRadius: '50%',
+                marginTop: '8px'
+            }}
+            avatarStyle="Circle"
+            topType={avatar.top}
+            accessoriesType={avatar.accessories}
+            hairColor={avatar.hairColor}
+            facialHairType={avatar.facialHair}
+            clotheType={avatar.clothes}
+            eyeType={avatar.eyes}
+            eyebrowType={avatar.eyebrow}
+            mouthType={avatar.mouth}
+            skinColor={avatar.skin}
+            clotheColor={avatar.clothColor}
+            />
+          <Form 
           className='edit-profile-popup__form'
           name = 'edit_profile'
           onSubmit = { this.handleProfileEdit.bind(this) }
@@ -187,6 +213,7 @@ class EditProfilePopup extends Component {
               {alertFailure.msg}
             </Alert>
           }
+          
           <label className='edit-profile-popup__input-label' htmlFor="edit_fullname">Fullname</label>
           <Input 
             className='edit-profile-popup__input form-control'

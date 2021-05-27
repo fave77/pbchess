@@ -6,9 +6,14 @@ import Spinner from 'react-bootstrap/Spinner';
 import AuthService from '../../services/auth.service';
 import configAPI from '../../configs/api.config';
 import EditProfilePopup from './editprofile'
+import EditAvatarPopup from './editavatar';
 import './profile.css';
+import Avatar from 'avataaars';
+import EditIcon from '@material-ui/icons/Edit';
+
 
 const API_URL = configAPI();
+
 
 class Profile extends Component {
   constructor(props) {
@@ -19,6 +24,7 @@ class Profile extends Component {
       isProfileLoading: true,
       profileNotFound: false,
       isEditProfilePopupActive: false,
+      isEditAvatarPopupActive: false,
       profileData: {},
     };
   }
@@ -33,10 +39,19 @@ class Profile extends Component {
     });
   };
 
+  onClickEditAvatar = (e) => {
+    this.setState({
+      isEditAvatarPopupActive: true,
+    });
+   
+
+  }
+
   onClickDiscard = (e) => {
     e.preventDefault();
     this.setState({
       isEditProfilePopupActive: false,
+      isEditAvatarPopupActive: false,
     });
   };
 
@@ -45,8 +60,8 @@ class Profile extends Component {
     const { fullname, avatar, email, gender, country } = updatedProfileData;
     this.setState({
       profileData: {
-        // avatar,
         ...this.state.profileData,
+        avatar, 
         fullname,
         email,
         gender,
@@ -64,6 +79,7 @@ class Profile extends Component {
     try {
       const { data } = await this.fetchProfile(username);
       const { avatar, country, email, fullname, gender, joined } = data;
+     
       this.setState({
         profileData: {
           username,
@@ -94,10 +110,12 @@ class Profile extends Component {
       fullname,
       joined,
       email,
+      avatar,
       gender,
       country,
     } = this.state.profileData;
-    const dataForEditProfile = { fullname, email, gender, country };
+    const dataForEditProfile = { fullname, email, gender, country, avatar };
+    
 
     return this.state.isProfileLoading ? (
       <div className="container-fluid" style={{ textAlign: "center", marginTop: 15 }}>
@@ -134,11 +152,36 @@ class Profile extends Component {
               </svg>
               <div className="profile-page__top-section">
                 <div>
-                  <img
-                    className="profile-page__user-img"
-                    src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                    alt="your current profile"
+                  
+                <Avatar
+                    style={{ 
+                      display: 'inline-block',
+                      width: '160px',
+                      height: '160px',
+                      boxShadow: '0 2 4 0 #16191f',
+                      borderRadius: '50%'
+                    }}
+                    avatarStyle="Circle"
+                    topType={avatar.top}
+                    accessoriesType={avatar.accessories}
+                    hairColor={avatar.hairColor}
+                    facialHairType={avatar.facialHair}
+                    clotheType={avatar.clothes}
+                    eyeType={avatar.eyes}
+                    eyebrowType={avatar.eyebrow}
+                    mouthType={avatar.mouth}
+                    skinColor={avatar.skin}
+                    clotheColor={avatar.clothColor}
                   />
+                  {currentUser &&
+                    currentUser.username === this.props.match.params.profileId && (
+                    <EditIcon 
+                    fontSize='large'
+                    className='profile-page__editAvatarIcon hvr-buzz-out'   
+                    onClick={this.onClickEditAvatar}
+                    />
+                  )}
+                  
                 </div>
                 <div className="profile-page__immutable-fields">
                   <div className="profile-page__field">
@@ -186,12 +229,14 @@ class Profile extends Component {
             </div>
             {
               <CSSTransition
-                in={this.state.isEditProfilePopupActive}
+                in={this.state.isEditProfilePopupActive || this.state.isEditAvatarPopupActive}
                 classNames="edit-popup"
                 timeout={200}
                 unmountOnExit
               >
-                <EditProfilePopup
+                <div>
+                  {this.state.isEditProfilePopupActive &&
+                  <EditProfilePopup
                   onClickSave={this.onClickSave}
                   onClickDiscard={this.onClickDiscard}
                   currentUser={currentUser}
@@ -200,6 +245,21 @@ class Profile extends Component {
                   }
                   {...dataForEditProfile}
                 />
+                }
+
+                  {this.state.isEditAvatarPopupActive &&
+                    <EditAvatarPopup
+                    onClickSave={this.onClickSave}
+                    onClickDiscard={this.onClickDiscard}
+                    currentUser={currentUser}
+                    rerenderProfileWithUpdatedData={
+                      this.rerenderProfileWithUpdatedData
+                    }
+                    {...dataForEditProfile}
+                  />
+                  }
+                  
+                </div>
               </CSSTransition>
             }
           </div>
