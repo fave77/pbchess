@@ -1,12 +1,22 @@
 const mongoose = require('mongoose')
-const {ObjectId} = mongoose.Schema.Types
 
 // Schema for profiles
 const profileSchema = new mongoose.Schema({
   username: String,
   fullname: String,
   email: String,
-  avatar: { type: ObjectId, ref: 'Avatar'},
+  avatar: { 
+      top: String,
+      accessories: String,
+      hairColor: String,
+      facialHair: String,
+      clothes: String,
+      clothColor: String,
+      eyes: String,
+      eyebrow: String,
+      mouth: String,
+      skin: String,
+  },
   gender: String,
   country: String,
   joined: String,

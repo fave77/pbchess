@@ -1,11 +1,10 @@
 const Profile = require('../models/profile.model');
-const Avatar = require('../models/avatar.model')
 
 
 // Called while viewing the profile
 const fetchProfile = async (req, res, next) => {
   try {
-    const profile = await Profile.findOne({ username: req.body.username }).populate("avatar");
+    const profile = await Profile.findOne({ username: req.body.username });
     if (!profile)
       return res
         .status(401)
@@ -39,31 +38,25 @@ const fetchProfile = async (req, res, next) => {
 const updateProfile = async (req, res) => {
 
   try {
-
-    const avatarmodel = await Avatar.findOneAndUpdate({
-      _id : req.body.avatar._id
-    },{
-      top : req.body.avatar.top,
-      accessories :  req.body.avatar.accessories,
-      hairColor : req.body.avatar.hairColor,
-      facialHair : req.body.avatar.facialHair,
-      clothes : req.body.avatar.clothes,
-      eyes : req.body.avatar.eyes,
-      eyebrow : req.body.avatar.eyebrow,
-      mouth : req.body.avatar.mouth,
-      skin : req.body.avatar.skin,
-      clothColor: req.body.avatar.clothColor
-    }, {
-      new: true
-    })
-
     const profile = await Profile.findOneAndUpdate({
       username: req.body.username
     }, {
       fullname: req.body.fullname,
       email: req.body.email,
       gender: req.body.gender,
-      country: req.body.country
+      country: req.body.country,
+      avatar: {
+        top : req.body.avatar.top,
+        accessories :  req.body.avatar.accessories,
+        hairColor : req.body.avatar.hairColor,
+        facialHair : req.body.avatar.facialHair,
+        clothes : req.body.avatar.clothes,
+        eyes : req.body.avatar.eyes,
+        eyebrow : req.body.avatar.eyebrow,
+        mouth : req.body.avatar.mouth,
+        skin : req.body.avatar.skin,
+        clothColor: req.body.avatar.clothColor
+      }
     }, {
       new: true
     }).populate("avatar");
