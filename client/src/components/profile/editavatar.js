@@ -130,9 +130,9 @@ class EditAvatarPopup extends Component {
         avatar.accessories = this.state.accessories
         avatar.hairColor = this.state.hairColor
         avatar.facialHair = this.state.facialHair
-        avatar. clothes = this.state.clothes
+        avatar.clothes = this.state.clothes
         avatar.eyes = this.state.eyes
-        avatar. eyebrow = this.state.eyebrow
+        avatar.eyebrow = this.state.eyebrow
         avatar.mouth = this.state.mouth
         avatar.skin = this.state.skin
         avatar.clothColor= this.state.clothColor
@@ -191,7 +191,8 @@ class EditAvatarPopup extends Component {
           })
     }
     render() {
-        const {alertSuccess, alertFailure, top, accessories, hairColor, facialHair, clothes,clothColor, eyes, eyebrow, mouth, skin} = this.state;
+      {console.log(this.state)}
+        const {alertSuccess, alertFailure, top, accessories, hairColor, facialHair, clothes, clothColor,eyes ,eyebrow ,mouth, skin} = this.state;
         return (
         <div className='edit-avatar-popup'>
         <h3 className='edit-avatar-popup__title'>Customize your Avatar</h3>
@@ -214,6 +215,7 @@ class EditAvatarPopup extends Component {
             eyebrowType={eyebrow}
             mouthType={mouth}
             skinColor={skin}
+            clotheColor={clothColor}
             />
         
         <Form 

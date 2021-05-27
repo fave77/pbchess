@@ -165,12 +165,13 @@ class Profile extends Component {
                     topType={avatar.top}
                     accessoriesType={avatar.accessories}
                     hairColor={avatar.hairColor}
-                    facialHairType={avatar.facialColor}
+                    facialHairType={avatar.facialHair}
                     clotheType={avatar.clothes}
                     eyeType={avatar.eyes}
                     eyebrowType={avatar.eyebrow}
                     mouthType={avatar.mouth}
                     skinColor={avatar.skin}
+                    clotheColor={avatar.clothColor}
                   />
                   {currentUser &&
                     currentUser.username === this.props.match.params.profileId && (

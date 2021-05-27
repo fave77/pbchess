@@ -183,6 +183,7 @@ class EditProfilePopup extends Component {
             eyebrowType={avatar.eyebrow}
             mouthType={avatar.mouth}
             skinColor={avatar.skin}
+            clotheColor={avatar.clothColor}
             />
           <Form 
           className='edit-profile-popup__form'

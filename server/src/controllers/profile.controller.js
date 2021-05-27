@@ -15,7 +15,6 @@ const fetchProfile = async (req, res, next) => {
         
 
     const { fullname, email, avatar, gender, country, joined } = profile;
-    console.log(profile)
 
     return res
       .status(200)
