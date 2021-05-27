@@ -20,7 +20,9 @@
 
 /* component styles */
 .edit-profile-popup {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: absolute;
   top: 0;
   left: 0;
@@ -46,7 +48,6 @@
   max-width: 520px;
   max-height: 100vh;
   margin: 0 auto;
-  padding: 35px;
 }
 .edit-profile-popup__btn-group > button,
 .edit-profile-popup__form > input,
