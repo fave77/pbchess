@@ -113,6 +113,7 @@ class Lobby extends React.Component {
   }
 
   render() {
+    console.log("socket is", this.state.socket)
     return (
       <div>
         { this.state.status

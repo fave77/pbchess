@@ -1,0 +1,33 @@
+.rc-slider{
+    padding: 20px;
+    margin: 0 40px;
+    width: 80%;
+
+}
+.rc-slider-handle{
+    width: 25px;
+    height: 25px;
+    margin-top: -8px;
+    background-color: rgb(62, 70, 70);
+    border: none;
+    transform: translateX(-15%) !important;
+  }
+  .rc-slider-handle:hover{
+      background-color: none;
+  }
+  .rc-slider-track{
+      background-color: rgb(62, 70, 70);
+      height: 10px;
+      
+  }
+.rc-slider-rail{
+    height: 10px;
+}
+.black-king:hover{
+    cursor: pointer;
+    background-color: rgb(74, 82, 82);
+}
+.white-king:hover{
+    cursor: pointer;
+    background-color: rgb(74, 82, 82);
+}
