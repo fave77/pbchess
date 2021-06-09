@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   Route,
-  Redirect
+  Redirect,
+  withRouter
 } from 'react-router-dom';
 
 import AuthService from '../../services/auth.service';
@@ -36,4 +37,4 @@ class PrivateRoute extends Component {
   }
 }
 
-export default PrivateRoute;
+export default withRouter(PrivateRoute);

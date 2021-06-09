@@ -1,5 +1,5 @@
 const {
-  create, join, move, disconnect, timeout
+  createGame, joinGame, movePiece, leaveGame, spectateGame
 } = require('../controllers/game.controller');
 
 // Socket router for handling events emitted from the client
@@ -9,19 +9,29 @@ const socketRouter = (io, liveGames) => {
     console.log('Socket connected', socket.id);
 
     socket.on('create_game', data => {
-      create(io, socket, data, liveGames);
+      createGame(io, socket, data, liveGames);
     });
+
     socket.on('join_game', data => {
-      join(io, socket, data, liveGames);
+      joinGame(io, socket, data, liveGames);
     });
+
+    socket.on('spectate_game', data => {
+      spectateGame(io, socket, data, liveGames);
+    });
+
     socket.on('move_piece', data => {
-      move(io, socket, data, liveGames);
+      movePiece(io, socket, data, liveGames);
     });
-    socket.on('timeout', data => {
-      timeout(socket, data, liveGames);
+
+    socket.on('disconnecting', () => {
+      const rooms = Object.keys(socket.rooms);
+      if (rooms.length > 1)
+        setTimeout(() => leaveGame(io, socket, rooms[1], liveGames), 5000);
     });
+
     socket.on('disconnect', _ => {
-      disconnect(socket, liveGames);
+      console.log('Socket disconnected', socket.id);
     });
 
   });

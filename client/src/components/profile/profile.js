@@ -76,6 +76,7 @@ class Profile extends Component {
 
   async componentDidMount() {
     const username = this.props.match.params.profileId;
+    console.log(username)
     try {
       const { data } = await this.fetchProfile(username);
       const { avatar, country, email, fullname, gender, joined } = data;

@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
+const { model, Schema } = require('mongoose');
 
 // Schema for profiles
-const profileSchema = new mongoose.Schema({
+const profileSchema = new Schema({
   username: String,
   fullname: String,
   email: String,
@@ -23,4 +23,4 @@ const profileSchema = new mongoose.Schema({
   lichess: String,
 });
 
-module.exports = mongoose.model('Profile', profileSchema, 'profiles');
+module.exports = model('Profile', profileSchema, 'profiles');

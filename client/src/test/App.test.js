@@ -15,8 +15,7 @@ import Register from '../components/register/register';
 import { UpdatePassword, ResetPassword } from '../components/password/password';
 import Profile from '../components/profile/profile';
 import Lobby from '../components/lobby/lobby';
-import Game from '../components/game/game';
-import Timer from '../components/timer/timer';
+import { PlayGame, SpectateGame, AnalyzeGame } from '../components/game/game';
 import NotFound from '../components/pagenotfound/page-not-found';
 import PrivateRoute from '../components/private/private';
 
@@ -39,10 +38,7 @@ test('renders without crashing', () => {
   render(<UpdatePassword />);
   render(<ResetPassword />);
   render(<Lobby />);
-  //render(<Game />);
-  //render(<Timer />);
   render(<NotFound />);
-  renderWithWrappedRouter(<PrivateRoute />);
 });
 
 

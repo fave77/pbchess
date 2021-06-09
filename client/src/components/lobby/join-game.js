@@ -4,20 +4,25 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import Modal from 'react-bootstrap/Modal';
 
 class JoinGame extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      roomId: '',
-      joiningError: false
+      gameId: '',
+      joiningError: false,
+      loading: false
     }
   }
 
 
   handleClose() {
-    window.location.reload();
+    this.setState({
+      joiningError: false,
+      loading: false
+    });
   }
 
   componentDidMount() {
@@ -39,19 +44,34 @@ class JoinGame extends React.Component {
             <Col>
               <Form.Control
                 placeholder = 'Enter game ID ...'
-                onChange = { e => this.setState({ roomId: e.target.value }) }
+                onChange = { e => this.setState({ gameId: e.target.value }) }
               />
             </Col>
             <Col>
               <Button
                 variant = 'pbchess'
                 type = 'submit'
-                onClick = { _ => this.props.joinGame(this.state.roomId) }
+                onClick = { _ => 
+                  {
+                    this.props.joinGame(this.state.gameId);
+                    this.setState({
+                      loading: true
+                    });
+                  }
+                }
               >
                 Join
               </Button>
             </Col>
           </Row>
+          { this.state.loading // renders loader
+              ? <div>
+                  <Spinner animation = 'border' role = 'status'>
+                    <span className = 'sr-only'>Loading...</span>
+                  </Spinner>
+                </div>
+              : ''
+          }
           <Button 
             variant = 'link'
             className = 'ml-auto mt-3 d-block'

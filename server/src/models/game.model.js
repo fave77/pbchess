@@ -1,8 +1,7 @@
 const { model, Schema } = require('mongoose');
 
-// Schema for profiles
+// Schema for games
 const gameSchema = new Schema({
-  gameId: String,
   createdBy: {
     userId: String,
     username: String

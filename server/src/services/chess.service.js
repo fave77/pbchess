@@ -49,7 +49,20 @@ const evaluateGame = (chess, timedoutPlayer=undefined) => {
 
 };
 
+// For saving games to the DB
+const saveGame = async (gameId, liveGame, outcome, Game) => {
+  return await Game.findOneAndUpdate({
+    _id: gameId
+  }, {
+    createdBy: liveGame.createdBy,
+    joinedBy: liveGame.joinedBy,
+    state: liveGame.state,
+    outcome: outcome
+  });
+}
+
 module.exports = {
   validatePawnPromotion,
-  evaluateGame
+  evaluateGame,
+  saveGame
 };
