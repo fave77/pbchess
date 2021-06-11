@@ -5,30 +5,46 @@ const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
 const googleRefreshToken = process.env.GOOGLE_REFRESH_TOKEN;
 const redirectURL = 'https://developers.google.com/oauthplayground';
 const user = process.env.EMAIL;
-
+const pass = process.env.PASS;
 const sendMail = async (email, subject, message) => {
     
   try {
-    // Creating an oAuth2 Client
-    const oAuth2Client = new google.auth.OAuth2(googleClientID, googleClientSecret, redirectURL);
-    oAuth2Client.setCredentials({refresh_token: googleRefreshToken});
 
-    // Gets the access token at that moment
-    const accessToken = await oAuth2Client.getAccessToken();
+    /* The following oAuth2 implemenatation is not intended for development
+     * since refresh token expires after 7 days for testing application on GCP
+     * as mentioned here - https://github.com/fave77/pbchess/issues/134
+     */
+    
+    
+    // Creating an oAuth2 Client
+    // const oAuth2Client = new google.auth.OAuth2(googleClientID, googleClientSecret, redirectURL);
+    // oAuth2Client.setCredentials({refresh_token: googleRefreshToken});
+
+    // // Gets the access token at that moment
+    // const accessToken = await oAuth2Client.getAccessToken();
+
+    // Transporter object specifying the type of email used
+    // const transporter = nodemailer.createTransport({
+    //   host: 'smtp.gmail.com',
+    //   port: 465,
+    //   secure: true,
+    //   auth:{
+    //     type: 'OAuth2',
+    //     user: user,
+    //     clientId: googleClientID,
+    //     clientSecret: googleClientSecret,
+    //     refreshToken: googleRefreshToken,
+    //     accessToken: accessToken
+    //   }
+    // });
 
     // Transporter object specifying the type of email used
     const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
+      service: 'gmail',
       auth:{
-        type: 'OAuth2',
         user: user,
-        clientId: googleClientID,
-        clientSecret: googleClientSecret,
-        refreshToken: googleRefreshToken,
-        accessToken: accessToken
-      }
+        pass: pass
+      } 
     });
     
     // The Sender and recepient emails
@@ -38,6 +54,15 @@ const sendMail = async (email, subject, message) => {
       subject: subject,
       html: message
     };
+
+    transporter.verify(function(error, success) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Server is ready to take our messages");
+      }
+    });
+    
     
     // Sends the mail
     transporter.sendMail(options, (error, data) => {
