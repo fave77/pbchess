@@ -18,7 +18,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "avataaars": "^1.2.2",
-    "axios": "^0.21.1",
+    "axios": "^0.21.3",
     "bootstrap": "^4.5.2",
     "email-validator": "^2.0.4",
     "hover.css": "^2.3.2",
@@ -31,13 +31,13 @@
     "react-google-login": "^5.2.2",
     "react-router-bootstrap": "^0.25.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.4",
+    "react-scripts": "5.0.0",
     "react-timer-hook": "^2.0.7",
     "react-transition-group": "^4.4.1",
     "react-validation": "^3.0.7",
     "react-vanilla-tilt": "^1.0.0",
     "socket.io-client": "^2.3.0",
-    "validator": "^13.1.1"
+    "validator": "^13.7.0"
   },
   "eslintConfig": {
     "extends": "react-app"
